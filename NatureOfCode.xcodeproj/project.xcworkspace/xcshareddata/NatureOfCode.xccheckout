@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>A49B21B2-5326-4AEB-A063-B83B904DC040</string>
+	<key>IDESourceControlProjectName</key>
+	<string>NatureOfCode</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>13B92A8E2221878349FD49FE333C4612F54CCD3A</key>
+		<string>https://github.com/lionadi/NatureOfCodePlayground.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>NatureOfCode.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>13B92A8E2221878349FD49FE333C4612F54CCD3A</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/lionadi/NatureOfCodePlayground.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>13B92A8E2221878349FD49FE333C4612F54CCD3A</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>13B92A8E2221878349FD49FE333C4612F54CCD3A</string>
+			<key>IDESourceControlWCCName</key>
+			<string>NatureOfCodePlayground</string>
+		</dict>
+	</array>
+</dict>
+</plist>
