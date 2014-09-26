@@ -16,133 +16,128 @@ public enum ColorOption : Int
     case Red = 3
 }
 
-public class Walker : CCDrawNode
+// Walker base class that gives functionality to some object. Use it to move it randomly somewhere
+public class Walker
 {
+    /// Current X position
     var positionX : CGFloat = 0;
+    
+    /// Current Y position
     var positionY : CGFloat = 0;
-    var viewSize : CGSize;
-    var mainColor : CCColor;
-    var colorCount : Int = 0;
-    var colorID : ColorOption;
-    var colorCountLimit : Int = 25;
+    
+    /// Area width where the walker can walk
+    var width : CGFloat;
+    
+    /// Area height where the walker can walk
+    var height : CGFloat;
+    
+    var probalitityFactor : Float = 0.5;
     
     
-    override init()
+    init(width : CGFloat, height : CGFloat)
     {
-        self.colorID = ColorOption.Blue;
-        self.viewSize = CCDirector.sharedDirector().viewSize();
-        self.mainColor = CCColor.blueColor();
-        super.init();
-        self.positionX = self.viewSize.width / 2;
-        self.positionY = self.viewSize.height / 2;
-        
-    }
-    init(position : CGPoint)
-    {
-        self.viewSize = CCDirector.sharedDirector().viewSize();
-        self.colorID = ColorOption.Blue;
-        self.mainColor = CCColor.blueColor();
-        super.init();
-        self.render(position);
+        self.positionX = width / 2;
+        self.positionY = height / 2;
+        self.width = width;
+        self.height = height;
     }
     
-    func walk()
+    init(positionX : CGFloat, positionY : CGFloat, width : CGFloat, height : CGFloat)
     {
-        
-        
-        var finalPositionX : Float = RandomNumberGenerator.GetRandomFloat(2);
-        var finalPositionY : Float = RandomNumberGenerator.GetRandomFloat(2);
-        
+        self.positionX = positionX;
+        self.positionY = positionY;
+        self.width = width;
+        self.height = height;
     }
     
-    private func render( position: CGPoint)
+    func setProbalitiyFactor(factor : Float)
     {
-        self.drawDot(position, radius: 2, color: self.mainColor);
-    }
-    
-    public func render()
-    {
-        
-        let selectorWalkerStepping: Selector = "step";
-        var makeTheWalkerToStep : CCActionCallFunc = CCActionCallFunc.actionWithTarget(self, selector: selectorWalkerStepping) as CCActionCallFunc;
-        
-        var delay : CCActionDelay = CCActionDelay.actionWithDuration(0.0001) as CCActionDelay;
-        
-        var actions = Array<CCAction>();
-        actions.append(makeTheWalkerToStep);
-        actions.append(delay);
-        var walk : CCActionSequence = CCActionSequence.actionWithArray(actions) as CCActionSequence;
-        var walkForever : CCActionRepeatForever = CCActionRepeatForever.actionWithAction(walk) as CCActionRepeatForever;
-        
-        self.runAction(walkForever);
+        self.probalitityFactor = factor;
     }
     
     /// Makes the walker object to take a step in a direction
-    public func step()
+    public func step() -> CGPoint
     {
         var choice = RandomNumberGenerator.GetRandomUInt32(4);
         
         switch(choice)
             {
         case 0:
-            self.positionX++;
-            self.positionX++;
-            
+            self.positionX += RandomNumberGenerator.GetRandomCGFloat(2);
         case 1:
-            self.positionX--;
-            self.positionX--;
+            self.positionX -= RandomNumberGenerator.GetRandomCGFloat(2);
         case 2:
-            self.positionY++;
-            self.positionY++;
+            self.positionY += RandomNumberGenerator.GetRandomCGFloat(2);
         case 3:
-            self.positionY--;
-            self.positionY--;
+            self.positionY -= RandomNumberGenerator.GetRandomCGFloat(2);
         default:
                 self.positionX++;
         }
         
-        self.colorCount++;
-        if(self.colorCount > colorCountLimit)
-        {
-            var choice = RandomNumberGenerator.GetRandomUInt32(4);
-            
-            switch(choice)
-                {
-            case 0:
-                self.mainColor = CCColor.blueColor();
-            case 1:
-                self.mainColor = CCColor.redColor();
-            case 2:
-                self.mainColor = CCColor.yellowColor();
-            case 3:
-                self.mainColor = CCColor.greenColor();
-            default:
-                self.mainColor = CCColor.blueColor();
-            }
-            self.colorCount = 0;
-        }
+        
         self.constrain();
-        self.render(CGPointMake(self.positionX, self.positionY));
+        
+        return(CGPointMake(self.positionX, self.positionY));
     }
     
+    public func step(target : CGPoint) -> CGPoint
+    {
+        var choice : Float = RandomNumberGenerator.GetRandomFloat(1);
+        
+        if(choice < self.probalitityFactor)
+        {
+            var xdir = (target.x - self.positionX);
+            var ydir = (target.y - self.positionY);
+            
+            if(xdir != 0)
+            {
+                xdir /= abs(xdir);
+            }
+            
+            if(ydir != 0)
+            {
+                ydir /= abs(ydir);
+            }
+            
+            self.positionX += xdir;
+            self.positionY += ydir;
+        } else
+        {
+            self.positionX += RandomNumberGenerator.GetRandomCGFloat(2);
+            self.positionY += RandomNumberGenerator.GetRandomCGFloat(2);
+        }
+        
+        
+        self.constrain();
+        
+        return(CGPointMake(self.positionX, self.positionY));
+    }
+    
+    /// Return current position of the walker
+    public func GetCurentPosition() -> CGPoint
+    {
+        return(CGPointMake(self.positionX, self.positionY));
+    }
+    
+    /// Constrain the walker position to the defined area
     func constrain()
     {
         if(self.positionX < 0)
         {
             self.positionX = 0;
         }
-        if(self.positionX > self.viewSize.width)
+        if(self.positionX > self.width)
         {
-            self.positionX = self.viewSize.width;
+            self.positionX = self.width;
         }
         if(self.positionY < 0)
         {
             self.positionY = 0;
         }
         
-        if(self.positionY > self.viewSize.height)
+        if(self.positionY > self.height)
         {
-            self.positionY = self.viewSize.height;
+            self.positionY = self.height;
         }
         
     }

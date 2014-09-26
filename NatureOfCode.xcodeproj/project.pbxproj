@@ -200,6 +200,7 @@
 		524137AE19D1870C0079A3B6 /* CCMacros.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524137AA19D1870C0079A3B6 /* CCMacros.swift */; };
 		524137B119D1870C0079A3B6 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524137AD19D1870C0079A3B6 /* Main.swift */; };
 		524137B419D1BA8F0079A3B6 /* MainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524137B319D1BA8F0079A3B6 /* MainScene.swift */; };
+		52C8608819D59F7800612736 /* DotWalker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C8608719D59F7800612736 /* DotWalker.swift */; };
 		52D42CD719D3092B00B712BB /* Walker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D42CD619D3092B00B712BB /* Walker.swift */; };
 		5FDB94BA19D351050008CE0E /* CommonTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB94B919D351050008CE0E /* CommonTools.swift */; };
 /* End PBXBuildFile section */
@@ -599,6 +600,7 @@
 		524137AA19D1870C0079A3B6 /* CCMacros.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CCMacros.swift; sourceTree = "<group>"; };
 		524137AD19D1870C0079A3B6 /* Main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		524137B319D1BA8F0079A3B6 /* MainScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainScene.swift; sourceTree = "<group>"; };
+		52C8608719D59F7800612736 /* DotWalker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DotWalker.swift; sourceTree = "<group>"; };
 		52D42CD619D3092B00B712BB /* Walker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Walker.swift; sourceTree = "<group>"; };
 		5FDB94B919D351050008CE0E /* CommonTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonTools.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1392,6 +1394,7 @@
 		5241377919D185360079A3B6 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				52C8608619D59F3500612736 /* Randomness */,
 				52D42CD519D3091E00B712BB /* Objects */,
 				524137B219D1BA780079A3B6 /* Scenes */,
 				524137AD19D1870C0079A3B6 /* Main.swift */,
@@ -1434,10 +1437,18 @@
 			name = Scenes;
 			sourceTree = "<group>";
 		};
-		52D42CD519D3091E00B712BB /* Objects */ = {
+		52C8608619D59F3500612736 /* Randomness */ = {
 			isa = PBXGroup;
 			children = (
 				52D42CD619D3092B00B712BB /* Walker.swift */,
+			);
+			name = Randomness;
+			sourceTree = "<group>";
+		};
+		52D42CD519D3091E00B712BB /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				52C8608719D59F7800612736 /* DotWalker.swift */,
 			);
 			name = Objects;
 			sourceTree = "<group>";
@@ -1557,6 +1568,7 @@
 				5241369E19D185350079A3B6 /* ALChannelSource.m in Sources */,
 				524136C119D185350079A3B6 /* IOSVersion.m in Sources */,
 				524136A719D185350079A3B6 /* ALListener.m in Sources */,
+				52C8608819D59F7800612736 /* DotWalker.swift in Sources */,
 				5241364719D185340079A3B6 /* CCGLView.m in Sources */,
 				5241363A19D185340079A3B6 /* CCGLView.m in Sources */,
 				5241369219D185350079A3B6 /* OALSimpleAudio.m in Sources */,

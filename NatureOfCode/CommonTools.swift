@@ -8,13 +8,19 @@
 
 import Foundation
 
+/// Static value for calculating float based random values
+let ARC4RANDOM_MAX  : Float = 0x100000000;
+
+/// This a Random Number generator helper
 public struct RandomNumberGenerator {
-    public static func GetRandomFloat( maxValue : UInt32) -> Float
+    
+    /// Generates a signed float number
+    public static func GetRandomFloat( maxValue : Float) -> Float
     {
         var minus : Float = -1;
         
         var sign = arc4random_uniform(1);
-        var position = arc4random_uniform(maxValue);
+        var position = (Float(arc4random()) / ARC4RANDOM_MAX) * maxValue;
         
         var finalPosition : Float;
         if(sign <= 0)
@@ -28,6 +34,27 @@ public struct RandomNumberGenerator {
         return finalPosition;
     }
     
+    /// Generates a signed float number
+    public static func GetRandomCGFloat( maxValue : CGFloat) -> CGFloat
+    {
+        var minus : Float = -1;
+        
+        var sign = arc4random_uniform(1);
+        var position = (CGFloat(arc4random()) / CGFloat(ARC4RANDOM_MAX)) * maxValue;
+        
+        var finalPosition : Float;
+        if(sign <= 0)
+        {
+            finalPosition = Float(position) * minus;
+        } else
+        {
+            finalPosition = Float(position);
+        }
+        
+        return CGFloat(finalPosition);
+    }
+    
+    /// Generates a signed Integer number
     public static func GetRandomInt( maxValue : UInt32) -> Int
     {
         var minus : Float = -1;
@@ -47,6 +74,7 @@ public struct RandomNumberGenerator {
         return Int(finalPosition);
     }
     
+    /// Generates a unsigned signed integer number
     public static func GetRandomUInt32( maxValue : UInt32) -> UInt32
     {
         return UInt32(arc4random_uniform(maxValue));

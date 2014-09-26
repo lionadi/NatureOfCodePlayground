@@ -11,13 +11,12 @@ import Darwin
 
 class MainScene : CCScene
 {
-    var walker : Walker!;
+    var walker : DotWalker!;
     override init()
     {
         super.init();
         
-        self.walker = Walker();
-        self.walker.render();
+        self.walker = DotWalker();
         self.addChild(self.walker);
         self.color = CCColor.grayColor();
         
