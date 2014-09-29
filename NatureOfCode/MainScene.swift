@@ -19,7 +19,29 @@ class MainScene : CCScene
         self.walker = DotWalker();
         self.addChild(self.walker);
         self.color = CCColor.grayColor();
+        userInteractionEnabled = true
         
+    }
+    
+    override func touchEnded(touch: UITouch!, withEvent event: UIEvent!) {
+        var touchLocation : CGPoint = touch.locationInNode(self);
+        self.walker.setWalkerTarget(CGPointZero);
+    }
+    
+    override func touchMoved(touch: UITouch!, withEvent event: UIEvent!) {
+        var touchLocation : CGPoint = touch.locationInNode(self);
+        self.walker.setWalkerTarget(touchLocation);
+    }
+    
+    override func touchBegan(touch: UITouch!, withEvent event: UIEvent!)
+    {
+        var touchLocation : CGPoint = touch.locationInNode(self);
+        self.walker.setWalkerTarget(touchLocation);
+    }
+    
+    override func touchCancelled(touch: UITouch!, withEvent event: UIEvent!) {
+        var touchLocation : CGPoint = touch.locationInNode(self);
+        self.walker.setWalkerTarget(CGPointZero);
     }
     
     /*override func draw(renderer: CCRenderer!, transform: COpaquePointer) {

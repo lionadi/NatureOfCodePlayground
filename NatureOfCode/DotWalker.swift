@@ -9,7 +9,7 @@
 import Foundation
 
 // Walker base class that gives functionality to some object. Use it to move it randomly somewhere
-public class DotWalker : CCDrawNode
+public class DotWalker : CCDrawNode, WalkerProtocol
 {
     var viewSize : CGSize;
     var mainColor : CCColor;
@@ -17,6 +17,7 @@ public class DotWalker : CCDrawNode
     var colorID : ColorOption;
     var colorCountLimit : Int = 25;
     var walker : Walker;
+    var targetForWalker : CGPoint;
     
     
     override init()
@@ -25,8 +26,9 @@ public class DotWalker : CCDrawNode
         self.viewSize = CCDirector.sharedDirector().viewSize();
         self.mainColor = CCColor.blueColor();
         self.walker = Walker(width: self.viewSize.width, height: self.viewSize.height);
+        self.targetForWalker = CGPointZero;
         super.init();
-        self.render();
+        self.renderWalker();
         
     }
     
@@ -36,21 +38,26 @@ public class DotWalker : CCDrawNode
         self.colorID = ColorOption.Blue;
         self.mainColor = CCColor.blueColor();
         self.walker = Walker(positionX: position.x, positionY: position.y, width: self.viewSize.width, height: self.viewSize.height);
+        self.targetForWalker = CGPointZero;
         super.init();
-        self.render(position);
+        self.renderWalker();
+    }
+    
+    public func setWalkerTarget(target: CGPoint) {
+        self.targetForWalker = target;
     }
     
     
-    private func render( position: CGPoint)
+    internal func renderWalkerByPosition( position: CGPoint)
     {
         self.drawDot(position, radius: 2, color: self.mainColor);
     }
     
-    private func render()
+    internal func renderWalker()
     {
         
-        let selectorWalkerStepping: Selector = "step";
-        var makeTheWalkerToStep : CCActionCallFunc = CCActionCallFunc.actionWithTarget(self, selector: selectorWalkerStepping) as CCActionCallFunc;
+        let selectorWalkerStepping: Selector = "stepWalker";
+        var makeTheWalkerToStep : CCActionCallFunc = CCActionCallFunc.actionWithTarget(self, selector: selectorWalkerStepping ) as CCActionCallFunc;
         
         var delay : CCActionDelay = CCActionDelay.actionWithDuration(0.0001) as CCActionDelay;
         
@@ -64,10 +71,42 @@ public class DotWalker : CCDrawNode
     }
     
     /// Makes the walker object to take a step in a direction
-    public func step()
+    internal func stepWalker()
+    {
+        if(self.targetForWalker != CGPointZero)
+        {
+            self.stepWalkerByTarget(self.targetForWalker);
+        } else
+        {
+            self.colorCount++;
+            if(self.colorCount > colorCountLimit)
+            {
+                var choice = RandomNumberGenerator.GetRandomUInt32(4);
+            
+                switch(choice)
+                {
+                    case 0:
+                        self.mainColor = CCColor.blueColor();
+                    case 1:
+                        self.mainColor = CCColor.redColor();
+                    case 2:
+                        self.mainColor = CCColor.yellowColor();
+                    case 3:
+                        self.mainColor = CCColor.greenColor();
+                    default:
+                        self.mainColor = CCColor.blueColor();
+                }
+                self.colorCount = 0;
+            }
+        
+            self.renderWalkerByPosition(self.walker.step());
+        }
+    }
+    
+    internal func stepWalkerByTarget(target : CGPoint)
     {
         
-   
+        
         self.colorCount++;
         if(self.colorCount > colorCountLimit)
         {
@@ -89,7 +128,7 @@ public class DotWalker : CCDrawNode
             self.colorCount = 0;
         }
         
-        self.render(self.walker.step());
+        self.renderWalkerByPosition(self.walker.step(target));
     }
     
 }

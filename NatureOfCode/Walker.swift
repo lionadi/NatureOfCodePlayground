@@ -16,6 +16,43 @@ public enum ColorOption : Int
     case Red = 3
 }
 
+/**
+A protocol to conform to the class that implements the Walker class.
+*/
+protocol WalkerProtocol
+{
+    /**
+        The implementor of the Walker class must have an Walker object
+    */
+    var walker : Walker { get set }
+    
+    
+    /**
+    Implement this method to render the walker at a certain position
+    */
+    func renderWalkerByPosition( position: CGPoint);
+    
+    /**
+        Implement this method to render the Walker. Use this to initialize the render logic using the Walker data.
+    */
+    func renderWalker();
+    
+    /**
+    Use this method to set a target for the Walker to aim at, to move towards to
+    */
+    func setWalkerTarget(target : CGPoint);
+    
+    /**
+    Use this method to implement logic related to make the Walker to give you the next position where the implementor should be at
+    */
+    mutating func stepWalker();
+    
+    /**
+    Use this method to implement logic related to make the Walker to give you the next position where the implementor should be at and aimed at the target, moving towardst he target.
+    */
+    mutating func stepWalkerByTarget(target : CGPoint);
+}
+
 // Walker base class that gives functionality to some object. Use it to move it randomly somewhere
 public class Walker
 {
@@ -31,6 +68,7 @@ public class Walker
     /// Area height where the walker can walk
     var height : CGFloat;
     
+    /// Probality factor walking towards a target
     var probalitityFactor : Float = 0.5;
     
     
@@ -50,6 +88,7 @@ public class Walker
         self.height = height;
     }
     
+    /// Set a probability factor when to start to walk towards the target
     func setProbalitiyFactor(factor : Float)
     {
         self.probalitityFactor = factor;
@@ -80,9 +119,10 @@ public class Walker
         return(CGPointMake(self.positionX, self.positionY));
     }
     
+    /// Makes the walker object to take a step towards the target
     public func step(target : CGPoint) -> CGPoint
     {
-        var choice : Float = RandomNumberGenerator.GetRandomFloat(1);
+        var choice : Float = RandomNumberGenerator.GetRandomPositiveFloat(1);
         
         if(choice < self.probalitityFactor)
         {

@@ -34,6 +34,11 @@ public struct RandomNumberGenerator {
         return finalPosition;
     }
     
+    public static func GetRandomPositiveFloat( maxValue : Float) -> Float
+    {
+        return (Float(arc4random()) / ARC4RANDOM_MAX) * maxValue;
+    }
+    
     /// Generates a signed float number
     public static func GetRandomCGFloat( maxValue : CGFloat) -> CGFloat
     {
