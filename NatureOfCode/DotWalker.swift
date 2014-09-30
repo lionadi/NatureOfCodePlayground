@@ -3,7 +3,7 @@
 //  NatureOfCode
 //
 //  Created by Adrian Simionescu on 24/09/14.
-//  Copyright (c) 2014. All rights reserved.
+//  Copyright (c) 2014 Adrian Simionescu. All rights reserved.
 //
 
 import Foundation
@@ -14,19 +14,19 @@ public class DotWalker : CCDrawNode, WalkerProtocol
     var viewSize : CGSize;
     var mainColor : CCColor;
     var colorCount : Int = 0;
-    var colorID : ColorOption;
     var colorCountLimit : Int = 25;
     var walker : Walker;
     var targetForWalker : CGPoint;
+    var randomNumberMode : RandomNumberMode;
     
     
     override init()
     {
-        self.colorID = ColorOption.Blue;
         self.viewSize = CCDirector.sharedDirector().viewSize();
         self.mainColor = CCColor.blueColor();
         self.walker = Walker(width: self.viewSize.width, height: self.viewSize.height);
         self.targetForWalker = CGPointZero;
+        self.randomNumberMode = RandomNumberMode.Uniform;
         super.init();
         self.renderWalker();
         
@@ -35,12 +35,18 @@ public class DotWalker : CCDrawNode, WalkerProtocol
     init(position : CGPoint)
     {
         self.viewSize = CCDirector.sharedDirector().viewSize();
-        self.colorID = ColorOption.Blue;
         self.mainColor = CCColor.blueColor();
         self.walker = Walker(positionX: position.x, positionY: position.y, width: self.viewSize.width, height: self.viewSize.height);
         self.targetForWalker = CGPointZero;
+        self.randomNumberMode = RandomNumberMode.Uniform;
         super.init();
         self.renderWalker();
+    }
+    
+    func setWalkerRandomNumberMode(randomNumberMode : RandomNumberMode)
+    {
+        self.randomNumberMode = randomNumberMode;
+        self.walker.setRandomNumberMode(randomNumberMode);
     }
     
     public func setWalkerTarget(target: CGPoint) {
@@ -50,6 +56,7 @@ public class DotWalker : CCDrawNode, WalkerProtocol
     
     internal func renderWalkerByPosition( position: CGPoint)
     {
+        self.walker.setRandomNumberMode(self.randomNumberMode);
         self.drawDot(position, radius: 2, color: self.mainColor);
     }
     

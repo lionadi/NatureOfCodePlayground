@@ -3,18 +3,11 @@
 //  NatureOfCode
 //
 //  Created by Adrian Simionescu on 24/09/14.
-//  Copyright (c) 2014 Test. All rights reserved.
+//  Copyright (c) 2014 Adrian Simionescu. All rights reserved.
 //
 
 import Foundation
 
-public enum ColorOption : Int
-{
-    case Blue = 0
-    case Green = 1
-    case Yellow = 2
-    case Red = 3
-}
 
 /**
 A protocol to conform to the class that implements the Walker class.
@@ -26,6 +19,9 @@ protocol WalkerProtocol
     */
     var walker : Walker { get set }
     
+    var randomNumberMode : RandomNumberMode { get set };
+    
+    func setWalkerRandomNumberMode(randomNumberMode : RandomNumberMode);
     
     /**
     Implement this method to render the walker at a certain position
@@ -54,7 +50,7 @@ protocol WalkerProtocol
 }
 
 // Walker base class that gives functionality to some object. Use it to move it randomly somewhere
-public class Walker
+public class Walker : RandomBase, RandomBaseComplete
 {
     /// Current X position
     var positionX : CGFloat = 0;
@@ -62,11 +58,8 @@ public class Walker
     /// Current Y position
     var positionY : CGFloat = 0;
     
-    /// Area width where the walker can walk
-    var width : CGFloat;
-    
-    /// Area height where the walker can walk
-    var height : CGFloat;
+    var target : CGPoint = CGPointZero;
+
     
     /// Probality factor walking towards a target
     var probalitityFactor : Float = 0.5;
@@ -74,18 +67,22 @@ public class Walker
     
     init(width : CGFloat, height : CGFloat)
     {
+        super.init();
         self.positionX = width / 2;
         self.positionY = height / 2;
         self.width = width;
         self.height = height;
+        self.randomNumberMode = RandomNumberMode.Uniform;
     }
     
     init(positionX : CGFloat, positionY : CGFloat, width : CGFloat, height : CGFloat)
     {
+        super.init();
         self.positionX = positionX;
         self.positionY = positionY;
         self.width = width;
         self.height = height;
+        self.randomNumberMode = RandomNumberMode.Uniform;
     }
     
     /// Set a probability factor when to start to walk towards the target
@@ -94,24 +91,69 @@ public class Walker
         self.probalitityFactor = factor;
     }
     
+     func UniformCalculations()
+    {
+        if( self.target == CGPointZero)
+        {
+            var choice = RandomNumberGenerator.GetRandomUInt32(4);
+        
+            switch(choice)
+                {
+            case 0:
+                self.positionX += RandomNumberGenerator.GetRandomCGFloat(2);
+            case 1:
+                self.positionX -= RandomNumberGenerator.GetRandomCGFloat(2);
+            case 2:
+                self.positionY += RandomNumberGenerator.GetRandomCGFloat(2);
+            case 3:
+                self.positionY -= RandomNumberGenerator.GetRandomCGFloat(2);
+            default:
+                self.positionX++;
+            }
+        } else
+        {
+            var choice : Float = RandomNumberGenerator.GetRandomPositiveFloat(1);
+            
+            if(choice < self.probalitityFactor)
+            {
+                var xdir = (target.x - self.positionX);
+                var ydir = (target.y - self.positionY);
+                
+                if(xdir != 0)
+                {
+                    xdir /= abs(xdir);
+                }
+                
+                if(ydir != 0)
+                {
+                    ydir /= abs(ydir);
+                }
+                
+                self.positionX += xdir;
+                self.positionY += ydir;
+            } else
+            {
+                self.positionX += RandomNumberGenerator.GetRandomCGFloat(2);
+                self.positionY += RandomNumberGenerator.GetRandomCGFloat(2);
+            }
+        }
+    }
+    
+    func GaussianCalculations()
+    {
+        
+    }
+    
+    func PerlinNoiseCalculations()
+    {
+        
+    }
+    
     /// Makes the walker object to take a step in a direction
     public func step() -> CGPoint
     {
-        var choice = RandomNumberGenerator.GetRandomUInt32(4);
-        
-        switch(choice)
-            {
-        case 0:
-            self.positionX += RandomNumberGenerator.GetRandomCGFloat(2);
-        case 1:
-            self.positionX -= RandomNumberGenerator.GetRandomCGFloat(2);
-        case 2:
-            self.positionY += RandomNumberGenerator.GetRandomCGFloat(2);
-        case 3:
-            self.positionY -= RandomNumberGenerator.GetRandomCGFloat(2);
-        default:
-                self.positionX++;
-        }
+        self.target = CGPointZero;
+        self.UniformCalculations();
         
         
         self.constrain();
@@ -122,31 +164,8 @@ public class Walker
     /// Makes the walker object to take a step towards the target
     public func step(target : CGPoint) -> CGPoint
     {
-        var choice : Float = RandomNumberGenerator.GetRandomPositiveFloat(1);
-        
-        if(choice < self.probalitityFactor)
-        {
-            var xdir = (target.x - self.positionX);
-            var ydir = (target.y - self.positionY);
-            
-            if(xdir != 0)
-            {
-                xdir /= abs(xdir);
-            }
-            
-            if(ydir != 0)
-            {
-                ydir /= abs(ydir);
-            }
-            
-            self.positionX += xdir;
-            self.positionY += ydir;
-        } else
-        {
-            self.positionX += RandomNumberGenerator.GetRandomCGFloat(2);
-            self.positionY += RandomNumberGenerator.GetRandomCGFloat(2);
-        }
-        
+        self.target = target;
+        self.UniformCalculations();
         
         self.constrain();
         

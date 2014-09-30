@@ -8,3 +8,4 @@
 #import "CGPointExtension.h"
 #import "ccMacros.h"
 #import "CCActionInterval.h"
+#import "PerlinNoise.h"

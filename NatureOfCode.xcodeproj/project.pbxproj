@@ -202,6 +202,8 @@
 		524137B419D1BA8F0079A3B6 /* MainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524137B319D1BA8F0079A3B6 /* MainScene.swift */; };
 		52C8608819D59F7800612736 /* DotWalker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C8608719D59F7800612736 /* DotWalker.swift */; };
 		52D42CD719D3092B00B712BB /* Walker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D42CD619D3092B00B712BB /* Walker.swift */; };
+		52FD6FDF19D9A3E7006ADF88 /* PerlinNoise.m in Sources */ = {isa = PBXBuildFile; fileRef = 52FD6FDE19D9A3E7006ADF88 /* PerlinNoise.m */; };
+		52FD6FE119DABBB4006ADF88 /* RandomBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FD6FE019DABBB4006ADF88 /* RandomBase.swift */; };
 		5FDB94BA19D351050008CE0E /* CommonTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB94B919D351050008CE0E /* CommonTools.swift */; };
 /* End PBXBuildFile section */
 
@@ -602,6 +604,9 @@
 		524137B319D1BA8F0079A3B6 /* MainScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainScene.swift; sourceTree = "<group>"; };
 		52C8608719D59F7800612736 /* DotWalker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DotWalker.swift; sourceTree = "<group>"; };
 		52D42CD619D3092B00B712BB /* Walker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Walker.swift; sourceTree = "<group>"; };
+		52FD6FDD19D9A3E7006ADF88 /* PerlinNoise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PerlinNoise.h; path = Libraries/PerlinNoise/PerlinNoise.h; sourceTree = "<group>"; };
+		52FD6FDE19D9A3E7006ADF88 /* PerlinNoise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PerlinNoise.m; path = Libraries/PerlinNoise/PerlinNoise.m; sourceTree = "<group>"; };
+		52FD6FE019DABBB4006ADF88 /* RandomBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomBase.swift; sourceTree = "<group>"; };
 		5FDB94B919D351050008CE0E /* CommonTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonTools.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -693,6 +698,7 @@
 		5241354419D185330079A3B6 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				52FD6FDC19D9A38B006ADF88 /* PerlinNoise */,
 				5241367519D185340079A3B6 /* LICENSE_cocos2d.txt */,
 				5241370519D185350079A3B6 /* LICENSE_CCBReader.txt */,
 				5241377319D185360079A3B6 /* LICENSE_Chipmunk.txt */,
@@ -1441,6 +1447,7 @@
 			isa = PBXGroup;
 			children = (
 				52D42CD619D3092B00B712BB /* Walker.swift */,
+				52FD6FE019DABBB4006ADF88 /* RandomBase.swift */,
 			);
 			name = Randomness;
 			sourceTree = "<group>";
@@ -1451,6 +1458,15 @@
 				52C8608719D59F7800612736 /* DotWalker.swift */,
 			);
 			name = Objects;
+			sourceTree = "<group>";
+		};
+		52FD6FDC19D9A38B006ADF88 /* PerlinNoise */ = {
+			isa = PBXGroup;
+			children = (
+				52FD6FDD19D9A3E7006ADF88 /* PerlinNoise.h */,
+				52FD6FDE19D9A3E7006ADF88 /* PerlinNoise.m */,
+			);
+			name = PerlinNoise;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1560,6 +1576,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52FD6FDF19D9A3E7006ADF88 /* PerlinNoise.m in Sources */,
 				524136E119D185350079A3B6 /* CCScrollView.m in Sources */,
 				5241367C19D185340079A3B6 /* OALAction.m in Sources */,
 				5241361819D185340079A3B6 /* CCTexturePVR.m in Sources */,
@@ -1571,6 +1588,7 @@
 				52C8608819D59F7800612736 /* DotWalker.swift in Sources */,
 				5241364719D185340079A3B6 /* CCGLView.m in Sources */,
 				5241363A19D185340079A3B6 /* CCGLView.m in Sources */,
+				52FD6FE119DABBB4006ADF88 /* RandomBase.swift in Sources */,
 				5241369219D185350079A3B6 /* OALSimpleAudio.m in Sources */,
 				524135FA19D185340079A3B6 /* CCScene.m in Sources */,
 				524137AE19D1870C0079A3B6 /* CCMacros.swift in Sources */,
