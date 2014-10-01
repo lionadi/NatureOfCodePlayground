@@ -8,37 +8,42 @@
 
 import Foundation
 
-protocol RandomBaseBasic
+protocol pRandomBase
 {
     var randomNumberMode : RandomNumberMode { get set };
+    
+    func setRandomNumberMode( randomNumberMode : RandomNumberMode);
+}
+
+protocol pRandomBaseBasic : pRandomBase
+{
     var width : CGFloat { get set };
     var height : CGFloat { get set };
     
-    func setRandomNumberMode( randomNumberMode : RandomNumberMode);
     func setConstrainsRange( width : CGFloat, height: CGFloat);
 }
 
-protocol RandomBaseUniform : RandomBaseBasic
+protocol pRandomBaseUniform : pRandomBaseBasic
 {
     mutating func UniformCalculations();
 }
 
-protocol RandomBaseGaussian : RandomBaseBasic
+protocol pRandomBaseGaussian : pRandomBaseBasic
 {
     mutating func GaussianCalculations();
 }
 
-protocol RandomBasePerlinNoise : RandomBaseBasic
+protocol pRandomBasePerlinNoise : pRandomBaseBasic
 {
     mutating func PerlinNoiseCalculations();
 }
 
-protocol RandomBaseComplete : RandomBaseUniform, RandomBaseGaussian, RandomBasePerlinNoise
+protocol pRandomBaseComplete : pRandomBaseUniform, pRandomBaseGaussian, pRandomBasePerlinNoise
 {
     
 }
 
-public class RandomBase : RandomBaseBasic
+public class RandomBase : pRandomBaseBasic
 {
     var randomNumberMode : RandomNumberMode;
     var width : CGFloat = 0.0;

@@ -9,7 +9,7 @@
 import Foundation
 
 // Walker base class that gives functionality to some object. Use it to move it randomly somewhere
-public class DotWalker : CCDrawNode, WalkerProtocol
+public class DotWalker : CCDrawNode, pWalker
 {
     var viewSize : CGSize;
     var mainColor : CCColor;
@@ -28,7 +28,7 @@ public class DotWalker : CCDrawNode, WalkerProtocol
         self.targetForWalker = CGPointZero;
         self.randomNumberMode = RandomNumberMode.Uniform;
         super.init();
-        self.renderWalker();
+        self.render();
         
     }
     
@@ -40,10 +40,10 @@ public class DotWalker : CCDrawNode, WalkerProtocol
         self.targetForWalker = CGPointZero;
         self.randomNumberMode = RandomNumberMode.Uniform;
         super.init();
-        self.renderWalker();
+        self.render();
     }
     
-    func setWalkerRandomNumberMode(randomNumberMode : RandomNumberMode)
+    func setRandomNumberMode(randomNumberMode : RandomNumberMode)
     {
         self.randomNumberMode = randomNumberMode;
         self.walker.setRandomNumberMode(randomNumberMode);
@@ -60,7 +60,7 @@ public class DotWalker : CCDrawNode, WalkerProtocol
         self.drawDot(position, radius: 2, color: self.mainColor);
     }
     
-    internal func renderWalker()
+    internal func render()
     {
         
         let selectorWalkerStepping: Selector = "stepWalker";

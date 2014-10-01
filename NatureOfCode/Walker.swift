@@ -12,26 +12,18 @@ import Foundation
 /**
 A protocol to conform to the class that implements the Walker class.
 */
-protocol WalkerProtocol
+protocol pWalker : pObjectBaseBasic
 {
     /**
         The implementor of the Walker class must have an Walker object
     */
     var walker : Walker { get set }
     
-    var randomNumberMode : RandomNumberMode { get set };
-    
-    func setWalkerRandomNumberMode(randomNumberMode : RandomNumberMode);
-    
     /**
     Implement this method to render the walker at a certain position
     */
     func renderWalkerByPosition( position: CGPoint);
     
-    /**
-        Implement this method to render the Walker. Use this to initialize the render logic using the Walker data.
-    */
-    func renderWalker();
     
     /**
     Use this method to set a target for the Walker to aim at, to move towards to
@@ -50,7 +42,7 @@ protocol WalkerProtocol
 }
 
 // Walker base class that gives functionality to some object. Use it to move it randomly somewhere
-public class Walker : RandomBase, RandomBaseComplete
+public class Walker : RandomBase, pRandomBaseComplete
 {
     /// Current X position
     var positionX : CGFloat = 0;
