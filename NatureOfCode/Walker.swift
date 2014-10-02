@@ -42,7 +42,7 @@ protocol pWalker : pObjectBaseBasic
 }
 
 // Walker base class that gives functionality to some object. Use it to move it randomly somewhere
-public class Walker : RandomBase, pRandomBaseComplete
+public class Walker : RandomBaseComplete
 {
     /// Current X position
     var positionX : CGFloat = 0;
@@ -51,6 +51,9 @@ public class Walker : RandomBase, pRandomBaseComplete
     var positionY : CGFloat = 0;
     
     var target : CGPoint = CGPointZero;
+    
+    var perlinNoiseTime_PositionX : CGFloat = 0;
+    var perlinNoiseTime_PositionY : CGFloat = 10000;
 
     
     /// Probality factor walking towards a target
@@ -83,8 +86,9 @@ public class Walker : RandomBase, pRandomBaseComplete
         self.probalitityFactor = factor;
     }
     
-     func UniformCalculations()
+    override func UniformCalculations()
     {
+        super.UniformCalculations();
         if( self.target == CGPointZero)
         {
             var choice = RandomNumberGenerator.GetRandomUInt32(4);
@@ -131,18 +135,26 @@ public class Walker : RandomBase, pRandomBaseComplete
         }
     }
     
-    func GaussianCalculations()
+    override func GaussianCalculations()
     {
-        
+        super.GaussianCalculations();
     }
     
-    func PerlinNoiseCalculations()
+    override func PerlinNoiseCalculations()
     {
+        super.PerlinNoiseCalculations();
         
+        var x = CGFloat(self.perlinNoise.perlin1DValueForPoint(Float(self.perlinNoiseTime_PositionX)));
+        self.positionX = PerlinNoiseTool.MapCGFloat(CGFloat(self.perlinNoise.perlin1DValueForPoint(Float(self.perlinNoiseTime_PositionX))), perlinNoiseMinValue: 0, perlinNoiseMaxValue: 1, targetMinValue: 0, targetMaxValue: self.width);
+        
+        self.positionY = PerlinNoiseTool.MapCGFloat(CGFloat(self.perlinNoise.perlin1DValueForPoint(Float(self.perlinNoiseTime_PositionY))), perlinNoiseMinValue: 0, perlinNoiseMaxValue: 1, targetMinValue: 0, targetMaxValue: self.height);
+        
+        self.perlinNoiseTime_PositionX += 0.01;
+        self.perlinNoiseTime_PositionY += 0.01;
     }
     
     /// Makes the walker object to take a step in a direction
-    public func step() -> CGPoint
+    /*public func step() -> CGPoint
     {
         self.target = CGPointZero;
         self.UniformCalculations();
@@ -151,10 +163,15 @@ public class Walker : RandomBase, pRandomBaseComplete
         self.constrain();
         
         return(CGPointMake(self.positionX, self.positionY));
+    }*/
+    
+    public func setTarget(target : CGPoint)
+    {
+        self.target = target;
     }
     
     /// Makes the walker object to take a step towards the target
-    public func step(target : CGPoint) -> CGPoint
+    /*public func step(target : CGPoint) -> CGPoint
     {
         self.target = target;
         self.UniformCalculations();
@@ -162,7 +179,7 @@ public class Walker : RandomBase, pRandomBaseComplete
         self.constrain();
         
         return(CGPointMake(self.positionX, self.positionY));
-    }
+    }*/
     
     /// Return current position of the walker
     public func GetCurentPosition() -> CGPoint
@@ -171,8 +188,9 @@ public class Walker : RandomBase, pRandomBaseComplete
     }
     
     /// Constrain the walker position to the defined area
-    func constrain()
+    override func constrain()
     {
+        super.constrain();
         if(self.positionX < 0)
         {
             self.positionX = 0;

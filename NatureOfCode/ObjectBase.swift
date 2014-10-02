@@ -3,7 +3,7 @@
 //  NatureOfCode
 //
 //  Created by Adrian Simionescu on 01/10/14.
-//  Copyright (c) 2014 Test. All rights reserved.
+//  Copyright (c) 2014 Adrian Simionescu. All rights reserved.
 //
 
 import Foundation

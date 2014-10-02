@@ -21,6 +21,8 @@ protocol pRandomBaseBasic : pRandomBase
     var height : CGFloat { get set };
     
     func setConstrainsRange( width : CGFloat, height: CGFloat);
+    func doCalculations();
+    func constrain();
 }
 
 protocol pRandomBaseUniform : pRandomBaseBasic
@@ -35,6 +37,8 @@ protocol pRandomBaseGaussian : pRandomBaseBasic
 
 protocol pRandomBasePerlinNoise : pRandomBaseBasic
 {
+    var perlinNoise : PerlinNoise { get set };
+    
     mutating func PerlinNoiseCalculations();
 }
 
@@ -64,4 +68,104 @@ public class RandomBase : pRandomBaseBasic
         self.width = width;
         self.height = height;
     }
+    
+    func constrain()
+    {
+        
+    }
+    
+    func doCalculations() {
+        self.constrain();
+    }
 }
+
+public class RandomBaseComplete : RandomBase, pRandomBaseComplete
+{
+    var perlinNoise : PerlinNoise = PerlinNoise(seed: 1);
+    
+    override func doCalculations()
+    {
+        super.doCalculations();
+        switch(self.randomNumberMode)
+            {
+        case .Uniform:
+            self.UniformCalculations();
+            
+        case .Gaussian:
+            self.GaussianCalculations();
+        case .Perlin:
+            self.PerlinNoiseCalculations();
+        default:
+            self.UniformCalculations();
+        }
+        
+        self.constrain();
+    }
+    
+    override func constrain()
+    {
+        super.constrain();
+    }
+    
+    func UniformCalculations()
+    {
+        
+    }
+    
+    func GaussianCalculations()
+    {
+        
+    }
+    
+    func PerlinNoiseCalculations()
+    {
+    }
+}
+
+public class RandomBasePerlinNoise : RandomBase, pRandomBasePerlinNoise
+{
+    var perlinNoise : PerlinNoise = PerlinNoise(seed: 1);
+    
+    override func doCalculations()
+    {
+        super.doCalculations();
+        self.PerlinNoiseCalculations();
+        
+    }
+    
+    func PerlinNoiseCalculations()
+    {
+        
+    }
+}
+
+public class RandomBaseGaussian : RandomBase, pRandomBaseGaussian
+{
+    override func doCalculations()
+    {
+        super.doCalculations();
+        self.GaussianCalculations();
+        
+    }
+    
+    func GaussianCalculations()
+    {
+        
+    }
+}
+
+public class RandomBaseUniform : RandomBase, pRandomBaseUniform
+{
+    override func doCalculations()
+    {
+        super.doCalculations();
+        self.UniformCalculations();
+        
+    }
+    
+    func UniformCalculations()
+    {
+        
+    }
+}
+

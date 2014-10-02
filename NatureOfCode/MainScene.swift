@@ -17,6 +17,7 @@ class MainScene : CCScene
         super.init();
         
         self.walker = DotWalker();
+        self.walker.setRandomNumberMode(RandomNumberMode.Perlin);
         self.addChild(self.walker);
         self.color = CCColor.grayColor();
         userInteractionEnabled = true

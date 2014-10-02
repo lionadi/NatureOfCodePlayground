@@ -11,9 +11,14 @@ import Foundation
 /// Static value for calculating float based random values
 let ARC4RANDOM_MAX  : Float = 0x100000000;
 
-public struct PerlinNoise
+public struct PerlinNoiseTool
 {
     public static func Map( perlinNoiseValue : Float, perlinNoiseMinValue : Float, perlinNoiseMaxValue : Float, targetMinValue : Float, targetMaxValue : Float) -> Float
+    {
+        return targetMinValue + (targetMaxValue - targetMinValue) * ((perlinNoiseValue - perlinNoiseMinValue) / (perlinNoiseMaxValue - perlinNoiseMinValue));
+    }
+    
+    public static func MapCGFloat( perlinNoiseValue : CGFloat, perlinNoiseMinValue : CGFloat, perlinNoiseMaxValue : CGFloat, targetMinValue : CGFloat, targetMaxValue : CGFloat) -> CGFloat
     {
         return targetMinValue + (targetMaxValue - targetMinValue) * ((perlinNoiseValue - perlinNoiseMinValue) / (perlinNoiseMaxValue - perlinNoiseMinValue));
     }

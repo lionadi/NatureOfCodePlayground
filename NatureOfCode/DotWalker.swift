@@ -105,8 +105,10 @@ public class DotWalker : CCDrawNode, pWalker
                 }
                 self.colorCount = 0;
             }
+            
+            self.walker.doCalculations();
         
-            self.renderWalkerByPosition(self.walker.step());
+            self.renderWalkerByPosition(self.walker.GetCurentPosition());
         }
     }
     
@@ -134,8 +136,10 @@ public class DotWalker : CCDrawNode, pWalker
             }
             self.colorCount = 0;
         }
+        self.walker.setTarget(target);
+        self.walker.doCalculations();
         
-        self.renderWalkerByPosition(self.walker.step(target));
+        self.renderWalkerByPosition(self.walker.GetCurentPosition());
     }
     
 }
