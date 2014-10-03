@@ -17,6 +17,11 @@ public struct MathGlobals
 
 extension CGPoint
 {
+    static func ToVector(point : CGPoint) -> Vector
+    {
+        return(Vector(x: Float(point.x), y: Float(point.y)));
+    }
+    
     static func Sub(v1 : CGPoint, v2 : CGPoint) -> CGPoint
     {
         return(CGPointMake(v1.x - v2.x, v1.y - v2.y));

@@ -205,6 +205,9 @@
 		52FD6FDF19D9A3E7006ADF88 /* PerlinNoise.m in Sources */ = {isa = PBXBuildFile; fileRef = 52FD6FDE19D9A3E7006ADF88 /* PerlinNoise.m */; };
 		52FD6FE119DABBB4006ADF88 /* RandomBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FD6FE019DABBB4006ADF88 /* RandomBase.swift */; };
 		52FD6FE319DBE319006ADF88 /* ObjectBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FD6FE219DBE319006ADF88 /* ObjectBase.swift */; };
+		52FD6FE519DD67FA006ADF88 /* RandomTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FD6FE419DD67FA006ADF88 /* RandomTexture.swift */; };
+		52FD6FEB19DEACA0006ADF88 /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FD6FEA19DEACA0006ADF88 /* Vector.swift */; };
+		52FD6FED19DEAFC5006ADF88 /* TesterBot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FD6FEC19DEAFC5006ADF88 /* TesterBot.swift */; };
 		5FDB94BA19D351050008CE0E /* CommonTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB94B919D351050008CE0E /* CommonTools.swift */; };
 /* End PBXBuildFile section */
 
@@ -609,6 +612,9 @@
 		52FD6FDE19D9A3E7006ADF88 /* PerlinNoise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PerlinNoise.m; path = Libraries/PerlinNoise/PerlinNoise.m; sourceTree = "<group>"; };
 		52FD6FE019DABBB4006ADF88 /* RandomBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomBase.swift; sourceTree = "<group>"; };
 		52FD6FE219DBE319006ADF88 /* ObjectBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectBase.swift; sourceTree = "<group>"; };
+		52FD6FE419DD67FA006ADF88 /* RandomTexture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomTexture.swift; sourceTree = "<group>"; };
+		52FD6FEA19DEACA0006ADF88 /* Vector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vector.swift; sourceTree = "<group>"; };
+		52FD6FEC19DEAFC5006ADF88 /* TesterBot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TesterBot.swift; sourceTree = "<group>"; };
 		5FDB94B919D351050008CE0E /* CommonTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonTools.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1402,6 +1408,7 @@
 		5241377919D185360079A3B6 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				52FD6FE919DEAC7E006ADF88 /* Math */,
 				52C8608619D59F3500612736 /* Randomness */,
 				52D42CD519D3091E00B712BB /* Objects */,
 				524137B219D1BA780079A3B6 /* Scenes */,
@@ -1459,6 +1466,8 @@
 			isa = PBXGroup;
 			children = (
 				52C8608719D59F7800612736 /* DotWalker.swift */,
+				52FD6FE419DD67FA006ADF88 /* RandomTexture.swift */,
+				52FD6FEC19DEAFC5006ADF88 /* TesterBot.swift */,
 			);
 			name = Objects;
 			sourceTree = "<group>";
@@ -1470,6 +1479,14 @@
 				52FD6FDE19D9A3E7006ADF88 /* PerlinNoise.m */,
 			);
 			name = PerlinNoise;
+			sourceTree = "<group>";
+		};
+		52FD6FE919DEAC7E006ADF88 /* Math */ = {
+			isa = PBXGroup;
+			children = (
+				52FD6FEA19DEACA0006ADF88 /* Vector.swift */,
+			);
+			name = Math;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1653,6 +1670,7 @@
 				5241365A19D185340079A3B6 /* CCProfiling.m in Sources */,
 				524136BC19D185350079A3B6 /* OALSuspendHandler.m in Sources */,
 				524136EA19D185350079A3B6 /* CCTextField.m in Sources */,
+				52FD6FEB19DEACA0006ADF88 /* Vector.swift in Sources */,
 				524135C219D185330079A3B6 /* CCNode.m in Sources */,
 				5241370219D185350079A3B6 /* CCBLocalizationManager.m in Sources */,
 				524135E019D185340079A3B6 /* CCPhysicsJoint.m in Sources */,
@@ -1666,6 +1684,7 @@
 				524136AE19D185350079A3B6 /* ALSource.m in Sources */,
 				524136D119D185350079A3B6 /* OALTools.m in Sources */,
 				5241362C19D185340079A3B6 /* cocos2d.m in Sources */,
+				52FD6FED19DEAFC5006ADF88 /* TesterBot.swift in Sources */,
 				5241360419D185340079A3B6 /* CCSprite9Slice.m in Sources */,
 				5241364419D185340079A3B6 /* CCDirectorMac.m in Sources */,
 				524136DA19D185350079A3B6 /* CCControl.m in Sources */,
@@ -1697,6 +1716,7 @@
 				524135A019D185330079A3B6 /* CCDirector.m in Sources */,
 				5241357E19D185330079A3B6 /* CCActionEase.m in Sources */,
 				5241355F19D185330079A3B6 /* CCEffectGlow.m in Sources */,
+				52FD6FE519DD67FA006ADF88 /* RandomTexture.swift in Sources */,
 				524136AB19D185350079A3B6 /* ALSoundSourcePool.m in Sources */,
 				524136F619D185350079A3B6 /* CCBKeyframe.m in Sources */,
 				524135AC19D185330079A3B6 /* CCLabelBMFont.m in Sources */,

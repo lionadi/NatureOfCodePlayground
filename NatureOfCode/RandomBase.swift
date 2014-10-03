@@ -81,7 +81,7 @@ public class RandomBase : pRandomBaseBasic
 
 public class RandomBaseComplete : RandomBase, pRandomBaseComplete
 {
-    var perlinNoise : PerlinNoise = PerlinNoise(seed: 1);
+    var perlinNoise : PerlinNoise = PerlinNoise(seed: 10);
     
     override func doCalculations()
     {
@@ -124,7 +124,7 @@ public class RandomBaseComplete : RandomBase, pRandomBaseComplete
 
 public class RandomBasePerlinNoise : RandomBase, pRandomBasePerlinNoise
 {
-    var perlinNoise : PerlinNoise = PerlinNoise(seed: 1);
+    var perlinNoise : PerlinNoise = PerlinNoise(seed: 10);
     
     override func doCalculations()
     {

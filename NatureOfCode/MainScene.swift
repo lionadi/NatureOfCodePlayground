@@ -12,16 +12,26 @@ import Darwin
 class MainScene : CCScene
 {
     var walker : DotWalker!;
+    var texture : RandomTexture!;
+    var testBot : TestBot!;
     override init()
     {
         super.init();
         
         self.walker = DotWalker();
         self.walker.setRandomNumberMode(RandomNumberMode.Perlin);
-        self.addChild(self.walker);
+        //self.addChild(self.walker);
         self.color = CCColor.grayColor();
         userInteractionEnabled = true
         
+        var viewSize : CGSize = CCDirector.sharedDirector().viewSize();
+        //self.texture = RandomTexture(width: Int32(viewSize.width), height: Int32(viewSize.height));
+        //self.texture.textureSprite.removeFromParentAndCleanup(true);
+        //self.texture.textureSprite.position = CGPointMake(viewSize.width / 2, viewSize.height / 2);
+        //self.addChild(self.texture.textureSprite, z: -1);
+        
+        self.testBot = TestBot();
+        self.addChild(testBot);
     }
     
     override func touchEnded(touch: UITouch!, withEvent event: UIEvent!) {
