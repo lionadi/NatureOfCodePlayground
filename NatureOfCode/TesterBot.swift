@@ -8,27 +8,30 @@
 
 import Foundation
 
-public class TestBot : CCDrawNode, pRandomBaseBasic, pObjectBaseBasic
+public class TestBot : CCDrawNode, PMover
 {
-    var width : CGFloat = 0;
-    var height : CGFloat = 0;
-    var viewSize : CGSize;
-    var randomNumberMode : RandomNumberMode;
-    var velocity : Vector!;
+    var Width : CGFloat = 0;
+    var Height : CGFloat = 0;
+    var ViewSize : CGSize;
+    var RandomNumberModeValue : RandomNumberMode;
+    var MoverObject : Mover;
     
     override init()
     {
-        self.viewSize = CCDirector.sharedDirector().viewSize();
-        self.randomNumberMode = RandomNumberMode.Uniform;
+        self.ViewSize = CCDirector.sharedDirector().viewSize();
+        self.RandomNumberModeValue = RandomNumberMode.Uniform;
+        self.MoverObject = Mover(position: Vector.Zero(), velocity: Vector.Zero(), acceleration: Vector(x: -0.001, y: 0.01));
+        self.MoverObject.SetConstrainsRange(self.ViewSize.width, height: self.ViewSize.height);
         super.init();
-        
-        self.position = CGPointMake(self.viewSize.width / 2, self.viewSize.height / 2);
-        self.velocity = Vector(x: 2.5, y: 5);
-        self.render();
+        self.Width = self.ViewSize.width;
+        self.Height = self.ViewSize.height;
+        self.position = CGPointMake(0, 0);
+        self.drawDot(self.position, radius: 20, color: CCColor.blueColor());
+        self.Render();
     }
     
-    func render() {
-        let selectorCalculations: Selector = "doCalculations";
+    func Render() {
+        let selectorCalculations: Selector = "DoCalculations";
         var makeTheWalkerToStep : CCActionCallFunc = CCActionCallFunc.actionWithTarget(self, selector: selectorCalculations ) as CCActionCallFunc;
         
         var delay : CCActionDelay = CCActionDelay.actionWithDuration(0.0001) as CCActionDelay;
@@ -42,29 +45,20 @@ public class TestBot : CCDrawNode, pRandomBaseBasic, pObjectBaseBasic
         self.runAction(walkForever);
     }
     
-    func setRandomNumberMode( randomNumberMode : RandomNumberMode)
+    func SetRandomNumberMode( randomNumberMode : RandomNumberMode)
     {
         
     }
     
-    func setConstrainsRange( width : CGFloat, height: CGFloat)
+    func SetConstrainsRange( width : CGFloat, height: CGFloat)
     {
         
     }
     
-    func doCalculations()
+    func DoCalculations()
     {
-        self.position += self.velocity;
-        self.drawDot(position, radius: 2, color: CCColor.blueColor());
-    }
-    
-    func constrain()
-    {
-        if ((self.position.x > width) || (self.position.x < 0)) {
-            velocity.x = velocity.x * -1;
-        }
-        if ((self.position.y > height) || (self.position.y < 0)) {
-            velocity.y = velocity.y * -1;
-        }
+        self.MoverObject.DoCalculations();
+        self.position = self.MoverObject.Position.ToCGPoint();
+        
     }
 }

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+/*
 /// NOTICE: This does not work. Work in Progress
 public class RandomTexture
 {
@@ -46,4 +46,4 @@ public class RandomTexture
         
         return CCSprite.spriteWithTexture(self.randomTextureData.sprite.texture) as CCSprite;
     }
-}
+}*/

@@ -9,61 +9,61 @@
 import Foundation
 
 // Walker base class that gives functionality to some object. Use it to move it randomly somewhere
-public class DotWalker : CCDrawNode, pWalker
+public class DotWalker : CCDrawNode, PWalker
 {
-    var viewSize : CGSize;
-    var mainColor : CCColor;
-    var colorCount : Int = 0;
-    var colorCountLimit : Int = 25;
-    var walker : Walker;
-    var targetForWalker : CGPoint;
-    var randomNumberMode : RandomNumberMode;
+    var ViewSize : CGSize;
+    var MainColor : CCColor;
+    var ColorCount : Int = 0;
+    var ColorCountLimit : Int = 25;
+    var WalkerObject : Walker;
+    var TargetForWalker : CGPoint;
+    var RandomNumberModeValue : RandomNumberMode;
     
     
     override init()
     {
-        self.viewSize = CCDirector.sharedDirector().viewSize();
-        self.mainColor = CCColor.blueColor();
-        self.walker = Walker(width: self.viewSize.width, height: self.viewSize.height);
-        self.targetForWalker = CGPointZero;
-        self.randomNumberMode = RandomNumberMode.Uniform;
+        self.ViewSize = CCDirector.sharedDirector().viewSize();
+        self.MainColor = CCColor.blueColor();
+        self.WalkerObject = Walker(width: self.ViewSize.width, height: self.ViewSize.height);
+        self.TargetForWalker = CGPointZero;
+        self.RandomNumberModeValue = RandomNumberMode.Uniform;
         super.init();
-        self.render();
+        self.Render();
         
     }
     
     init(position : CGPoint)
     {
-        self.viewSize = CCDirector.sharedDirector().viewSize();
-        self.mainColor = CCColor.blueColor();
-        self.walker = Walker(positionX: position.x, positionY: position.y, width: self.viewSize.width, height: self.viewSize.height);
-        self.targetForWalker = CGPointZero;
-        self.randomNumberMode = RandomNumberMode.Uniform;
+        self.ViewSize = CCDirector.sharedDirector().viewSize();
+        self.MainColor = CCColor.blueColor();
+        self.WalkerObject = Walker(positionX: position.x, positionY: position.y, width: self.ViewSize.width, height: self.ViewSize.height);
+        self.TargetForWalker = CGPointZero;
+        self.RandomNumberModeValue = RandomNumberMode.Uniform;
         super.init();
-        self.render();
+        self.Render();
     }
     
-    func setRandomNumberMode(randomNumberMode : RandomNumberMode)
+    func SetRandomNumberMode(randomNumberMode : RandomNumberMode)
     {
-        self.randomNumberMode = randomNumberMode;
-        self.walker.setRandomNumberMode(randomNumberMode);
+        self.RandomNumberModeValue = randomNumberMode;
+        self.WalkerObject.SetRandomNumberMode(randomNumberMode);
     }
     
-    public func setWalkerTarget(target: CGPoint) {
-        self.targetForWalker = target;
+    public func SetWalkerTarget(target: CGPoint) {
+        self.TargetForWalker = target;
     }
     
     
-    internal func renderWalkerByPosition( position: CGPoint)
+    internal func RenderWalkerByPosition( position: CGPoint)
     {
-        self.walker.setRandomNumberMode(self.randomNumberMode);
-        self.drawDot(position, radius: 2, color: self.mainColor);
+        self.WalkerObject.SetRandomNumberMode(self.RandomNumberModeValue);
+        self.drawDot(position, radius: 2, color: self.MainColor);
     }
     
-    internal func render()
+    internal func Render()
     {
         
-        let selectorWalkerStepping: Selector = "stepWalker";
+        let selectorWalkerStepping: Selector = "StepWalker";
         var makeTheWalkerToStep : CCActionCallFunc = CCActionCallFunc.actionWithTarget(self, selector: selectorWalkerStepping ) as CCActionCallFunc;
         
         var delay : CCActionDelay = CCActionDelay.actionWithDuration(0.0001) as CCActionDelay;
@@ -78,68 +78,68 @@ public class DotWalker : CCDrawNode, pWalker
     }
     
     /// Makes the walker object to take a step in a direction
-    internal func stepWalker()
+    internal func StepWalker()
     {
-        if(self.targetForWalker != CGPointZero)
+        if(self.TargetForWalker != CGPointZero)
         {
-            self.stepWalkerByTarget(self.targetForWalker);
+            self.StepWalkerByTarget(self.TargetForWalker);
         } else
         {
-            self.colorCount++;
-            if(self.colorCount > colorCountLimit)
+            self.ColorCount++;
+            if(self.ColorCount > self.ColorCountLimit)
             {
                 var choice = RandomNumberGenerator.GetRandomUInt32(4);
             
                 switch(choice)
                 {
                     case 0:
-                        self.mainColor = CCColor.blueColor();
+                        self.MainColor = CCColor.blueColor();
                     case 1:
-                        self.mainColor = CCColor.redColor();
+                        self.MainColor = CCColor.redColor();
                     case 2:
-                        self.mainColor = CCColor.yellowColor();
+                        self.MainColor = CCColor.yellowColor();
                     case 3:
-                        self.mainColor = CCColor.greenColor();
+                        self.MainColor = CCColor.greenColor();
                     default:
-                        self.mainColor = CCColor.blueColor();
+                        self.MainColor = CCColor.blueColor();
                 }
-                self.colorCount = 0;
+                self.ColorCount = 0;
             }
             
-            self.walker.doCalculations();
+            self.WalkerObject.DoCalculations();
         
-            self.renderWalkerByPosition(self.walker.GetCurentPosition());
+            self.RenderWalkerByPosition(self.WalkerObject.GetCurentPosition());
         }
     }
     
-    internal func stepWalkerByTarget(target : CGPoint)
+    internal func StepWalkerByTarget(target : CGPoint)
     {
         
         
-        self.colorCount++;
-        if(self.colorCount > colorCountLimit)
+        self.ColorCount++;
+        if(self.ColorCount > self.ColorCountLimit)
         {
             var choice = RandomNumberGenerator.GetRandomUInt32(4);
             
             switch(choice)
                 {
             case 0:
-                self.mainColor = CCColor.blueColor();
+                self.MainColor = CCColor.blueColor();
             case 1:
-                self.mainColor = CCColor.redColor();
+                self.MainColor = CCColor.redColor();
             case 2:
-                self.mainColor = CCColor.yellowColor();
+                self.MainColor = CCColor.yellowColor();
             case 3:
-                self.mainColor = CCColor.greenColor();
+                self.MainColor = CCColor.greenColor();
             default:
-                self.mainColor = CCColor.blueColor();
+                self.MainColor = CCColor.blueColor();
             }
-            self.colorCount = 0;
+            self.ColorCount = 0;
         }
-        self.walker.setTarget(target);
-        self.walker.doCalculations();
+        self.WalkerObject.SetTarget(target);
+        self.WalkerObject.DoCalculations();
         
-        self.renderWalkerByPosition(self.walker.GetCurentPosition());
+        self.RenderWalkerByPosition(self.WalkerObject.GetCurentPosition());
     }
     
 }

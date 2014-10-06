@@ -12,15 +12,15 @@ import Darwin
 class MainScene : CCScene
 {
     var walker : DotWalker!;
-    var texture : RandomTexture!;
+    //var texture : RandomTexture!;
     var testBot : TestBot!;
     override init()
     {
         super.init();
         
         self.walker = DotWalker();
-        self.walker.setRandomNumberMode(RandomNumberMode.Perlin);
-        //self.addChild(self.walker);
+        self.walker.SetRandomNumberMode(RandomNumberMode.Perlin);
+        self.addChild(self.walker);
         self.color = CCColor.grayColor();
         userInteractionEnabled = true
         
@@ -31,28 +31,29 @@ class MainScene : CCScene
         //self.addChild(self.texture.textureSprite, z: -1);
         
         self.testBot = TestBot();
+        self.testBot.position = CGPointMake(viewSize.width / 2, viewSize.height / 2);
         self.addChild(testBot);
     }
     
     override func touchEnded(touch: UITouch!, withEvent event: UIEvent!) {
         var touchLocation : CGPoint = touch.locationInNode(self);
-        self.walker.setWalkerTarget(CGPointZero);
+        //self.walker.setWalkerTarget(CGPointZero);
     }
     
     override func touchMoved(touch: UITouch!, withEvent event: UIEvent!) {
         var touchLocation : CGPoint = touch.locationInNode(self);
-        self.walker.setWalkerTarget(touchLocation);
+        //self.walker.setWalkerTarget(touchLocation);
     }
     
     override func touchBegan(touch: UITouch!, withEvent event: UIEvent!)
     {
         var touchLocation : CGPoint = touch.locationInNode(self);
-        self.walker.setWalkerTarget(touchLocation);
+        //self.walker.setWalkerTarget(touchLocation);
     }
     
     override func touchCancelled(touch: UITouch!, withEvent event: UIEvent!) {
         var touchLocation : CGPoint = touch.locationInNode(self);
-        self.walker.setWalkerTarget(CGPointZero);
+        //self.walker.setWalkerTarget(CGPointZero);
     }
     
     /*override func draw(renderer: CCRenderer!, transform: COpaquePointer) {

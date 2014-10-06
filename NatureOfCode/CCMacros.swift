@@ -14,6 +14,14 @@ public struct MathGlobals
     static var RADIANS_TO_DEGREES : Float = 57.29577951;
 }
 
+extension CGFloat
+{
+    mutating func ToFloat() -> Float
+    {
+        return(Float(self));
+    }
+}
+
 
 extension CGPoint
 {

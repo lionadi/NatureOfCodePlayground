@@ -208,6 +208,9 @@
 		52FD6FE519DD67FA006ADF88 /* RandomTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FD6FE419DD67FA006ADF88 /* RandomTexture.swift */; };
 		52FD6FEB19DEACA0006ADF88 /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FD6FEA19DEACA0006ADF88 /* Vector.swift */; };
 		52FD6FED19DEAFC5006ADF88 /* TesterBot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FD6FEC19DEAFC5006ADF88 /* TesterBot.swift */; };
+		5F6720DA19DF3A1D00324CC4 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6720D919DF3A1D00324CC4 /* Helpers.swift */; };
+		5F6720DC19DF418700324CC4 /* Mover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6720DB19DF418700324CC4 /* Mover.swift */; };
+		5FA9383D19E09E3100BCFC4B /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA9383C19E09E3100BCFC4B /* test.swift */; };
 		5FDB94BA19D351050008CE0E /* CommonTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB94B919D351050008CE0E /* CommonTools.swift */; };
 /* End PBXBuildFile section */
 
@@ -615,6 +618,9 @@
 		52FD6FE419DD67FA006ADF88 /* RandomTexture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomTexture.swift; sourceTree = "<group>"; };
 		52FD6FEA19DEACA0006ADF88 /* Vector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vector.swift; sourceTree = "<group>"; };
 		52FD6FEC19DEAFC5006ADF88 /* TesterBot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TesterBot.swift; sourceTree = "<group>"; };
+		5F6720D919DF3A1D00324CC4 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		5F6720DB19DF418700324CC4 /* Mover.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mover.swift; sourceTree = "<group>"; };
+		5FA9383C19E09E3100BCFC4B /* test.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		5FDB94B919D351050008CE0E /* CommonTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonTools.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1408,11 +1414,11 @@
 		5241377919D185360079A3B6 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				524137AD19D1870C0079A3B6 /* Main.swift */,
 				52FD6FE919DEAC7E006ADF88 /* Math */,
 				52C8608619D59F3500612736 /* Randomness */,
 				52D42CD519D3091E00B712BB /* Objects */,
 				524137B219D1BA780079A3B6 /* Scenes */,
-				524137AD19D1870C0079A3B6 /* Main.swift */,
 				524137A819D186B20079A3B6 /* Common */,
 				524137A919D1870B0079A3B6 /* NatureOfCode-Bridging-Header.h */,
 			);
@@ -1440,6 +1446,7 @@
 			children = (
 				524137AA19D1870C0079A3B6 /* CCMacros.swift */,
 				5FDB94B919D351050008CE0E /* CommonTools.swift */,
+				5F6720D919DF3A1D00324CC4 /* Helpers.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -1455,9 +1462,10 @@
 		52C8608619D59F3500612736 /* Randomness */ = {
 			isa = PBXGroup;
 			children = (
+				5F6720DD19DF41C100324CC4 /* Base */,
 				52D42CD619D3092B00B712BB /* Walker.swift */,
-				52FD6FE019DABBB4006ADF88 /* RandomBase.swift */,
-				52FD6FE219DBE319006ADF88 /* ObjectBase.swift */,
+				5F6720DB19DF418700324CC4 /* Mover.swift */,
+				5FA9383C19E09E3100BCFC4B /* test.swift */,
 			);
 			name = Randomness;
 			sourceTree = "<group>";
@@ -1487,6 +1495,15 @@
 				52FD6FEA19DEACA0006ADF88 /* Vector.swift */,
 			);
 			name = Math;
+			sourceTree = "<group>";
+		};
+		5F6720DD19DF41C100324CC4 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				52FD6FE019DABBB4006ADF88 /* RandomBase.swift */,
+				52FD6FE219DBE319006ADF88 /* ObjectBase.swift */,
+			);
+			name = Base;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1530,7 +1547,7 @@
 		5241350D19D185320079A3B6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0600;
+				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = Test;
 				TargetAttributes = {
 					5241351419D185320079A3B6 = {
@@ -1609,6 +1626,7 @@
 				52C8608819D59F7800612736 /* DotWalker.swift in Sources */,
 				5241364719D185340079A3B6 /* CCGLView.m in Sources */,
 				5241363A19D185340079A3B6 /* CCGLView.m in Sources */,
+				5FA9383D19E09E3100BCFC4B /* test.swift in Sources */,
 				52FD6FE119DABBB4006ADF88 /* RandomBase.swift in Sources */,
 				5241369219D185350079A3B6 /* OALSimpleAudio.m in Sources */,
 				524135FA19D185340079A3B6 /* CCScene.m in Sources */,
@@ -1669,6 +1687,7 @@
 				5241362519D185340079A3B6 /* CCTMXXMLParser.m in Sources */,
 				5241365A19D185340079A3B6 /* CCProfiling.m in Sources */,
 				524136BC19D185350079A3B6 /* OALSuspendHandler.m in Sources */,
+				5F6720DA19DF3A1D00324CC4 /* Helpers.swift in Sources */,
 				524136EA19D185350079A3B6 /* CCTextField.m in Sources */,
 				52FD6FEB19DEACA0006ADF88 /* Vector.swift in Sources */,
 				524135C219D185330079A3B6 /* CCNode.m in Sources */,
@@ -1685,6 +1704,7 @@
 				524136D119D185350079A3B6 /* OALTools.m in Sources */,
 				5241362C19D185340079A3B6 /* cocos2d.m in Sources */,
 				52FD6FED19DEAFC5006ADF88 /* TesterBot.swift in Sources */,
+				5F6720DC19DF418700324CC4 /* Mover.swift in Sources */,
 				5241360419D185340079A3B6 /* CCSprite9Slice.m in Sources */,
 				5241364419D185340079A3B6 /* CCDirectorMac.m in Sources */,
 				524136DA19D185350079A3B6 /* CCControl.m in Sources */,
@@ -1782,9 +1802,16 @@
 		5241378319D185360079A3B6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1793,9 +1820,14 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -1804,18 +1836,29 @@
 		5241378419D185360079A3B6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					NDEBUG,
 					"NS_BLOCK_ASSERTIONS=1",
 				);
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -1825,7 +1868,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1850,7 +1892,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1873,7 +1914,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_ENABLE_OBJC_ARC = NO;
 				EXECUTABLE_EXTENSION = a;
 				EXECUTABLE_PREFIX = lib;
@@ -1890,7 +1930,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_ENABLE_OBJC_ARC = NO;
 				EXECUTABLE_EXTENSION = a;
 				EXECUTABLE_PREFIX = lib;

@@ -8,11 +8,10 @@
 
 import Foundation
 
-protocol pObjectBaseBasic : pRandomBase
+protocol PObjectBaseBasic : PRandomBase
 {
-    
     /**
     Implement this method to render the Object. Use this to initialize the render logic using the object data.
     */
-    func render();
+    func Render();
 }

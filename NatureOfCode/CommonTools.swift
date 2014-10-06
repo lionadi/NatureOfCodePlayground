@@ -24,10 +24,7 @@ public struct PerlinNoiseTool
     }
 }
 
-public enum RandomNumberMode
-{
-    case Uniform, Gaussian, Perlin
-}
+
 
 /// This a Random Number generator helper
 public struct RandomNumberGenerator {

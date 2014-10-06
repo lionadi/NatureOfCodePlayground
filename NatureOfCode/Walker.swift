@@ -12,114 +12,115 @@ import Foundation
 /**
 A protocol to conform to the class that implements the Walker class.
 */
-protocol pWalker : pObjectBaseBasic
+protocol PWalker : PObjectBaseBasic
 {
+    
     /**
-        The implementor of the Walker class must have an Walker object
+    The implementor of the Walker class must have an Walker object
     */
-    var walker : Walker { get set }
+    var WalkerObject : Walker { get set }
     
     /**
     Implement this method to render the walker at a certain position
     */
-    func renderWalkerByPosition( position: CGPoint);
+    func RenderWalkerByPosition( position: CGPoint);
     
     
     /**
     Use this method to set a target for the Walker to aim at, to move towards to
     */
-    func setWalkerTarget(target : CGPoint);
+    func SetWalkerTarget(target : CGPoint);
     
     /**
     Use this method to implement logic related to make the Walker to give you the next position where the implementor should be at
     */
-    mutating func stepWalker();
+    mutating func StepWalker();
     
     /**
     Use this method to implement logic related to make the Walker to give you the next position where the implementor should be at and aimed at the target, moving towardst he target.
     */
-    mutating func stepWalkerByTarget(target : CGPoint);
+    mutating func StepWalkerByTarget(target : CGPoint);
 }
 
 // Walker base class that gives functionality to some object. Use it to move it randomly somewhere
 public class Walker : RandomBaseComplete
 {
     /// Current X position
-    var positionX : CGFloat = 0;
+    var PositionX : CGFloat = 0;
     
     /// Current Y position
-    var positionY : CGFloat = 0;
+    var PositionY : CGFloat = 0;
     
-    var target : CGPoint = CGPointZero;
+    var Target : CGPoint = CGPointZero;
     
-    var perlinNoiseTime_PositionX : CGFloat = 0;
-    var perlinNoiseTime_PositionY : CGFloat = 10000;
+    var PerlinNoiseTime_PositionX : CGFloat = 0;
+    var PerlinNoiseTime_PositionY : CGFloat = 10000;
 
     
     /// Probality factor walking towards a target
-    var probalitityFactor : Float = 0.9;
+    var ProbalitityFactor : Float = 0.9;
     
     
     init(width : CGFloat, height : CGFloat)
     {
         super.init();
-        self.positionX = width / 2;
-        self.positionY = height / 2;
-        self.width = width;
-        self.height = height;
-        self.randomNumberMode = RandomNumberMode.Uniform;
+        self.PositionX = width / 2;
+        self.PositionY = height / 2;
+        self.Width = width;
+        self.Height = height;
+        self.RandomNumberModeValue = RandomNumberMode.Uniform;
     }
     
     init(positionX : CGFloat, positionY : CGFloat, width : CGFloat, height : CGFloat)
     {
         super.init();
-        self.positionX = positionX;
-        self.positionY = positionY;
-        self.width = width;
-        self.height = height;
-        self.randomNumberMode = RandomNumberMode.Uniform;
+        self.PositionX = positionX;
+        self.PositionY = positionY;
+        self.Width = width;
+        self.Height = height;
+        self.RandomNumberModeValue = RandomNumberMode.Uniform;
     }
     
     /// Set a probability factor when to start to walk towards the target
-    func setProbalitiyFactor(factor : Float)
+    func SetProbalitiyFactor(factor : Float)
     {
-        self.probalitityFactor = factor;
+        self.ProbalitityFactor = factor;
     }
     
     override func UniformCalculations()
     {
         super.UniformCalculations();
-        if( self.target == CGPointZero)
+        if( self.Target == CGPointZero)
         {
             var choice = RandomNumberGenerator.GetRandomUInt32(4);
         
             switch(choice)
                 {
             case 0:
-                self.positionX += RandomNumberGenerator.GetRandomCGFloat(2);
+                self.PositionX += RandomNumberGenerator.GetRandomCGFloat(2);
             case 1:
-                self.positionX -= RandomNumberGenerator.GetRandomCGFloat(2);
+                self.PositionX -= RandomNumberGenerator.GetRandomCGFloat(2);
             case 2:
-                self.positionY += RandomNumberGenerator.GetRandomCGFloat(2);
+                self.PositionY += RandomNumberGenerator.GetRandomCGFloat(2);
             case 3:
-                self.positionY -= RandomNumberGenerator.GetRandomCGFloat(2);
+                self.PositionY -= RandomNumberGenerator.GetRandomCGFloat(2);
             default:
-                self.positionX++;
+                self.PositionX++;
             }
         } else
         {
-            moveWalkerTowardsTarget();
+            MoveWalkerTowardsTarget();
         }
     }
     
-    func moveWalkerTowardsTarget()
+    func MoveWalkerTowardsTarget()
     {
         var choice : Float = RandomNumberGenerator.GetRandomPositiveFloat(1);
         
-        if(choice < self.probalitityFactor)
+        if(choice < self.ProbalitityFactor)
         {
-            var xdir = (target.x - self.positionX);
-            var ydir = (target.y - self.positionY);
+            var xdir = (self.Target.x - self.PositionX);
+            var ydir = (self.Target.y - self.PositionY);
             
             if(xdir != 0)
             {
@@ -131,12 +132,12 @@ public class Walker : RandomBaseComplete
                 ydir /= abs(ydir);
             }
             
-            self.positionX += xdir;
-            self.positionY += ydir;
+            self.PositionX += xdir;
+            self.PositionY += ydir;
         } else
         {
-            self.positionX += RandomNumberGenerator.GetRandomCGFloat(2);
-            self.positionY += RandomNumberGenerator.GetRandomCGFloat(2);
+            self.PositionX += RandomNumberGenerator.GetRandomCGFloat(2);
+            self.PositionY += RandomNumberGenerator.GetRandomCGFloat(2);
         }
     }
     
@@ -150,8 +151,8 @@ public class Walker : RandomBaseComplete
         super.PerlinNoiseCalculations();
         
         
-        var tempX = CGFloat(self.perlinNoise.perlin1DValueForPoint(Float(self.perlinNoiseTime_PositionX)));
-        var tempY = CGFloat(self.perlinNoise.perlin1DValueForPoint(Float(self.perlinNoiseTime_PositionY)));
+        var tempX = CGFloat(self.PerlinNoiseCalculator.perlin1DValueForPoint(Float(self.PerlinNoiseTime_PositionX)));
+        var tempY = CGFloat(self.PerlinNoiseCalculator.perlin1DValueForPoint(Float(self.PerlinNoiseTime_PositionY)));
         
         if(tempX < 0)
         {
@@ -162,16 +163,16 @@ public class Walker : RandomBaseComplete
         {
             tempY *= -1;
         }
-        self.positionX = PerlinNoiseTool.MapCGFloat(tempX, perlinNoiseMinValue: 0, perlinNoiseMaxValue: 1, targetMinValue: 0, targetMaxValue: self.width);
+        self.PositionX = PerlinNoiseTool.MapCGFloat(tempX, perlinNoiseMinValue: 0, perlinNoiseMaxValue: 1, targetMinValue: 0, targetMaxValue: self.Width);
         
-        self.positionY = PerlinNoiseTool.MapCGFloat(tempY, perlinNoiseMinValue: 0, perlinNoiseMaxValue: 1, targetMinValue: 0, targetMaxValue: self.height);
+        self.PositionY = PerlinNoiseTool.MapCGFloat(tempY, perlinNoiseMinValue: 0, perlinNoiseMaxValue: 1, targetMinValue: 0, targetMaxValue: self.Height);
         
-        self.perlinNoiseTime_PositionX += 0.1;
-        self.perlinNoiseTime_PositionY += 0.1;
+        self.PerlinNoiseTime_PositionX += 0.1;
+        self.PerlinNoiseTime_PositionY += 0.1;
         
-        if( self.target != CGPointZero)
+        if( self.Target != CGPointZero)
         {
-            self.moveWalkerTowardsTarget();
+            self.MoveWalkerTowardsTarget();
         }
     }
     
@@ -187,15 +188,15 @@ public class Walker : RandomBaseComplete
         return(CGPointMake(self.positionX, self.positionY));
     }*/
     
-    public func setTarget(target : CGPoint)
+    public func SetTarget(target : CGPoint)
     {
-        self.target = target;
+        self.Target = target;
     }
     
     /// Makes the walker object to take a step towards the target
     /*public func step(target : CGPoint) -> CGPoint
     {
-        self.target = target;
+        self.Target = target;
         self.UniformCalculations();
         
         self.constrain();
@@ -206,29 +207,29 @@ public class Walker : RandomBaseComplete
     /// Return current position of the walker
     public func GetCurentPosition() -> CGPoint
     {
-        return(CGPointMake(self.positionX, self.positionY));
+        return(CGPointMake(self.PositionX, self.PositionY));
     }
     
     /// Constrain the walker position to the defined area
-    override func constrain()
+    override func Constrain()
     {
-        super.constrain();
-        if(self.positionX < 0)
+        super.Constrain();
+        if(self.PositionX < 0)
         {
-            self.positionX = 0;
+            self.PositionX = 0;
         }
-        if(self.positionX > self.width)
+        if(self.PositionX > self.Width)
         {
-            self.positionX = self.width;
+            self.PositionX = self.Width;
         }
-        if(self.positionY < 0)
+        if(self.PositionY < 0)
         {
-            self.positionY = 0;
+            self.PositionY = 0;
         }
         
-        if(self.positionY > self.height)
+        if(self.PositionY > self.Height)
         {
-            self.positionY = self.height;
+            self.PositionY = self.Height;
         }
         
     }

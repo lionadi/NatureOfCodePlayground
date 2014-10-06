@@ -25,9 +25,79 @@ public struct Vector
         self.y = y;
     }
     
-    static func ToCGPoint(vecotr : Vector) -> CGPoint
+    static func ToCGPoint(vector : Vector) -> CGPoint
     {
-        return(CGPoint(x: CGFloat(vecotr.x), y: CGFloat(vecotr.y)));
+        return(CGPoint(x: CGFloat(vector.x), y: CGFloat(vector.y)));
+    }
+    
+    func ToCGPoint() -> CGPoint
+    {
+        return(CGPoint(x: CGFloat(x), y: CGFloat(y)));
+    }
+    
+    static func Magnitude(vector : Vector) -> Float
+    {
+        return(Float(sqrt(vector.x * vector.x + vector.y * vector.y)));
+    }
+    
+    func Magnitude() -> Float
+    {
+        return(Float(sqrt(x * x + y * y)));
+    }
+    
+    mutating func Normalize() -> Vector
+    {
+        var magnitude : Float = Magnitude();
+        if(magnitude != 0)
+        {
+            self.x = self.x / magnitude;
+            self.y = self.y / magnitude;
+            return(self.ReturnSelf());
+        }
+        
+        return(Vector.Zero());
+    }
+    
+    mutating func ReturnSelf() -> Vector
+    {
+        return(Vector(x: self.x, y: self.y));
+    }
+    
+    static func Normalize(vector : Vector) -> Vector
+    {
+        var magnitude : Float = vector.Magnitude();
+        if(magnitude != 0)
+        {
+            return(Vector(x: vector.x / magnitude, y: vector.y / magnitude));
+        }
+        
+        return(Vector.Zero());
+    }
+    
+    static func Zero() ->Vector
+    {
+        return(Vector(x: 0, y: 0));
+    }
+    
+    mutating func Zero() ->Vector
+    {
+        self.x = 0;
+        self.y = 0;
+        
+        return(Vector.Zero());
+    }
+    
+    mutating func Limit( limit : Float) ->Vector
+    {
+        if ( self.x > limit ) {
+            self.x = limit;
+        }
+        
+        if ( self.y > limit ) {
+            self.y = limit;
+        }
+        
+        return(Vector.Zero());
     }
 }
 //-------------------------------------------------------
@@ -61,6 +131,37 @@ func + (left: Vector, right: Double) -> Vector
     return Vector(x: left.x + Float(right), y: left.y + Float(right))
 }
 //-------------------------------------------------------
+
+func * (left: Vector, right: Float) -> Vector
+{
+    return Vector(x: left.x * right, y: left.y * right)
+}
+
+func * (left: Vector, right: Int) -> Vector
+{
+    return Vector(x: left.x * Float(right), y: left.y * Float(right))
+}
+
+func * (left: Vector, right: Double) -> Vector
+{
+    return Vector(x: left.x * Float(right), y: left.y * Float(right))
+}
+
+func / (left: Vector, right: Float) -> Vector
+{
+    return Vector(x: left.x / right, y: left.y / right)
+}
+
+func / (left: Vector, right: Int) -> Vector
+{
+    return Vector(x: left.x / Float(right), y: left.y / Float(right))
+}
+
+func / (left: Vector, right: Double) -> Vector
+{
+    return Vector(x: left.x / Float(right), y: left.y / Float(right))
+}
+
 
 //-------------------------------------------------------
 func - (left: Vector, right: Vector) -> Vector
@@ -127,6 +228,29 @@ func += (inout left: Vector, right: Double) {
 }
 //-------------------------------------------------------
 
+func *= (inout left: Vector, right: Int) {
+    left = left * right
+}
+
+func *= (inout left: Vector, right: Float) {
+    left = left * right
+}
+
+func *= (inout left: Vector, right: Double) {
+    left = left * right
+}
+
+func /= (inout left: Vector, right: Int) {
+    left = left / right
+}
+
+func /= (inout left: Vector, right: Float) {
+    left = left / right
+}
+
+func /= (inout left: Vector, right: Double) {
+    left = left / right
+}
 //-------------------------------------------------------
 func -= (inout left: Vector, right: Vector) {
     left = left - right

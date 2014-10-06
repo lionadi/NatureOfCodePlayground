@@ -8,85 +8,95 @@
 
 import Foundation
 
-protocol pRandomBase
+public enum RandomNumberMode
 {
-    var randomNumberMode : RandomNumberMode { get set };
-    
-    func setRandomNumberMode( randomNumberMode : RandomNumberMode);
+    case Uniform, Gaussian, Perlin
 }
 
-protocol pRandomBaseBasic : pRandomBase
+protocol PRandomBase
 {
-    var width : CGFloat { get set };
-    var height : CGFloat { get set };
+    var RandomNumberModeValue : RandomNumberMode { get set };
     
-    func setConstrainsRange( width : CGFloat, height: CGFloat);
-    func doCalculations();
-    func constrain();
+    func SetRandomNumberMode( randomNumberMode : RandomNumberMode);
 }
 
-protocol pRandomBaseUniform : pRandomBaseBasic
+protocol PRandomBaseBasic : PRandomBase
+{
+    var Width : CGFloat { get set };
+    var Height : CGFloat { get set };
+    
+    func SetConstrainsRange( width : CGFloat, height: CGFloat);
+    func DoCalculations();
+    func Constrain();
+    func Normal();
+}
+
+protocol PRandomBaseUniform : PRandomBaseBasic
 {
     mutating func UniformCalculations();
 }
 
-protocol pRandomBaseGaussian : pRandomBaseBasic
+protocol PRandomBaseGaussian : PRandomBaseBasic
 {
     mutating func GaussianCalculations();
 }
 
-protocol pRandomBasePerlinNoise : pRandomBaseBasic
+protocol PRandomBasePerlinNoise : PRandomBaseBasic
 {
-    var perlinNoise : PerlinNoise { get set };
+    var PerlinNoiseCalculator : PerlinNoise { get set };
     
     mutating func PerlinNoiseCalculations();
 }
 
-protocol pRandomBaseComplete : pRandomBaseUniform, pRandomBaseGaussian, pRandomBasePerlinNoise
+protocol PRandomBaseComplete : PRandomBaseUniform, PRandomBaseGaussian, PRandomBasePerlinNoise
 {
     
 }
 
-public class RandomBase : pRandomBaseBasic
+public class RandomBase : PRandomBaseBasic
 {
-    var randomNumberMode : RandomNumberMode;
-    var width : CGFloat = 0.0;
-    var height : CGFloat = 0.0;
+    var RandomNumberModeValue : RandomNumberMode;
+    var Width : CGFloat = 0.0;
+    var Height : CGFloat = 0.0;
     
     init()
     {
-        self.randomNumberMode = RandomNumberMode.Uniform;
+        RandomNumberModeValue = RandomNumberMode.Uniform;
     }
     
-    func setRandomNumberMode( randomNumberMode : RandomNumberMode)
+    func SetRandomNumberMode( randomNumberMode : RandomNumberMode)
     {
-        self.randomNumberMode = randomNumberMode;
+        self.RandomNumberModeValue = randomNumberMode;
     }
     
-    func setConstrainsRange( width : CGFloat, height: CGFloat)
+    func SetConstrainsRange( width : CGFloat, height: CGFloat)
     {
-        self.width = width;
-        self.height = height;
+        self.Width = width;
+        self.Height = height;
     }
     
-    func constrain()
+    func Constrain()
     {
         
     }
     
-    func doCalculations() {
-        self.constrain();
+    func DoCalculations() {
+        self.Constrain();
+    }
+
+    func Normal() {
+
     }
 }
 
-public class RandomBaseComplete : RandomBase, pRandomBaseComplete
+public class RandomBaseComplete : RandomBase, PRandomBaseComplete
 {
-    var perlinNoise : PerlinNoise = PerlinNoise(seed: 10);
+    var PerlinNoiseCalculator : PerlinNoise = PerlinNoise(seed: 10);
     
-    override func doCalculations()
+    override func DoCalculations()
     {
-        super.doCalculations();
-        switch(self.randomNumberMode)
+        super.DoCalculations();
+        switch(self.RandomNumberModeValue)
             {
         case .Uniform:
             self.UniformCalculations();
@@ -95,16 +105,22 @@ public class RandomBaseComplete : RandomBase, pRandomBaseComplete
             self.GaussianCalculations();
         case .Perlin:
             self.PerlinNoiseCalculations();
+
         default:
             self.UniformCalculations();
         }
         
-        self.constrain();
+        self.Constrain();
     }
     
-    override func constrain()
+    override func Constrain()
     {
-        super.constrain();
+        super.Constrain();
+    }
+    
+    override func Normal()
+    {
+        
     }
     
     func UniformCalculations()
@@ -122,13 +138,13 @@ public class RandomBaseComplete : RandomBase, pRandomBaseComplete
     }
 }
 
-public class RandomBasePerlinNoise : RandomBase, pRandomBasePerlinNoise
+public class RandomBasePerlinNoise : RandomBase, PRandomBasePerlinNoise
 {
-    var perlinNoise : PerlinNoise = PerlinNoise(seed: 10);
+    var PerlinNoiseCalculator : PerlinNoise = PerlinNoise(seed: 10);
     
-    override func doCalculations()
+    override func DoCalculations()
     {
-        super.doCalculations();
+        super.DoCalculations();
         self.PerlinNoiseCalculations();
         
     }
@@ -139,11 +155,11 @@ public class RandomBasePerlinNoise : RandomBase, pRandomBasePerlinNoise
     }
 }
 
-public class RandomBaseGaussian : RandomBase, pRandomBaseGaussian
+public class RandomBaseGaussian : RandomBase, PRandomBaseGaussian
 {
-    override func doCalculations()
+    override func DoCalculations()
     {
-        super.doCalculations();
+        super.DoCalculations();
         self.GaussianCalculations();
         
     }
@@ -154,11 +170,11 @@ public class RandomBaseGaussian : RandomBase, pRandomBaseGaussian
     }
 }
 
-public class RandomBaseUniform : RandomBase, pRandomBaseUniform
+public class RandomBaseUniform : RandomBase, PRandomBaseUniform
 {
-    override func doCalculations()
+    override func DoCalculations()
     {
-        super.doCalculations();
+        super.DoCalculations();
         self.UniformCalculations();
         
     }
