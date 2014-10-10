@@ -10,7 +10,7 @@
 #define NatureOfCodeCocos2DX_Aurora_h
 #include "Math\MathOperations.h"
 #include "Models\ModelLoad.h"
-#include "Random\RandomBase.h"
+#include "Random\RandomOperations.h"
 
 
 #endif
