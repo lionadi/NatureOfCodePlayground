@@ -153,13 +153,18 @@ namespace Aurora
                 VECTOR2D &operator*=(const MATRIX2X2		&value);
             
                 VECTOR2D operator*(const MATRIX2X2		&value);
+
+				bool operator==(const VECTOR2D		&value);
+
+				bool operator!=(const VECTOR2D		&value);
+
 				/*!
 					\brief Zeros a vector
 					\param void 
 				*/
 				void ZeroVector(void);
             
-                void Limit(	const Float limit);
+                void Limit(	const Float &lowerLimit, const Float &upperLimit);
 
 			protected:
 
@@ -296,13 +301,17 @@ namespace Aurora
             
             VECTOR3D operator*(const MATRIX3X3		&value);
             
+			bool operator==(const VECTOR3D		&value);
+
+			bool operator!=(const VECTOR3D		&value);
+
 			/*!
 			\brief Zeros a vector
 			\param void 
 			*/
 			void ZeroVector(void);
             
-            void Limit(	const Float limit);
+            void Limit(	const Float &lowerLimit, const Float &upperLimit);
 
 		protected:
 
@@ -457,13 +466,17 @@ namespace Aurora
 
             VECTOR4D operator/(const Float		&value);
             
+			bool operator==(const VECTOR4D		&value);
+
+			bool operator!=(const VECTOR4D		&value);
+
 			/*!
 			\brief Zeros a vector
 			\param void 
 			*/
 			void ZeroVector(void);
             
-            void Limit(	const Float limit);
+            void Limit(	const Float &lowerLimit, const Float &upperLimit);
 		protected:
 
 		};

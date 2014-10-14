@@ -126,5 +126,23 @@ namespace Aurora
 
 		}
 
+
+		mRECT::mRECT(int width, int height)
+		{
+			this->Width = width;
+			this->Height = height;
+		}
+
+		mRECT::mRECT()
+		{
+			this->Width = 0;
+			this->Height = 0;
+		}
+
+		mRECT::~mRECT()
+		{
+
+		}
+
 	} // END OF NAMESPACE
 } // END OF NAMESPACE

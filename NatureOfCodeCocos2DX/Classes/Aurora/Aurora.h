@@ -11,6 +11,6 @@
 #include "Math\MathOperations.h"
 #include "Models\ModelLoad.h"
 #include "Random\RandomOperations.h"
-
+#include "Cocos2dX\Cocos2DXOperations.h"
 
 #endif

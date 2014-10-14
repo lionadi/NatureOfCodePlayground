@@ -100,10 +100,9 @@ namespace Aurora {
 			PRandomBaseBasic::~PRandomBaseBasic();
 		}
         
-        void RandomBase::SetConstrainsRange(Float width, Float height)
+        void RandomBase::SetConstrainsRange(mRECT areaSize)
         {
-			this->Width = width;
-			this->Height = height;
+			this->areaSize = areaSize;
         }
         
         void RandomBase::Constrain()

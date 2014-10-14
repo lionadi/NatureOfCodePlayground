@@ -17,7 +17,10 @@ namespace Aurora {
 				PObjectBaseBasic();
 				virtual ~PObjectBaseBasic();
                 virtual void Render() = 0;
-        };
+
+				virtual void SetRandomNumberMode(RandomNumberMode randomNumberMode);
+
+		};
 
 		}; // END OF NAMESPACE Random
 }; // END OF NAMESPACE Aurora

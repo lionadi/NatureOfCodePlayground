@@ -25,6 +25,16 @@ namespace Aurora
 			#define EPSILON_E5 (float)(1E-5)
 			#define EPSILON_E6 (float)(1E-6)
 
+			class mRECT
+			{
+			public:
+				mRECT();
+				mRECT(int width, int height);
+				~mRECT();
+				int Width;
+				int Height;
+			};
+
 			/*!
 				\brief Datatype for a 2D parametric line
 			*/

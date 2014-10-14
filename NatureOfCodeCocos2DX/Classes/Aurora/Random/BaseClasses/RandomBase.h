@@ -12,7 +12,9 @@
 
 
 #include "..\CommonTools.h"
+#include "..\..\Math\MathOperations.h"
 
+using namespace Aurora::Math;
 
 namespace Aurora {
     namespace Random {
@@ -38,12 +40,11 @@ namespace Aurora {
         class PRandomBaseBasic : virtual public PRandomBase
         {
             protected:
-                Float Width;
-                Float Height;
+                mRECT areaSize;
             public:
 				PRandomBaseBasic();
 				virtual ~PRandomBaseBasic();
-                virtual void SetConstrainsRange( Float width, Float height) = 0;
+                virtual void SetConstrainsRange(mRECT areaSize) = 0;
                 virtual void DoCalculations() = 0;
                 virtual void Constrain() = 0;
         };
@@ -103,7 +104,7 @@ namespace Aurora {
             
             void SetRandomNumberMode(RandomNumberMode randomNumberMode);
 
-            void SetConstrainsRange( Float width, Float height);
+            void SetConstrainsRange(mRECT areaSize);
             
             void Constrain();
             
@@ -113,8 +114,7 @@ namespace Aurora {
 		class RandomBaseComplete : virtual public RandomBase, virtual public PRandomBaseComplete
 		{
 		private:
-			// TODO: PERLIN NOISE
-			//var PerlinNoiseCalculator : PerlinNoise = PerlinNoise(seed: 10);
+			
 		public:
 			RandomBaseComplete();
 			virtual ~RandomBaseComplete();
@@ -131,8 +131,7 @@ namespace Aurora {
 		class RandomBasePerlinNoise : virtual public RandomBase, virtual public PRandomBasePerlinNoise
 		{
 		public:
-			// TODO: PERLIN NOISE
-			//var PerlinNoiseCalculator : PerlinNoise = PerlinNoise(seed: 10);
+			
 			module::Perlin PerlinNoiseCalculator;
 			RandomBasePerlinNoise();
 			virtual ~RandomBasePerlinNoise();

@@ -61,7 +61,7 @@ namespace Aurora {
 			}
 
 			// This will generate a number from some arbitrary LO to some arbitrary HI:
-			static Float GetRandomPositiveFloat(Float  maxValue, Float minValue)
+			static Float GetRandomPositiveFloat(Float minValue, Float  maxValue)
 			{
 				srand(time(NULL));
 			    return (minValue + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(maxValue-minValue))));
@@ -86,7 +86,7 @@ namespace Aurora {
 			    return finalPosition;
 			}
 
-			static Float GetRandomFloat( Float maxValue, Float minValue) 
+			static Float GetRandomFloat(Float minValue, Float maxValue) 
 			{
 			    Float minus  = -1;
 			    

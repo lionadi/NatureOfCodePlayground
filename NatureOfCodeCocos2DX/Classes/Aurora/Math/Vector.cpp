@@ -155,16 +155,44 @@ namespace Aurora
 			this->X = this->Y = 0.0f;
 		}
         
-        void VECTOR2D::Limit(const Float limit)
+        void VECTOR2D::Limit(	const Float &lowerLimit, const Float &upperLimit)
         {
-            if ( this->X > limit ) {
-                this->Y = limit;
+            if ( this->X > upperLimit ) {
+                this->Y = upperLimit;
             }
             
-            if ( this->Y > limit ) {
-                this->Y = limit;
+            if ( this->Y > upperLimit ) {
+                this->Y = upperLimit;
             }
+
+			if ( this->X < lowerLimit ) {
+				this->Y = lowerLimit;
+			}
+
+			if ( this->Y < lowerLimit ) {
+				this->Y = lowerLimit;
+			}
         }
+
+		bool VECTOR2D::operator==(const VECTOR2D &value)
+		{
+			bool isEqual = false;
+
+			if(this->X == value.X && this->Y == value.Y)
+				isEqual = true;
+
+			return(isEqual);
+		}
+
+		bool VECTOR2D::operator!=(const VECTOR2D &value)
+		{
+			bool isEqual = false;
+
+			if(this->X != value.X && this->Y != value.Y)
+				isEqual = true;
+
+			return(isEqual);
+		}
 
 // VECTOR3D -----------------------------------------------------------
 		VECTOR3D::VECTOR3D()
@@ -315,21 +343,54 @@ namespace Aurora
 			this->X = this->Y = this->Z = 0.0f;
 		}
         
-        void VECTOR3D::Limit(const Float limit)
+        void VECTOR3D::Limit(	const Float &lowerLimit, const Float &upperLimit)
         {
-            if ( this->X > limit ) {
-                this->Y = limit;
-            }
-            
-            if ( this->Y > limit ) {
-                this->Y = limit;
-            }
-            
-            if ( this->Z > limit ) {
-                this->Z = limit;
-            }
+			if ( this->X > upperLimit ) {
+				this->Y = upperLimit;
+			}
+
+			if ( this->Y > upperLimit ) {
+				this->Y = upperLimit;
+			}
+
+			if ( this->Z > upperLimit ) {
+				this->Z = upperLimit;
+			}
+
+			if ( this->X < lowerLimit ) {
+				this->Y = lowerLimit;
+			}
+
+			if ( this->Y < lowerLimit ) {
+				this->Y = lowerLimit;
+			}
+
+			if ( this->Z < lowerLimit ) {
+				this->Z = lowerLimit;
+			}
         }
-        
+
+		bool VECTOR3D::operator==(const VECTOR3D &value)
+		{
+			bool isEqual = false;
+
+			if(this->X == value.X && this->Y == value.Y && this->Z == value.Z)
+				isEqual = true;
+
+			return(isEqual);
+		}
+
+		bool VECTOR3D::operator!=(const VECTOR3D &value)
+		{
+			bool isEqual = false;
+
+			if(this->X != value.X && this->Y != value.Y && this->Z != value.Z)
+				isEqual = true;
+
+			return(isEqual);
+		}
+
+
 // VECTOR4D -----------------------------------------------------------
 		VECTOR4D::VECTOR4D()
 		{
@@ -490,24 +551,60 @@ namespace Aurora
 			this->X = this->Y = this->Z = this->W = 0.0f;
 		}
         
-        void VECTOR4D::Limit(const Float limit)
+        void VECTOR4D::Limit(	const Float &lowerLimit, const Float &upperLimit)
         {
-            if ( this->X > limit ) {
-                this->Y = limit;
-            }
-            
-            if ( this->Y > limit ) {
-                this->Y = limit;
-            }
-            
-            if ( this->Z > limit ) {
-                this->Z = limit;
-            }
-            
-            if ( this->W > limit ) {
-                this->W = limit;
-            }
+			if ( this->X > upperLimit ) {
+				this->Y = upperLimit;
+			}
+
+			if ( this->Y > upperLimit ) {
+				this->Y = upperLimit;
+			}
+
+			if ( this->Z > upperLimit ) {
+				this->Z = upperLimit;
+			}
+
+			if ( this->W > upperLimit ) {
+				this->W = upperLimit;
+			}
+
+			if ( this->X < lowerLimit ) {
+				this->Y = lowerLimit;
+			}
+
+			if ( this->Y < lowerLimit ) {
+				this->Y = lowerLimit;
+			}
+
+			if ( this->Z < lowerLimit ) {
+				this->Z = lowerLimit;
+			}
+
+			if ( this->W < lowerLimit ) {
+				this->W = lowerLimit;
+			}
         }
+
+		bool VECTOR4D::operator==(const VECTOR4D &value)
+		{
+			bool isEqual = false;
+
+			if(this->X == value.X && this->Y == value.Y && this->Z == value.Z)
+				isEqual = true;
+
+			return(isEqual);
+		}
+
+		bool VECTOR4D::operator!=(const VECTOR4D &value)
+		{
+			bool isEqual = false;
+
+			if(this->X != value.X && this->Y != value.Y && this->Z != value.Z)
+				isEqual = true;
+
+			return(isEqual);
+		}
 
 	}; // END OF NAMESPACE
 }; // ENF OF NAMESPACE
