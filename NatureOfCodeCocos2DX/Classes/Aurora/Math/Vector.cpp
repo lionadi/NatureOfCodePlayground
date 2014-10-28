@@ -17,7 +17,7 @@ namespace Aurora
 	namespace Math
 	{
 
-		VECTOR2D::VECTOR2D()
+		VECTOR2D::VECTOR2D() : X(0), Y(0)
 		{
 			this->X = 0;
 			this->Y = 0;
@@ -40,14 +40,14 @@ namespace Aurora
 		}
 		// ADDITION - OPERATIONS
 		//--------------------------------------------------------
-		VECTOR2D VECTOR2D::operator+(const Float &value)
+		const VECTOR2D VECTOR2D::operator+(const Float &value)
 		{
 			
 			
 			return(VECTOR2D(this->X + value,this->Y + value));
 		}
 
-		VECTOR2D VECTOR2D::operator+(const VECTOR2D &value)
+		const VECTOR2D VECTOR2D::operator+(const VECTOR2D &value)
 		{
 			if(this == &value) { return(*this); }
 			return(VECTOR2D(this->X + value.X, this->Y + value.Y));
@@ -55,12 +55,12 @@ namespace Aurora
 
 		// SUBSTRACTION - OPERATIONS
 		//--------------------------------------------------------
-		VECTOR2D VECTOR2D::operator-(const Float &value)
+		const VECTOR2D VECTOR2D::operator-(const Float &value)
 		{
 			return(VECTOR2D(this->X - value, this->Y - value));
 		}
 
-		VECTOR2D VECTOR2D::operator-(const VECTOR2D &value)
+		const VECTOR2D VECTOR2D::operator-(const VECTOR2D &value)
 		{
 			if(this == &value) { return(*this); }
 			return(VECTOR2D(this->X - value.X, this->Y - value.Y));
@@ -98,14 +98,14 @@ namespace Aurora
 			return(*this);
 		}
 
-		VECTOR2D &VECTOR2D::operator-=(const Float &value)
+		const VECTOR2D &VECTOR2D::operator-=(const Float &value)
 		{
 			this->X -= value;
 			this->Y -= value;
 			return(*this);
 		}
 
-		VECTOR2D &VECTOR2D::operator-=(const VECTOR2D &value)
+		const VECTOR2D &VECTOR2D::operator-=(const VECTOR2D &value)
 		{
 			if(this == &value) { return(*this); }
 			this->X -= value.X;
@@ -113,36 +113,36 @@ namespace Aurora
 			return(*this);
 		}	
 		
-		VECTOR2D VECTOR2D::operator*(const Float		&value)
+		const VECTOR2D VECTOR2D::operator*(const Float		&value)
 		{
 			return(VECTOR2D(this->X * value, this->Y * value));
 		}
 
 		
-		Float VECTOR2D::operator*(const VECTOR2D		&value)
+		const Float VECTOR2D::operator*(const VECTOR2D		&value)
 		{
 			return((this->X * value.X) + (this->Y * value.Y));
 		}
 		
-		VECTOR2D &VECTOR2D::operator*=(const Float		&value)
+		const VECTOR2D &VECTOR2D::operator*=(const Float		&value)
 		{
 			this->X *= value;
 			this->Y *= value;
 			return(*this);
 		}
         
-        VECTOR2D VECTOR2D::operator/(const Float		&value)
+        const VECTOR2D VECTOR2D::operator/(const Float		&value)
         {
             return(VECTOR2D(this->X / value, this->Y / value));
         }
         
-        VECTOR2D VECTOR2D::operator*(const MATRIX2X2		&value)
+        const VECTOR2D VECTOR2D::operator*(const MATRIX2X2		&value)
         {
             return(VECTOR2D(	this->X * value.M11 + this->Y * value.M21,
                                 this->X * value.M12 + this->Y * value.M22));
         }
         
-        VECTOR2D &VECTOR2D::operator*=(const MATRIX2X2		&value)
+        const VECTOR2D &VECTOR2D::operator*=(const MATRIX2X2		&value)
         {
             this->X = this->X * value.M11 + this->Y * value.M21;
             this->Y = this->X * value.M12 + this->Y * value.M22;
@@ -194,8 +194,23 @@ namespace Aurora
 			return(isEqual);
 		}
 
+		bool VECTOR2D::IsZero() const
+		{
+			bool isZero = false;
+
+			if(this->X == 0 && this->Y == 0)
+				isZero = true;
+
+			return(isZero);
+		}
+
+		VECTOR2D VECTOR2D::GetZeroVector(void)
+		{
+			return(VECTOR2D(0,0));
+		}
+
 // VECTOR3D -----------------------------------------------------------
-		VECTOR3D::VECTOR3D()
+		VECTOR3D::VECTOR3D()  : X(0), Y(0), Z(0)
 		{
 			this->X = 0;
 			this->Y = 0;
@@ -390,9 +405,24 @@ namespace Aurora
 			return(isEqual);
 		}
 
+		bool VECTOR3D::IsZero() const
+		{
+			bool isZero = false;
+
+			if(this->X == 0 && this->Y == 0 && this->Z == 0)
+				isZero = true;
+
+			return(isZero);
+		}
+
+		Aurora::Math::VECTOR3D VECTOR3D::GetZeroVector(void)
+		{
+			return(VECTOR3D(0,0,0));
+		}
+
 
 // VECTOR4D -----------------------------------------------------------
-		VECTOR4D::VECTOR4D()
+		VECTOR4D::VECTOR4D()   : X(0), Y(0), Z(0), W(0)
 		{
 			this->X = 0;
 			this->Y = 0;
@@ -604,6 +634,21 @@ namespace Aurora
 				isEqual = true;
 
 			return(isEqual);
+		}
+
+		bool VECTOR4D::IsZero() const
+		{
+			bool isZero = false;
+
+			if(this->X == 0 && this->Y == 0 && this->Z == 0 && this->W == 0)
+				isZero = true;
+
+			return(isZero);
+		}
+
+		Aurora::Math::VECTOR4D VECTOR4D::GetZeroVector(void)
+		{
+			return(VECTOR4D(0,0,0,0));
 		}
 
 	}; // END OF NAMESPACE

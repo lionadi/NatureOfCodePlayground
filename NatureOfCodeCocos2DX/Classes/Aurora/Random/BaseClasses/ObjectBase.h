@@ -18,7 +18,10 @@ namespace Aurora {
 				virtual ~PObjectBaseBasic();
                 virtual void Render() = 0;
 
-				virtual void SetRandomNumberMode(RandomNumberMode randomNumberMode);
+				PObjectBaseBasic& operator=(const PObjectBaseBasic& value);
+
+				virtual void init();
+				virtual void init(RandomNumberMode randomNumberMode);
 
 		};
 

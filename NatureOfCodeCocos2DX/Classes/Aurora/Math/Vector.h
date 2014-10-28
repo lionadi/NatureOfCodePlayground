@@ -63,13 +63,13 @@ namespace Aurora
 					\param &value 
 					\return 
 				*/
-				VECTOR2D operator+(const Float			&value);
+				const VECTOR2D operator+(const Float			&value);
 				/*!
 					\brief 
 					\param &value 
 					\return 
 				*/
-				VECTOR2D operator+(const VECTOR2D		&value);
+				const VECTOR2D operator+(const VECTOR2D		&value);
 
 				// NEGATION - OPERATIONS
 				//--------------------------------------------------------
@@ -78,13 +78,13 @@ namespace Aurora
 					\param &value 
 					\return 
 				*/
-				VECTOR2D operator-(const Float			&value);
+				const VECTOR2D operator-(const Float			&value);
 				/*!
 					\brief 
 					\param &value 
 					\return 
 				*/
-				VECTOR2D operator-(const VECTOR2D		&value);
+				const VECTOR2D operator-(const VECTOR2D		&value);
 
 				// ASSIGNMENT - OPERATIONS
 				//--------------------------------------------------------
@@ -119,40 +119,40 @@ namespace Aurora
 					\param &value 
 					\return 
 				*/
-				VECTOR2D &operator-=(const Float		&value);
+				const VECTOR2D &operator-=(const Float		&value);
 				/*!
 					\brief 
 					\param &value 
 					\return 
 				*/
-				VECTOR2D &operator-=(const VECTOR2D		&value);
+				const VECTOR2D &operator-=(const VECTOR2D		&value);
 
 				/*!
 					\brief 
 					\param &value 
 					\return 
 				*/
-				VECTOR2D operator*(const Float		&value);
+				const VECTOR2D operator*(const Float		&value);
 
 				/*!
 					\brief 
 					\param &value 
 					\return 
 				*/
-				Float operator*(const VECTOR2D		&value);
+				const Float operator*(const VECTOR2D		&value);
 
 				/*!
 					\brief 
 					\param &value 
 					\return 
 				*/
-				VECTOR2D &operator*=(const Float		&value);
+				const VECTOR2D &operator*=(const Float		&value);
             
-                VECTOR2D operator/(const Float		&value);
+                const VECTOR2D operator/(const Float		&value);
 
-                VECTOR2D &operator*=(const MATRIX2X2		&value);
+                const VECTOR2D &operator*=(const MATRIX2X2		&value);
             
-                VECTOR2D operator*(const MATRIX2X2		&value);
+                const VECTOR2D operator*(const MATRIX2X2		&value);
 
 				bool operator==(const VECTOR2D		&value);
 
@@ -163,8 +163,11 @@ namespace Aurora
 					\param void 
 				*/
 				void ZeroVector(void);
+
+				static VECTOR2D GetZeroVector(void);
             
                 void Limit(	const Float &lowerLimit, const Float &upperLimit);
+				bool IsZero() const;
 
 			protected:
 
@@ -310,8 +313,12 @@ namespace Aurora
 			\param void 
 			*/
 			void ZeroVector(void);
+
+			static VECTOR3D GetZeroVector(void);
             
             void Limit(	const Float &lowerLimit, const Float &upperLimit);
+
+			bool IsZero() const;
 
 		protected:
 
@@ -475,8 +482,12 @@ namespace Aurora
 			\param void 
 			*/
 			void ZeroVector(void);
+
+			static VECTOR4D GetZeroVector(void);
             
             void Limit(	const Float &lowerLimit, const Float &upperLimit);
+
+			bool IsZero() const;
 		protected:
 
 		};

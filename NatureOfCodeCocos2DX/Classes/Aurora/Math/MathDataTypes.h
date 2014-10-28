@@ -33,6 +33,12 @@ namespace Aurora
 				~mRECT();
 				int Width;
 				int Height;
+
+				bool operator==(const mRECT		&value);
+
+				bool operator!=(const mRECT		&value);
+
+				bool IsZero() const;
 			};
 
 			/*!

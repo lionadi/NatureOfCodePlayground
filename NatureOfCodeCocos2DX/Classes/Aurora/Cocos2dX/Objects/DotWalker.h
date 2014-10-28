@@ -19,7 +19,6 @@ namespace Aurora
 			int colorCountLimit;
 			Vec2 TargetForWalker;
 			void RenderWalkerByPosition(const VECTOR2D &position);
-			void StepWalkerByTarget(const VECTOR2D &target);
 			void CalculateColor();
 		public:
 			DotWalker();

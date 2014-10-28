@@ -50,26 +50,29 @@ namespace Aurora
 
 		void DotWalker::StepWalker()
 		{
-			if(this->TargetForWalker == Vec2::ZERO)
+
+			if(this->TargetForWalker != Vec2::ZERO)
 			{
-				this->StepWalkerByTarget(ConvertVec2Tp_VECTOR2D(this->TargetForWalker));
-			} else
-			{
-				this->CalculateColor();
-				this->WalkerObject.DoCalculations();
+				this->WalkerObject.SetTarget(ConvertVec2Tp_VECTOR2D(this->TargetForWalker));
+			} 
 
-				this->RenderWalkerByPosition(this->WalkerObject.GetCurentPosition());
-			}
-		}
-
-		void DotWalker::StepWalkerByTarget(const VECTOR2D &target)
-		{
-
+			this->CalculateColor();
+			this->WalkerObject.DoCalculations();
+			this->RenderWalkerByPosition(this->WalkerObject.GetCurentPosition());
 		}
 
 		void DotWalker::Render()
 		{
 			PWalker::Render();
+			DelayTime *delayAction = DelayTime::create(0.0001f);
+			//std::function<void(DotWalker&)> makeWalkerStep = &DotWalker::StepWalker;
+			// perform the selector call
+			CallFunc *callSelectorAction = CallFunc::create(
+				std::bind(&DotWalker::StepWalker, this));
+
+			Sequence *actionSequence = Sequence::create(callSelectorAction,delayAction, NULL);
+
+			this->runAction(RepeatForever::create(actionSequence));
 		}
 
 		void DotWalker::CalculateColor()

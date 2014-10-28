@@ -133,7 +133,7 @@ namespace Aurora
 			this->Height = height;
 		}
 
-		mRECT::mRECT()
+		mRECT::mRECT() : Width(0), Height(0)
 		{
 			this->Width = 0;
 			this->Height = 0;
@@ -142,6 +142,36 @@ namespace Aurora
 		mRECT::~mRECT()
 		{
 
+		}
+
+		bool mRECT::operator==(const mRECT &value)
+		{
+			bool isEqual = false;
+
+			if(this->Width == value.Width && this->Height == value.Height)
+				isEqual = true;
+
+			return(isEqual);
+		}
+
+		bool mRECT::operator!=(const mRECT &value)
+		{
+			bool isEqual = false;
+
+			if(this->Width != value.Width && this->Height != value.Height)
+				isEqual = true;
+
+			return(isEqual);
+		}
+
+		bool mRECT::IsZero() const
+		{
+			bool isZero = false;
+
+			if(this->Width == 0 && this->Height == 0)
+				isZero = true;
+
+			return(isZero);
 		}
 
 	} // END OF NAMESPACE

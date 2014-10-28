@@ -2,15 +2,21 @@
 #define __MAINMENU_SCENE_H__
 
 #include "cocos2d.h"
+#include "../Aurora/Aurora.h"
+
+using namespace Aurora::Cocos2DX;
 
 class MainMenu : public cocos2d::Layer
 {
 public:
+
+	~MainMenu();
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::Scene* createScene();
 	bool isTouching;
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
     virtual bool init();
+	DotWalker *walker; 
     
     // implement the "static create()" method manually
     CREATE_FUNC(MainMenu);

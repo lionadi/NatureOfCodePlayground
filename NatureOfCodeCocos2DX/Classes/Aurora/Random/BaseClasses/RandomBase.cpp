@@ -24,6 +24,16 @@ namespace Aurora {
 
 		}
 
+		void PRandomBase::SetRandomNumberMode(RandomNumberMode randomNumberMode)
+		{
+			this->RandomNumberModeValue = randomNumberMode;
+		}
+
+		RandomNumberMode PRandomBase::GetRandomNumberMode() const
+		{
+			return(this->RandomNumberModeValue);
+		}
+
 		PRandomBaseBasic::PRandomBaseBasic() : PRandomBase()
 		{
 
@@ -32,6 +42,16 @@ namespace Aurora {
 		PRandomBaseBasic::~PRandomBaseBasic()
 		{
 			PRandomBase::~PRandomBase();
+		}
+
+		void PRandomBaseBasic::SetConstrainsRange(const mRECT &areaSize)
+		{
+			this->areaSize = areaSize;
+		}
+
+		const mRECT PRandomBaseBasic::GetConstrainsRange() const
+		{
+			return(this->areaSize);
 		}
 
 		PRandomBaseNormal::PRandomBaseNormal() : PRandomBaseBasic()
@@ -92,17 +112,22 @@ namespace Aurora {
 
         RandomBase::RandomBase() : PRandomBaseBasic()
         {
-            this->RandomNumberModeValue = RandomNumberMode::Normal;
+            this->init();
         }
+
+		RandomBase::RandomBase(const RandomBase &value) : PRandomBaseBasic()
+		{
+			this->init(value.GetConstrainsRange(), value.GetRandomNumberMode());
+		}
 
 		RandomBase::~RandomBase()
 		{
 			PRandomBaseBasic::~PRandomBaseBasic();
 		}
         
-        void RandomBase::SetConstrainsRange(mRECT areaSize)
+        void RandomBase::SetConstrainsRange(const mRECT &areaSize)
         {
-			this->areaSize = areaSize;
+			PRandomBaseBasic::SetConstrainsRange(areaSize);
         }
         
         void RandomBase::Constrain()
@@ -114,17 +139,38 @@ namespace Aurora {
         {
 			this->Constrain();
         }
-        
-        void RandomBase::SetRandomNumberMode(Aurora::Random::RandomNumberMode randomNumberMode)
-        {
-			this->RandomNumberModeValue = randomNumberMode;
-        }
+
+		RandomBase& RandomBase::operator=(const RandomBase& value)
+		{
+			if(this == &value) { return(*this); }
+
+			this->init(value.GetConstrainsRange(), value.GetRandomNumberMode());
+
+			return(*this);
+		}
+		void RandomBase::init()
+		{
+			this->SetConstrainsRange(mRECT(0,0));
+			this->SetRandomNumberMode(RandomNumberMode::Normal);
+		}
+
+
+		void RandomBase::init(const mRECT &areaSize, RandomNumberMode randomNumberMode)
+		{
+			this->SetConstrainsRange(areaSize);
+			this->SetRandomNumberMode(randomNumberMode);
+		}
 
 		
 
 		RandomBaseComplete::RandomBaseComplete() : RandomBase()
 		{
+			this->init();
+		}
 
+		RandomBaseComplete::RandomBaseComplete(const RandomBaseComplete &value) : RandomBase(value)
+		{
+			this->init(value.GetConstrainsRange(), value.GetRandomNumberMode());
 		}
 
 		RandomBaseComplete::~RandomBaseComplete()
@@ -137,7 +183,7 @@ namespace Aurora {
 		{
 			RandomBase::DoCalculations();
 
-			switch(this->RandomNumberModeValue)
+			switch(this->GetRandomNumberMode())
             {
 			case RandomNumberMode::Normal:
 				{
@@ -196,9 +242,35 @@ namespace Aurora {
 
 		}
 
+		RandomBaseComplete& RandomBaseComplete::operator=(const RandomBaseComplete& value)
+		{
+			if(this == &value) { return(*this); }
+
+			RandomBase::operator=(value);
+			this->init(value.GetConstrainsRange(), value.GetRandomNumberMode());
+
+			return(*this);
+		}
+
+		void RandomBaseComplete::init()
+		{
+			RandomBase::init();
+			this->SetRandomNumberMode(RandomNumberMode::Normal);
+		}
+
+		void RandomBaseComplete::init(const mRECT &areaSize, RandomNumberMode randomNumberMode)
+		{
+			RandomBase::init(areaSize, randomNumberMode);
+		}
+
 		RandomBasePerlinNoise::RandomBasePerlinNoise() : RandomBase()
 		{
+			this->init();
+		}
 
+		RandomBasePerlinNoise::RandomBasePerlinNoise(const RandomBasePerlinNoise &value) : RandomBase(value)
+		{
+			this->init(value.GetConstrainsRange(), value.GetRandomNumberMode());
 		}
 
 		RandomBasePerlinNoise::~RandomBasePerlinNoise()
@@ -218,9 +290,35 @@ namespace Aurora {
 
 		}
 
+		RandomBasePerlinNoise& RandomBasePerlinNoise::operator=(const RandomBasePerlinNoise& value)
+		{
+			if(this == &value) { return(*this); }
+
+			RandomBase::operator=(value);
+			this->init(value.GetConstrainsRange(), value.GetRandomNumberMode());
+
+			return(*this);
+		}
+
+		void RandomBasePerlinNoise::init()
+		{
+			RandomBase::init();
+			this->SetRandomNumberMode(RandomNumberMode::Perlin);
+		}
+
+		void RandomBasePerlinNoise::init(const mRECT &areaSize, RandomNumberMode randomNumberMode)
+		{
+			RandomBase::init(areaSize, randomNumberMode);
+		}
+
 		RandomBaseGaussian::RandomBaseGaussian() : RandomBase()
 		{
+			this->init();
+		}
 
+		RandomBaseGaussian::RandomBaseGaussian(const RandomBaseGaussian &value) : RandomBase(value)
+		{
+			this->init(value.GetConstrainsRange(), value.GetRandomNumberMode());
 		}
 
 		RandomBaseGaussian::~RandomBaseGaussian()
@@ -240,9 +338,35 @@ namespace Aurora {
 
 		}
 
+		RandomBaseGaussian& RandomBaseGaussian::operator=(const RandomBaseGaussian& value)
+		{
+			if(this == &value) { return(*this); }
+
+			RandomBase::operator=(value);
+			this->init(value.GetConstrainsRange(), value.GetRandomNumberMode());
+
+			return(*this);
+		}
+
+		void RandomBaseGaussian::init()
+		{
+			RandomBase::init();
+			this->SetRandomNumberMode(RandomNumberMode::Gaussian);
+		}
+
+		void RandomBaseGaussian::init(const mRECT &areaSize, RandomNumberMode randomNumberMode)
+		{
+			RandomBase::init(areaSize, randomNumberMode);
+		}
+
 		RandomBaseUniform::RandomBaseUniform() : RandomBase()
 		{
+			this->init();
+		}
 
+		RandomBaseUniform::RandomBaseUniform(const RandomBaseUniform &value) : RandomBase(value)
+		{
+			this->init(value.GetConstrainsRange(), value.GetRandomNumberMode());
 		}
 
 		RandomBaseUniform::~RandomBaseUniform()
@@ -262,9 +386,35 @@ namespace Aurora {
 
 		}
 
+		RandomBaseUniform& RandomBaseUniform::operator=(const RandomBaseUniform& value)
+		{
+			if(this == &value) { return(*this); }
+
+			RandomBase::operator=(value);
+			this->init(value.GetConstrainsRange(), value.GetRandomNumberMode());
+
+			return(*this);
+		}
+
+		void RandomBaseUniform::init()
+		{
+			RandomBase::init();
+			this->SetRandomNumberMode(RandomNumberMode::Uniform);
+		}
+
+		void RandomBaseUniform::init(const mRECT &areaSize, RandomNumberMode randomNumberMode)
+		{
+			RandomBase::init(areaSize, randomNumberMode);
+		}
+
 		RandomBaseNormal::RandomBaseNormal() : RandomBase()
 		{
+			this->init();
+		}
 
+		RandomBaseNormal::RandomBaseNormal(const RandomBaseNormal &value) : RandomBase(value)
+		{
+			this->init(value.GetConstrainsRange(), value.GetRandomNumberMode());
 		}
 
 		RandomBaseNormal::~RandomBaseNormal()
@@ -283,6 +433,28 @@ namespace Aurora {
 		{
 
 		}
-        
+
+		RandomBaseNormal& RandomBaseNormal::operator=(const RandomBaseNormal& value)
+		{
+			if(this == &value) { return(*this); }
+
+			RandomBase::operator=(value);
+			this->init(value.GetConstrainsRange(), value.GetRandomNumberMode());
+
+			return(*this);
+		}
+
+		void RandomBaseNormal::init()
+		{
+			RandomBase::init();
+			this->SetRandomNumberMode(RandomNumberMode::Normal);
+		}
+
+		void RandomBaseNormal::init(const mRECT &areaSize, RandomNumberMode randomNumberMode)
+		{
+			RandomBase::init(areaSize, randomNumberMode);
+		}
+
+
     }; // END OF NAMESPACE Random
 }; // END OF NAMESPACE Aurora

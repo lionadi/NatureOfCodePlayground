@@ -6,7 +6,7 @@ namespace Aurora {
 
 		PObjectBaseBasic::PObjectBaseBasic() : PRandomBase()
 		{
-			this->RandomNumberModeValue = RandomNumberMode::Normal;
+			this->init();
 		}
 
 		PObjectBaseBasic::~PObjectBaseBasic()
@@ -19,9 +19,24 @@ namespace Aurora {
 
 		}
 
-		void PObjectBaseBasic::SetRandomNumberMode(RandomNumberMode randomNumberMode)
+		PObjectBaseBasic& PObjectBaseBasic::operator=(const PObjectBaseBasic& value)
 		{
-			this->RandomNumberModeValue = randomNumberMode;
+			if(this == &value) { return(*this); }
+
+			// Do Other initializations
+			this->SetRandomNumberMode(value.GetRandomNumberMode());
+
+			return(*this);
+		}
+
+		void PObjectBaseBasic::init()
+		{
+			this->SetRandomNumberMode(RandomNumberMode::Normal);
+		}
+
+		void PObjectBaseBasic::init(RandomNumberMode randomNumberMode)
+		{
+			this->SetRandomNumberMode(randomNumberMode);
 		}
 
 	}; // END OF NAMESPACE Random

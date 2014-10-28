@@ -31,36 +31,52 @@ namespace Aurora {
 
 			void NormalCalculations();
 
+			virtual void init();
+			virtual void init(const Walker &value);
+			virtual void init(const mRECT &areaSize, const VECTOR2D &walkerStartPosition);
+
 		public:
 			Walker();
 			Walker(const mRECT &areaSize);
+			Walker(const Walker &value);
 			Walker(const mRECT &areaSize, const VECTOR2D &walkerStartPosition);
 			~Walker();
 
-			void SetTarget(VECTOR2D target);
-			VECTOR2D GetCurentPosition();
+			void SetTarget(const VECTOR2D &target);
+			const VECTOR2D GetCurentPosition() const;
 			void SetPosition(const VECTOR2D &position);
-			virtual void SetProbalitiyFactor(Float probalitityFactor);
+			void SetProbalitiyFactor(Float probalitityFactor);
+
+			Walker& operator=(const Walker& value);
 
 		};
 
 		class PWalker : virtual public PObjectBaseBasic
 		{
-		
+		private:
+			virtual void init();
+			virtual void init(const mRECT &areaSize);
+			virtual void init(const PWalker &value);
 		public:
 			Walker WalkerObject;
 			PWalker();
+			PWalker(const PWalker &value);
 			PWalker(const mRECT &areaSize);
 			virtual ~PWalker();
-			void Render();
+			virtual void Render();
 
 			
 
 			virtual void SetRandomNumberMode(RandomNumberMode randomNumberMode);
-			virtual void RenderWalkerByPosition(const VECTOR2D &position) = 0;
+			virtual void RenderWalkerByPosition(const VECTOR2D &position);
 			virtual void SetWalkerTarget(const VECTOR2D &target);
-			virtual void StepWalker() = 0;
-			virtual void StepWalkerByTarget(const VECTOR2D &target) = 0;
+			virtual void StepWalker();
+
+			PWalker& operator=(const PWalker& value);
+
+			
+
+			//virtual void StepWalkerByTarget(const VECTOR2D &target) = 0;
 		};
 
 		

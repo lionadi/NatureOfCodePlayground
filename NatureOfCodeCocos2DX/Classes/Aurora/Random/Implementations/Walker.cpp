@@ -14,12 +14,17 @@ namespace Aurora {
 
 		PWalker::PWalker(const mRECT &areaSize) : WalkerObject(areaSize)
 		{
-			
+			this->init(areaSize);
 		}
 
-		PWalker::PWalker() : PObjectBaseBasic()
+		PWalker::PWalker() : PObjectBaseBasic() 
 		{
+			this->init();
+		}
 
+		PWalker::PWalker(const PWalker &value) : PObjectBaseBasic(value), WalkerObject(value.WalkerObject)
+		{
+			
 		}
 
 		PWalker::~PWalker()
@@ -47,10 +52,38 @@ namespace Aurora {
 
 		}
 
-		void PWalker::StepWalkerByTarget(const VECTOR2D &target)
+		PWalker& PWalker::operator=(const PWalker& value)
 		{
+			if(this == &value) { return(*this); }
 
+			// Do Other initializations
+			PObjectBaseBasic::operator=(value);
+			this->init(value);
+
+			return(*this);
 		}
+
+		void PWalker::init()
+		{
+			PObjectBaseBasic::init();
+		}
+
+		void PWalker::init(const mRECT &areaSize)
+		{
+			PObjectBaseBasic::init(this->GetRandomNumberMode());
+			this->WalkerObject.SetConstrainsRange(areaSize);
+		}
+
+		void PWalker::init(const PWalker &value)
+		{
+			PObjectBaseBasic::init(value.GetRandomNumberMode());
+			this->WalkerObject = value.WalkerObject;
+		}
+
+		//void PWalker::StepWalkerByTarget(const VECTOR2D &target)
+		//{
+
+		//}
 
 
 
@@ -146,27 +179,24 @@ namespace Aurora {
 
 		Walker::Walker(const mRECT &areaSize) : RandomBaseComplete()
 		{
-			Walker::Walker();
-			this->target.ZeroVector();
-			this->perlinNoiseTime_PositionX = VECTOR3D(0,0,0);
-			this->perlinNoiseTime_PositionY = VECTOR3D(10000,10000,10000);
-			this->probalitityFactor = 0.9f;
-			this->SetConstrainsRange(areaSize);
-			this->position.X = this->areaSize.Width / 2;
-			this->position.Y = this->areaSize.Height / 2;
-			this->SetRandomNumberMode(RandomNumberMode::Uniform);
+			this->init(areaSize, VECTOR2D::GetZeroVector());
 		}
 
-		Walker::Walker(const mRECT &areaSize, const VECTOR2D &walkerStartPosition) : RandomBaseComplete()
+		Walker::Walker(const mRECT &areaSize, const VECTOR2D &walkerStartPosition) : RandomBaseComplete(), position(walkerStartPosition)
 		{
-			Walker::Walker(areaSize);
-			this->position = walkerStartPosition;
+			this->init(areaSize, walkerStartPosition);
 		}
 
 		Walker::Walker() : PRandomBaseComplete()
 		{
-
+			this->init();
 		}
+
+		Walker::Walker(const Walker &value) : RandomBaseComplete(value)
+		{
+			this->init(value);
+		}
+
 
 		Walker::~Walker()
 		{
@@ -201,12 +231,12 @@ namespace Aurora {
 			}
 		}
 
-		void Walker::SetTarget(VECTOR2D target)
+		void Walker::SetTarget(const VECTOR2D &target)
 		{
 			this->target = target;
 		}
 
-		Aurora::Math::VECTOR2D Walker::GetCurentPosition()
+		const VECTOR2D  Walker::GetCurentPosition() const
 		{
 			return(this->position);
 		}
@@ -219,6 +249,55 @@ namespace Aurora {
 		void Walker::SetPosition(const VECTOR2D &position)
 		{
 			this->position = position;
+		}
+
+		Walker& Walker::operator=(const Walker& value)
+		{
+			if(this == &value) { return(*this); }
+			RandomBaseComplete::operator=(value);
+
+			this->init(value);
+			
+			return(*this);
+		}
+
+		void Walker::init()
+		{
+			this->areaSize = mRECT(0,0);
+			this->target.ZeroVector();
+			this->perlinNoiseTime_PositionX = VECTOR3D(0,0,0);
+			this->perlinNoiseTime_PositionY = VECTOR3D(10000,10000,10000);
+			this->probalitityFactor = 0.9f;
+			this->position.ZeroVector();
+			this->SetRandomNumberMode(RandomNumberMode::Uniform);
+		}
+
+		void Walker::init(const Walker &value)
+		{
+			this->SetConstrainsRange(value.areaSize);
+			//this->PerlinNoiseCalculator = value.PerlinNoiseCalculator;
+			this->position = value.position;
+			this->probalitityFactor = value.probalitityFactor;
+			this->SetRandomNumberMode(value.GetRandomNumberMode());
+			this->perlinNoiseTime_PositionX = value.perlinNoiseTime_PositionX;
+			this->perlinNoiseTime_PositionY = value.perlinNoiseTime_PositionY;
+			this->target = value.target;
+		}
+
+		void Walker::init(const mRECT &areaSize, const VECTOR2D &walkerStartPosition)
+		{
+			this->target.ZeroVector();
+			this->perlinNoiseTime_PositionX = VECTOR3D(0,0,0);
+			this->perlinNoiseTime_PositionY = VECTOR3D(10000,10000,10000);
+			this->probalitityFactor = 0.9f;
+
+			if(!areaSize.IsZero())
+				this->SetConstrainsRange(areaSize);
+
+			if(!walkerStartPosition.IsZero())
+				this->position = walkerStartPosition;
+
+			this->SetRandomNumberMode(RandomNumberMode::Uniform);
 		}
 
 	}; // END OF NAMESPACE Random

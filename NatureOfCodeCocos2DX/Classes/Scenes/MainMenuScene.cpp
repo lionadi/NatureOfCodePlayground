@@ -42,6 +42,8 @@ bool MainMenu::init()
 	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 
 	isTouching = false;
+
+	this->walker = new DotWalker(visibleSize);
     
     return true;
 }
@@ -74,4 +76,10 @@ void MainMenu::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event * event)
 void MainMenu::onTouchCancelled(cocos2d::Touch *touch, cocos2d::Event * event)
 {
 
+}
+
+MainMenu::~MainMenu()
+{
+	Layer::~Layer();
+	delete this->walker;
 }
