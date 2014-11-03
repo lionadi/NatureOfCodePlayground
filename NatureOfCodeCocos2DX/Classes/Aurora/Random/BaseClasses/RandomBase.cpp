@@ -14,121 +14,116 @@ namespace Aurora {
 		//-------------------------------------------------------------------------
 		// START = Random Base Interfaces
 		//-------------------------------------------------------------------------
-		PRandomBase::PRandomBase()
+		IRandomBase::IRandomBase()
 		{
 
 		}
 		
-		PRandomBase::~PRandomBase()
+		IRandomBase::~IRandomBase()
 		{
 
 		}
 
-		void PRandomBase::SetRandomNumberMode(RandomNumberMode randomNumberMode)
+		void IRandomBase::SetRandomNumberMode(RandomNumberMode randomNumberMode)
 		{
 			this->RandomNumberModeValue = randomNumberMode;
 		}
 
-		RandomNumberMode PRandomBase::GetRandomNumberMode() const
+		RandomNumberMode IRandomBase::GetRandomNumberMode() const
 		{
 			return(this->RandomNumberModeValue);
 		}
 
-		PRandomBaseBasic::PRandomBaseBasic() : PRandomBase()
+		IRandomBaseBasic::IRandomBaseBasic() : IRandomBase()
 		{
 
 		}
 
-		PRandomBaseBasic::~PRandomBaseBasic()
+		IRandomBaseBasic::~IRandomBaseBasic()
 		{
-			PRandomBase::~PRandomBase();
+			IRandomBase::~IRandomBase();
 		}
 
-		void PRandomBaseBasic::SetConstrainsRange(const mRECT &areaSize)
+		void IRandomBaseBasic::SetConstrainsRange(const mRECT &areaSize)
 		{
 			this->areaSize = areaSize;
 		}
 
-		const mRECT PRandomBaseBasic::GetConstrainsRange() const
+		const mRECT IRandomBaseBasic::GetConstrainsRange() const
 		{
 			return(this->areaSize);
 		}
 
-		PRandomBaseNormal::PRandomBaseNormal() : PRandomBaseBasic()
+		IRandomBaseNormal::IRandomBaseNormal() //: IRandomBaseBasic()
 		{
 
 		}
 
-		PRandomBaseNormal::~PRandomBaseNormal()
+		IRandomBaseNormal::~IRandomBaseNormal()
 		{
-			PRandomBaseBasic::~PRandomBaseBasic();
+			//IRandomBaseBasic::~IRandomBaseBasic();
 		}
 
-		PRandomBaseUniform::PRandomBaseUniform() : PRandomBaseBasic()
-		{
-
-		}
-
-		PRandomBaseUniform::~PRandomBaseUniform()
-		{
-			PRandomBaseBasic::~PRandomBaseBasic();
-		}
-
-		PRandomBaseGaussian::PRandomBaseGaussian() : PRandomBaseBasic()
+		IRandomBaseUniform::IRandomBaseUniform() //: IRandomBaseBasic()
 		{
 
 		}
 
-		PRandomBaseGaussian::~PRandomBaseGaussian()
+		IRandomBaseUniform::~IRandomBaseUniform()
 		{
-			PRandomBaseBasic::~PRandomBaseBasic();
+			//IRandomBaseBasic::~IRandomBaseBasic();
 		}
 
-		PRandomBasePerlinNoise::PRandomBasePerlinNoise() : PRandomBaseBasic()
+		IRandomBaseGaussian::IRandomBaseGaussian() //: IRandomBaseBasic()
 		{
 
 		}
 
-		PRandomBasePerlinNoise::~PRandomBasePerlinNoise()
+		IRandomBaseGaussian::~IRandomBaseGaussian()
 		{
-			PRandomBaseBasic::~PRandomBaseBasic();
+			//IRandomBaseBasic::~IRandomBaseBasic();
 		}
 
-		PRandomBaseComplete::PRandomBaseComplete() : PRandomBaseUniform(), PRandomBaseGaussian(), PRandomBasePerlinNoise()
+		IRandomBasePerlinNoise::IRandomBasePerlinNoise() //: IRandomBaseBasic()
+		{
+
+		}
+
+		IRandomBasePerlinNoise::~IRandomBasePerlinNoise()
+		{
+			//IRandomBaseBasic::~IRandomBaseBasic();
+		}
+
+		IRandomBaseComplete::IRandomBaseComplete() : IRandomBaseUniform(), IRandomBaseGaussian(), IRandomBasePerlinNoise()
 		{
 			
 		}
 
-		PRandomBaseComplete::~PRandomBaseComplete()
+		IRandomBaseComplete::~IRandomBaseComplete()
 		{
-			PRandomBaseUniform::~PRandomBaseUniform();
-			PRandomBaseGaussian::~PRandomBaseGaussian();
-			PRandomBasePerlinNoise::~PRandomBasePerlinNoise();
+			IRandomBaseUniform::~IRandomBaseUniform();
+			IRandomBaseGaussian::~IRandomBaseGaussian();
+			IRandomBasePerlinNoise::~IRandomBasePerlinNoise();
 		}
 
 		//-------------------------------------------------------------------------
 		// END = Random Base Interfaces
 		//-----------------------------------------------------------------------
 
-        RandomBase::RandomBase() : PRandomBaseBasic()
+        RandomBase::RandomBase() : IRandomBaseBasic()
         {
             this->init();
         }
 
-		RandomBase::RandomBase(const RandomBase &value) : PRandomBaseBasic()
+		RandomBase::RandomBase(const RandomBase &value) : IRandomBaseBasic()
 		{
 			this->init(value.GetConstrainsRange(), value.GetRandomNumberMode());
 		}
 
 		RandomBase::~RandomBase()
 		{
-			PRandomBaseBasic::~PRandomBaseBasic();
+			IRandomBaseBasic::~IRandomBaseBasic();
 		}
-        
-        void RandomBase::SetConstrainsRange(const mRECT &areaSize)
-        {
-			PRandomBaseBasic::SetConstrainsRange(areaSize);
-        }
         
         void RandomBase::Constrain()
         {
@@ -176,7 +171,7 @@ namespace Aurora {
 		RandomBaseComplete::~RandomBaseComplete()
 		{
 			RandomBase::~RandomBase();
-			PRandomBaseComplete::~PRandomBaseComplete();
+			IRandomBaseComplete::~IRandomBaseComplete();
 		}
 
 		void RandomBaseComplete::DoCalculations()
@@ -276,7 +271,7 @@ namespace Aurora {
 		RandomBasePerlinNoise::~RandomBasePerlinNoise()
 		{
 			RandomBase::~RandomBase();
-			PRandomBasePerlinNoise::~PRandomBasePerlinNoise();
+			IRandomBasePerlinNoise::~IRandomBasePerlinNoise();
 		}
 
 		void RandomBasePerlinNoise::DoCalculations()
@@ -324,7 +319,7 @@ namespace Aurora {
 		RandomBaseGaussian::~RandomBaseGaussian()
 		{
 			RandomBase::~RandomBase();
-			PRandomBaseGaussian::~PRandomBaseGaussian();
+			IRandomBaseGaussian::~IRandomBaseGaussian();
 		}
 
 		void RandomBaseGaussian::DoCalculations()
@@ -372,7 +367,7 @@ namespace Aurora {
 		RandomBaseUniform::~RandomBaseUniform()
 		{
 			RandomBase::~RandomBase();
-			PRandomBaseUniform::~PRandomBaseUniform();
+			IRandomBaseUniform::~IRandomBaseUniform();
 		}
 
 		void RandomBaseUniform::DoCalculations()
@@ -420,7 +415,7 @@ namespace Aurora {
 		RandomBaseNormal::~RandomBaseNormal()
 		{
 			RandomBase::~RandomBase();
-			PRandomBaseNormal::~PRandomBaseNormal();
+			IRandomBaseNormal::~IRandomBaseNormal();
 		}
 
 		void RandomBaseNormal::DoCalculations()

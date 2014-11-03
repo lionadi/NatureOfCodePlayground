@@ -20,6 +20,7 @@ namespace Aurora
 	*/
 	namespace Math
 	{
+		//TODO: Non-member Operators for implicit conversions
 		/*!
 		 	\brief A class that can hold vector data and perform vector sepecific operations. For a more specific documentation see VECTOR4D text. Both classes work in the same way(same as VECTOR3D). The only difference are the scalar values in the vector classes.
 		 	\version 1.0

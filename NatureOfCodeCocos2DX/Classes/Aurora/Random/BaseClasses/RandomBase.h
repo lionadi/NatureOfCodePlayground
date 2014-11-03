@@ -10,7 +10,7 @@
 #define NatureOfCodeCocos2DX_RandomBase_h
 
 
-
+// TODO: REMOVE THE Virtual inheritance
 #include "..\CommonTools.h"
 #include "..\..\Math\MathOperations.h"
 
@@ -26,7 +26,7 @@ namespace Aurora {
             Normal, Uniform, Gaussian, Perlin
         };
         
-        class PRandomBase
+        class IRandomBase
         {
             private:
 				RandomNumberMode RandomNumberModeValue;
@@ -34,52 +34,52 @@ namespace Aurora {
 				virtual void init() = 0;
             public:
 				
-				PRandomBase();
-				virtual ~PRandomBase();
+				IRandomBase();
+				virtual ~IRandomBase();
                 void SetRandomNumberMode( RandomNumberMode randomNumberMode );
 				RandomNumberMode GetRandomNumberMode() const;
 				
         };
         
         
-        class PRandomBaseBasic : virtual public PRandomBase
+        class IRandomBaseBasic : public IRandomBase
         {
 			protected:
                 mRECT areaSize;
             public:
-				PRandomBaseBasic();
-				virtual ~PRandomBaseBasic();
-                virtual void SetConstrainsRange(const mRECT &areaSize);
+				IRandomBaseBasic();
+				virtual ~IRandomBaseBasic();
+                void SetConstrainsRange(const mRECT &areaSize);
 				const virtual mRECT GetConstrainsRange() const;
                 virtual void DoCalculations() = 0;
                 virtual void Constrain() = 0;
         };
         
-		class PRandomBaseNormal : virtual public PRandomBaseBasic
+		class IRandomBaseNormal //: virtual public IRandomBaseBasic
         {
             public:
-				PRandomBaseNormal();
-				virtual ~PRandomBaseNormal();
+				IRandomBaseNormal();
+				virtual ~IRandomBaseNormal();
                 virtual void NormalCalculations() = 0;
         };
         
-        class PRandomBaseUniform : virtual public PRandomBaseBasic
+        class IRandomBaseUniform //: virtual public IRandomBaseBasic
         {
             public:
-				PRandomBaseUniform();
-				virtual ~PRandomBaseUniform();
+				IRandomBaseUniform();
+				virtual ~IRandomBaseUniform();
                 virtual void UniformCalculations() = 0;
         };
         
-        class PRandomBaseGaussian : virtual public PRandomBaseBasic
+        class IRandomBaseGaussian //: virtual public IRandomBaseBasic
         {
             public:
-				PRandomBaseGaussian();
-				virtual ~PRandomBaseGaussian();
+				IRandomBaseGaussian();
+				virtual ~IRandomBaseGaussian();
                 virtual void GaussianCalculations() = 0;
         };
         
-        class PRandomBasePerlinNoise : virtual public PRandomBaseBasic
+        class IRandomBasePerlinNoise //: virtual public IRandomBaseBasic
         {
             //TODO: IMPLEMENT AND USE PERLIN NOISE
             //var PerlinNoiseCalculator : PerlinNoise { get set };
@@ -87,23 +87,23 @@ namespace Aurora {
 			module::Perlin PerlinNoiseCalculator;
             public:
 				
-				PRandomBasePerlinNoise();
-				virtual ~PRandomBasePerlinNoise();
+				IRandomBasePerlinNoise();
+				virtual ~IRandomBasePerlinNoise();
                 virtual void PerlinNoiseCalculations() = 0;
         };
         
-        class PRandomBaseComplete : virtual public PRandomBaseUniform, virtual public PRandomBaseGaussian, virtual public PRandomBasePerlinNoise, virtual public PRandomBaseNormal
+        class IRandomBaseComplete : virtual public IRandomBaseUniform, virtual public IRandomBaseGaussian, virtual public IRandomBasePerlinNoise, virtual public IRandomBaseNormal
         {
 		public:
-			PRandomBaseComplete();
-            virtual ~PRandomBaseComplete();
+			IRandomBaseComplete();
+            virtual ~IRandomBaseComplete();
         };
 
 		//-------------------------------------------------------------------------
 		// END = Random Base Interfaces
 		//-----------------------------------------------------------------------
         
-        class RandomBase : virtual public PRandomBaseBasic
+        class RandomBase : public IRandomBaseBasic
         {
 		private:
 			protected:
@@ -113,8 +113,6 @@ namespace Aurora {
             RandomBase();
 			RandomBase(const RandomBase &value);
 			virtual ~RandomBase();
-
-            void SetConstrainsRange(const mRECT &areaSize);
             
             void Constrain();
             
@@ -123,7 +121,7 @@ namespace Aurora {
 			RandomBase& operator=(const RandomBase& value);
 		};
 
-		class RandomBaseComplete : virtual public RandomBase, virtual public PRandomBaseComplete
+		class RandomBaseComplete : public IRandomBaseComplete, public RandomBase
 		{
 			private:
 				
@@ -149,7 +147,7 @@ namespace Aurora {
 			
 		};
 
-		class RandomBasePerlinNoise : virtual public RandomBase, virtual public PRandomBasePerlinNoise
+		class RandomBasePerlinNoise : public IRandomBasePerlinNoise, public RandomBase
 		{
 
 		private:
@@ -170,7 +168,7 @@ namespace Aurora {
 			RandomBasePerlinNoise& operator=(const RandomBasePerlinNoise& value);
 		};
 
-		class RandomBaseGaussian : virtual public RandomBase, virtual public PRandomBaseGaussian
+		class RandomBaseGaussian : public IRandomBaseGaussian, public RandomBase
 		{
 		private:
 
@@ -187,7 +185,7 @@ namespace Aurora {
 			RandomBaseGaussian& operator=(const RandomBaseGaussian& value);
 		};
 
-		class RandomBaseUniform : virtual public RandomBase, virtual public PRandomBaseUniform
+		class RandomBaseUniform : public IRandomBaseUniform, public RandomBase
 		{
 		private:
 
@@ -204,7 +202,7 @@ namespace Aurora {
 			RandomBaseUniform& operator=(const RandomBaseUniform& value);
 		};
 
-		class RandomBaseNormal : virtual public RandomBase, virtual public PRandomBaseNormal
+		class RandomBaseNormal : public IRandomBaseNormal, public RandomBase
 		{
 		private:
 		protected:

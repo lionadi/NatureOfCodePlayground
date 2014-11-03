@@ -8,7 +8,7 @@ namespace Aurora
 
 		
 
-		DotWalker::DotWalker() : PWalker()
+		DotWalker::DotWalker() : IWalker()
 		{
 			this->viewSize = Director::getInstance()->getVisibleSize();
 			this->WalkerObject.SetConstrainsRange(ConvertSizeTo_mRect(this->viewSize));
@@ -34,7 +34,7 @@ namespace Aurora
 
 		DotWalker::~DotWalker()
 		{
-			PWalker::~PWalker();
+			IWalker::~IWalker();
 		}
 
 		void DotWalker::RenderWalkerByPosition(const VECTOR2D &position)
@@ -44,7 +44,7 @@ namespace Aurora
 
 		void DotWalker::SetWalkerTarget(const Vec2 &target)
 		{
-			PWalker::SetWalkerTarget(ConvertVec2Tp_VECTOR2D((target)));
+			IWalker::SetWalkerTarget(ConvertVec2Tp_VECTOR2D((target)));
 			this->TargetForWalker = target;
 		}
 
@@ -63,7 +63,7 @@ namespace Aurora
 
 		void DotWalker::Render()
 		{
-			PWalker::Render();
+			IWalker::Render();
 			DelayTime *delayAction = DelayTime::create(0.0001f);
 			//std::function<void(DotWalker&)> makeWalkerStep = &DotWalker::StepWalker;
 			// perform the selector call

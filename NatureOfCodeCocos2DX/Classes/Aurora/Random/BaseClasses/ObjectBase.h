@@ -9,16 +9,16 @@
 namespace Aurora {
     namespace Random {
 
-		class PObjectBaseBasic : virtual public PRandomBase
+		class IObjectBaseBasic : public IRandomBase
         {
             protected:
                 
             public:
-				PObjectBaseBasic();
-				virtual ~PObjectBaseBasic();
+				IObjectBaseBasic();
+				virtual ~IObjectBaseBasic();
                 virtual void Render() = 0;
 
-				PObjectBaseBasic& operator=(const PObjectBaseBasic& value);
+				IObjectBaseBasic& operator=(const IObjectBaseBasic& value);
 
 				virtual void init();
 				virtual void init(RandomNumberMode randomNumberMode);

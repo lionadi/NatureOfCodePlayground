@@ -4,22 +4,22 @@ namespace Aurora {
     namespace Random {
 
 
-		PObjectBaseBasic::PObjectBaseBasic() : PRandomBase()
+		IObjectBaseBasic::IObjectBaseBasic() : IRandomBase()
 		{
 			this->init();
 		}
 
-		PObjectBaseBasic::~PObjectBaseBasic()
+		IObjectBaseBasic::~IObjectBaseBasic()
 		{
-			PRandomBase::~PRandomBase();
+			IRandomBase::~IRandomBase();
 		}
 
-		void PObjectBaseBasic::Render()
+		void IObjectBaseBasic::Render()
 		{
 
 		}
 
-		PObjectBaseBasic& PObjectBaseBasic::operator=(const PObjectBaseBasic& value)
+		IObjectBaseBasic& IObjectBaseBasic::operator=(const IObjectBaseBasic& value)
 		{
 			if(this == &value) { return(*this); }
 
@@ -29,12 +29,12 @@ namespace Aurora {
 			return(*this);
 		}
 
-		void PObjectBaseBasic::init()
+		void IObjectBaseBasic::init()
 		{
 			this->SetRandomNumberMode(RandomNumberMode::Normal);
 		}
 
-		void PObjectBaseBasic::init(RandomNumberMode randomNumberMode)
+		void IObjectBaseBasic::init(RandomNumberMode randomNumberMode)
 		{
 			this->SetRandomNumberMode(randomNumberMode);
 		}

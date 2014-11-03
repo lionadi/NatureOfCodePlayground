@@ -10,7 +10,7 @@ namespace Aurora
 {
 	namespace Cocos2DX
 	{
-		class DotWalker : virtual public DrawNode, PWalker
+		class DotWalker : public DrawNode, private IWalker
 		{
 		private:
 			Size viewSize;

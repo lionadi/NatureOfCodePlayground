@@ -6,7 +6,7 @@
 namespace Aurora {
 	namespace Random {
 
-		class Mover : virtual public RandomBaseComplete
+		class Mover : public RandomBaseComplete
 		{
 
 		private:
@@ -56,21 +56,21 @@ namespace Aurora {
 
 		};
 
-		class PMover : virtual public PObjectBaseBasic
+		class IMover : public IObjectBaseBasic
 		{
 		private:
 			virtual void init();
 			virtual void init(const mRECT &areaSize);
-			virtual void init(const PMover &value);
+			virtual void init(const IMover &value);
 		public:
 			Mover MoverObject;
-			PMover();
-			PMover(const mRECT &areaSize);
-			PMover(const PMover &value);
-			virtual ~PMover();
+			IMover();
+			IMover(const mRECT &areaSize);
+			IMover(const IMover &value);
+			virtual ~IMover();
 			virtual void Render();
 
-			PMover& operator=(const PMover& value);
+			IMover& operator=(const IMover& value);
 
 			
 

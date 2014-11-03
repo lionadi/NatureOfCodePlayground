@@ -9,7 +9,7 @@ using namespace Aurora::Math;
 namespace Aurora {
 	namespace Random {
 
-		class Walker : virtual public RandomBaseComplete
+		class Walker : public RandomBaseComplete
 		{
 
 		private:
@@ -51,18 +51,18 @@ namespace Aurora {
 
 		};
 
-		class PWalker : virtual public PObjectBaseBasic
+		class IWalker : public IObjectBaseBasic
 		{
 		private:
 			virtual void init();
 			virtual void init(const mRECT &areaSize);
-			virtual void init(const PWalker &value);
+			virtual void init(const IWalker &value);
 		public:
 			Walker WalkerObject;
-			PWalker();
-			PWalker(const PWalker &value);
-			PWalker(const mRECT &areaSize);
-			virtual ~PWalker();
+			IWalker();
+			IWalker(const IWalker &value);
+			IWalker(const mRECT &areaSize);
+			virtual ~IWalker();
 			virtual void Render();
 
 			
@@ -72,7 +72,7 @@ namespace Aurora {
 			virtual void SetWalkerTarget(const VECTOR2D &target);
 			virtual void StepWalker();
 
-			PWalker& operator=(const PWalker& value);
+			IWalker& operator=(const IWalker& value);
 
 			
 

@@ -6,77 +6,77 @@ namespace Aurora {
 
 
 
-		void PWalker::SetRandomNumberMode(RandomNumberMode randomNumberMode)
+		void IWalker::SetRandomNumberMode(RandomNumberMode randomNumberMode)
 		{
-			PObjectBaseBasic::SetRandomNumberMode(randomNumberMode);
+			IObjectBaseBasic::SetRandomNumberMode(randomNumberMode);
 			this->WalkerObject.SetRandomNumberMode(randomNumberMode);
 		}
 
-		PWalker::PWalker(const mRECT &areaSize) : WalkerObject(areaSize)
+		IWalker::IWalker(const mRECT &areaSize) : WalkerObject(areaSize)
 		{
 			this->init(areaSize);
 		}
 
-		PWalker::PWalker() : PObjectBaseBasic() 
+		IWalker::IWalker() : IObjectBaseBasic() 
 		{
 			this->init();
 		}
 
-		PWalker::PWalker(const PWalker &value) : PObjectBaseBasic(value), WalkerObject(value.WalkerObject)
+		IWalker::IWalker(const IWalker &value) : IObjectBaseBasic(value), WalkerObject(value.WalkerObject)
 		{
 			
 		}
 
-		PWalker::~PWalker()
+		IWalker::~IWalker()
 		{
-			PObjectBaseBasic::~PObjectBaseBasic();
+			IObjectBaseBasic::~IObjectBaseBasic();
 		}
 
-		void PWalker::Render()
-		{
-
-		}
-
-		void PWalker::RenderWalkerByPosition(const VECTOR2D &position)
+		void IWalker::Render()
 		{
 
 		}
 
-		void PWalker::SetWalkerTarget(const VECTOR2D &target)
+		void IWalker::RenderWalkerByPosition(const VECTOR2D &position)
+		{
+
+		}
+
+		void IWalker::SetWalkerTarget(const VECTOR2D &target)
 		{
 			this->WalkerObject.SetTarget(target);
 		}
 
-		void PWalker::StepWalker()
+		void IWalker::StepWalker()
 		{
 
 		}
 
-		PWalker& PWalker::operator=(const PWalker& value)
+		IWalker& IWalker::operator=(const IWalker& value)
 		{
 			if(this == &value) { return(*this); }
 
 			// Do Other initializations
-			PObjectBaseBasic::operator=(value);
+			IObjectBaseBasic::operator=(value);
 			this->init(value);
 
 			return(*this);
 		}
 
-		void PWalker::init()
+		void IWalker::init()
 		{
-			PObjectBaseBasic::init();
+			IObjectBaseBasic::init();
 		}
 
-		void PWalker::init(const mRECT &areaSize)
+		void IWalker::init(const mRECT &areaSize)
 		{
-			PObjectBaseBasic::init(this->GetRandomNumberMode());
+			IObjectBaseBasic::init(this->GetRandomNumberMode());
 			this->WalkerObject.SetConstrainsRange(areaSize);
 		}
 
-		void PWalker::init(const PWalker &value)
+		void IWalker::init(const IWalker &value)
 		{
-			PObjectBaseBasic::init(value.GetRandomNumberMode());
+			IObjectBaseBasic::init(value.GetRandomNumberMode());
 			this->WalkerObject = value.WalkerObject;
 		}
 
@@ -94,18 +94,18 @@ namespace Aurora {
 			{
 				this->position.X = 0;
 			}
-			if(this->position.X > this->areaSize.Width)
+			if(this->position.X > this->GetConstrainsRange().Width)
 			{
-				this->position.X = this->areaSize.Width;
+				this->position.X = this->GetConstrainsRange().Width;
 			}
 			if(this->position.Y < 0)
 			{
 				this->position.Y = 0;
 			}
 
-			if(this->position.Y > this->areaSize.Height)
+			if(this->position.Y > this->GetConstrainsRange().Height)
 			{
-				this->position.Y = this->areaSize.Height;
+				this->position.Y = this->GetConstrainsRange().Height;
 			}
 		}
 
@@ -158,8 +158,8 @@ namespace Aurora {
 				tempY *= -1;
 			}
 			
-			this->position.X = PerlinNoiseTool::Map(tempX, 0, 1, 0, this->areaSize.Width);
-			this->position.Y = PerlinNoiseTool::Map(tempY, 0, 1, 0, this->areaSize.Height);
+			this->position.X = PerlinNoiseTool::Map(tempX, 0, 1, 0, this->GetConstrainsRange().Width);
+			this->position.Y = PerlinNoiseTool::Map(tempY, 0, 1, 0, this->GetConstrainsRange().Height);
 
 			this->perlinNoiseTime_PositionX += 0.1;
 			this->perlinNoiseTime_PositionY += 0.1;
@@ -187,7 +187,7 @@ namespace Aurora {
 			this->init(areaSize, walkerStartPosition);
 		}
 
-		Walker::Walker() : PRandomBaseComplete()
+		Walker::Walker() : RandomBaseComplete()
 		{
 			this->init();
 		}
@@ -263,7 +263,7 @@ namespace Aurora {
 
 		void Walker::init()
 		{
-			this->areaSize = mRECT(0,0);
+			this->SetConstrainsRange(mRECT(0,0));
 			this->target.ZeroVector();
 			this->perlinNoiseTime_PositionX = VECTOR3D(0,0,0);
 			this->perlinNoiseTime_PositionY = VECTOR3D(10000,10000,10000);
@@ -274,7 +274,7 @@ namespace Aurora {
 
 		void Walker::init(const Walker &value)
 		{
-			this->SetConstrainsRange(value.areaSize);
+			this->SetConstrainsRange(value.GetConstrainsRange());
 			//this->PerlinNoiseCalculator = value.PerlinNoiseCalculator;
 			this->position = value.position;
 			this->probalitityFactor = value.probalitityFactor;

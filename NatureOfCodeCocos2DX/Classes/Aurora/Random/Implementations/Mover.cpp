@@ -17,16 +17,16 @@ namespace Aurora {
 
 		void Mover::Constrain()
 		{
-			if (this->position.X > this->areaSize.Width) {
+			if (this->position.X > this->GetConstrainsRange().Width) {
 				this->position.X = 0;
 			} else if (this->position.X < 0) {
-				this->position.X = this->areaSize.Width;
+				this->position.X = this->GetConstrainsRange().Width;
 			}
 
-			if (this->position.Y > this->areaSize.Height) {
+			if (this->position.Y > this->GetConstrainsRange().Height) {
 				this->position.Y = 0;
 			} else if (this->position.Y < 0) {
-				this->position.Y = this->areaSize.Height;
+				this->position.Y = this->GetConstrainsRange().Height;
 			}
 		}
 
@@ -77,7 +77,7 @@ namespace Aurora {
 
 		Mover::~Mover()
 		{
-			PRandomBaseComplete::~PRandomBaseComplete();
+			IRandomBaseComplete::~IRandomBaseComplete();
 		}
 
 		void Mover::Accelerate() const
@@ -89,7 +89,6 @@ namespace Aurora {
 
 		void Mover::Decellerate() const
 		{
-			this->velocity = 2 * this->acceleration;
 			this->velocity -= this->acceleration;
 			this->velocity.Limit(this->minimumVelocity, this->maximiunVelocity);
 			this->position -= this->velocity;
@@ -146,57 +145,57 @@ namespace Aurora {
 		}
 
 
-		PMover::PMover(const mRECT &areaSize) : PObjectBaseBasic(), MoverObject(areaSize)
+		IMover::IMover(const mRECT &areaSize) : IObjectBaseBasic(), MoverObject(areaSize)
 		{
 			this->init(areaSize);
 		}
 
-		PMover::PMover(const PMover &value) : PObjectBaseBasic(value), MoverObject(value.MoverObject)
+		IMover::IMover(const IMover &value) : IObjectBaseBasic(value), MoverObject(value.MoverObject)
 		{
 			
 		}
 
-		PMover::PMover() : PObjectBaseBasic()
+		IMover::IMover() : IObjectBaseBasic()
 		{
 			this->init();
 		}
 
 
-		PMover::~PMover()
+		IMover::~IMover()
 		{
-			PObjectBaseBasic::~PObjectBaseBasic();
+			IObjectBaseBasic::~IObjectBaseBasic();
 		}
 
-		void PMover::Render()
+		void IMover::Render()
 		{
 
 		}
 
-		PMover& PMover::operator=(const PMover& value)
+		IMover& IMover::operator=(const IMover& value)
 		{
 			if(this == &value) { return(*this); }
 
-			PObjectBaseBasic::operator=(value);
+			IObjectBaseBasic::operator=(value);
 			// Do Other initializations
 			this->init(value);
 
 			return(*this);
 		}
 
-		void PMover::init()
+		void IMover::init()
 		{
-			PObjectBaseBasic::init();
+			IObjectBaseBasic::init();
 		}
 
-		void PMover::init(const mRECT &areaSize)
+		void IMover::init(const mRECT &areaSize)
 		{
-			PObjectBaseBasic::init(this->GetRandomNumberMode());
+			IObjectBaseBasic::init(this->GetRandomNumberMode());
 			this->MoverObject.SetConstrainsRange(areaSize);
 		}
 
-		void PMover::init(const PMover &value)
+		void IMover::init(const IMover &value)
 		{
-			PObjectBaseBasic::init(value.GetRandomNumberMode());
+			IObjectBaseBasic::init(value.GetRandomNumberMode());
 			this->MoverObject = value.MoverObject;
 			this->SetRandomNumberMode(value.GetRandomNumberMode());
 		}
