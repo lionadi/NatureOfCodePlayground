@@ -6,11 +6,11 @@ namespace Aurora {
 
 
 
-		void IWalker::SetRandomNumberMode(RandomNumberMode randomNumberMode)
+		/*void IWalker::SetRandomNumberMode(RandomNumberMode randomNumberMode)
 		{
 			IObjectBaseBasic::SetRandomNumberMode(randomNumberMode);
 			this->WalkerObject.SetRandomNumberMode(randomNumberMode);
-		}
+		}*/
 
 		IWalker::IWalker(const mRECT &areaSize) : WalkerObject(areaSize)
 		{

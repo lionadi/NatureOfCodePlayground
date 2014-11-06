@@ -21,17 +21,17 @@ namespace Aurora {
 
 			void MoveWalkerTowardsTarget();
 			
-			void Constrain();
+			void Constrain() override;
 
-			void UniformCalculations();
+			void UniformCalculations() override;
 
-			void GaussianCalculations();
+			void GaussianCalculations() override;
 
-			void PerlinNoiseCalculations();
+			void PerlinNoiseCalculations() override;
 
-			void NormalCalculations();
+			void NormalCalculations() override;
 
-			virtual void init();
+			virtual void init() override;
 			virtual void init(const Walker &value);
 			virtual void init(const mRECT &areaSize, const VECTOR2D &walkerStartPosition);
 
@@ -54,7 +54,7 @@ namespace Aurora {
 		class IWalker : public IObjectBaseBasic
 		{
 		private:
-			virtual void init();
+			virtual void init() override;
 			virtual void init(const mRECT &areaSize);
 			virtual void init(const IWalker &value);
 		public:
@@ -63,11 +63,11 @@ namespace Aurora {
 			IWalker(const IWalker &value);
 			IWalker(const mRECT &areaSize);
 			virtual ~IWalker();
-			virtual void Render();
+			virtual void Render() override;
 
 			
 
-			virtual void SetRandomNumberMode(RandomNumberMode randomNumberMode);
+			//virtual void SetRandomNumberMode(RandomNumberMode randomNumberMode);
 			virtual void RenderWalkerByPosition(const VECTOR2D &position);
 			virtual void SetWalkerTarget(const VECTOR2D &target);
 			virtual void StepWalker();

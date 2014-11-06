@@ -1,6 +1,7 @@
 #ifndef MATHOPERATIONS_H
 #define MATHOPERATIONS_H
 
+#include <utility>    // std::swap
 #include "Vector.h"
 #include "Matrix.h"
 #include "MathDataTypes.h"

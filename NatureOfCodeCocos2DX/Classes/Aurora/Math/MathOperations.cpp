@@ -33,7 +33,7 @@ namespace Aurora
 		{
 			// this function computes the distance from the origin to x,y,z
 
-			int temp;  // used for swaping
+			//int temp;  // used for swaping
 			int x,y,z; // used for algorithm
 
 			// make sure values are all positive
@@ -42,11 +42,11 @@ namespace Aurora
 			z = static_cast<Int32>(fabs(fz) * 1024);
 
 			// sort values
-			if (y < x) SWAP(x,y,temp)
+			if (y < x) std::swap(x,y);
 
-				if (z < y) SWAP(y,z,temp)
+				if (z < y) std::swap(y,z);
 
-					if (y < x) SWAP(x,y,temp)
+					if (y < x) std::swap(x,y);
 
 						int dist = (z + 11 * (y >> 5) + (x >> 2) );
 

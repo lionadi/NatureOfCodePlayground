@@ -20,7 +20,7 @@ namespace Aurora {
 
 				IObjectBaseBasic& operator=(const IObjectBaseBasic& value);
 
-				virtual void init();
+				virtual void init() override;
 				virtual void init(RandomNumberMode randomNumberMode);
 
 		};

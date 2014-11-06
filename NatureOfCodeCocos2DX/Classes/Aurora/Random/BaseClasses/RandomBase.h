@@ -21,7 +21,7 @@ namespace Aurora {
 		//-------------------------------------------------------------------------
 		// START = Random Base Interfaces
 		//-----------------------------------------------------------------------
-        enum RandomNumberMode
+        enum class RandomNumberMode
         {
             Normal, Uniform, Gaussian, Perlin
         };
@@ -50,7 +50,7 @@ namespace Aurora {
 				IRandomBaseBasic();
 				virtual ~IRandomBaseBasic();
                 void SetConstrainsRange(const mRECT &areaSize);
-				const virtual mRECT GetConstrainsRange() const;
+				const mRECT GetConstrainsRange() const;
                 virtual void DoCalculations() = 0;
                 virtual void Constrain() = 0;
         };
@@ -114,9 +114,9 @@ namespace Aurora {
 			RandomBase(const RandomBase &value);
 			virtual ~RandomBase();
             
-            void Constrain();
+            void Constrain() override;
             
-            void DoCalculations();
+            void DoCalculations() override;
 
 			RandomBase& operator=(const RandomBase& value);
 		};
@@ -127,7 +127,7 @@ namespace Aurora {
 				
 		protected:
 				module::Perlin PerlinNoiseCalculator;
-				virtual void init();
+				virtual void init() override;
 				virtual void init(const mRECT &areaSize, RandomNumberMode randomNumberMode);
 		public:
 			RandomBaseComplete();
@@ -135,12 +135,12 @@ namespace Aurora {
 			virtual ~RandomBaseComplete();
 			
 
-			void DoCalculations();
-			void Constrain();
-			void NormalCalculations();
-			void UniformCalculations();
-			void GaussianCalculations();
-			void PerlinNoiseCalculations();
+			void DoCalculations() override;
+			void Constrain() override;
+			void NormalCalculations() override;
+			void UniformCalculations() override;
+			void GaussianCalculations() override;
+			void PerlinNoiseCalculations() override;
 
 			RandomBaseComplete& operator=(const RandomBaseComplete& value);
 
@@ -154,7 +154,7 @@ namespace Aurora {
 			
 		protected:
 			module::Perlin PerlinNoiseCalculator;
-			virtual void init();
+			virtual void init() override;
 			virtual void init(const mRECT &areaSize, RandomNumberMode randomNumberMode);
 		public:
 			
@@ -162,8 +162,8 @@ namespace Aurora {
 			RandomBasePerlinNoise();
 			RandomBasePerlinNoise(const RandomBasePerlinNoise &value);
 			virtual ~RandomBasePerlinNoise();
-			void DoCalculations();
-			void PerlinNoiseCalculations();
+			void DoCalculations() override;
+			void PerlinNoiseCalculations() override;
 
 			RandomBasePerlinNoise& operator=(const RandomBasePerlinNoise& value);
 		};
@@ -173,14 +173,14 @@ namespace Aurora {
 		private:
 
 		protected:
-			virtual void init();
+			virtual void init() override;
 			virtual void init(const mRECT &areaSize, RandomNumberMode randomNumberMode);
 		public:
 			RandomBaseGaussian();
 			RandomBaseGaussian(const RandomBaseGaussian &value);
 			virtual ~RandomBaseGaussian();
-			void DoCalculations();
-			void GaussianCalculations();
+			void DoCalculations() override;
+			void GaussianCalculations() override;
 
 			RandomBaseGaussian& operator=(const RandomBaseGaussian& value);
 		};
@@ -190,14 +190,14 @@ namespace Aurora {
 		private:
 
 		protected:
-			virtual void init();
+			virtual void init() override;
 			virtual void init(const mRECT &areaSize, RandomNumberMode randomNumberMode);
 		public:
 			RandomBaseUniform();
 			RandomBaseUniform(const RandomBaseUniform &value);
 			virtual ~RandomBaseUniform();
-			void DoCalculations();
-			void UniformCalculations();
+			void DoCalculations() override;
+			void UniformCalculations() override;
 
 			RandomBaseUniform& operator=(const RandomBaseUniform& value);
 		};
@@ -206,14 +206,14 @@ namespace Aurora {
 		{
 		private:
 		protected:
-			virtual void init();
+			virtual void init() override;
 			virtual void init(const mRECT &areaSize, RandomNumberMode randomNumberMode);
 		public:
 			RandomBaseNormal();
 			RandomBaseNormal(const RandomBaseNormal &value);
 			virtual ~RandomBaseNormal();
-			void DoCalculations();
-			void NormalCalculations();
+			void DoCalculations() override;
+			void NormalCalculations() override;
 
 			RandomBaseNormal& operator=(const RandomBaseNormal& value);
 		};

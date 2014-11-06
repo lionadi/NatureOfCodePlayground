@@ -27,9 +27,9 @@
 #define _RGB24BIT(a,r,g,b) ((b) + ((g) << 8) + ((r) << 16) )
 /*! \brief This builds a 32 bit color value in A.8.8.8 format (8-bit alpha mode) */
 #define _RGB32BIT(a,r,g,b) ((b) + ((g) << 8) + ((r) << 16) + ((a) << 24))
-#define MIN(a, b)  (((a) < (b)) ? (a) : (b)) 
-#define MAX(a, b)  (((a) > (b)) ? (a) : (b)) 
-#define SWAP(a,b,t) {t=a; a=b; b=t;}
+//#define MIN(a, b)  (((a) < (b)) ? (a) : (b)) 
+//#define MAX(a, b)  (((a) > (b)) ? (a) : (b)) 
+//#define SWAP(a,b,t) {t=a; a=b; b=t;}
 
 extern "C" inline unsigned int RGB16BIT555(unsigned int r, unsigned int g, unsigned int b);
 extern "C" inline unsigned int RGB16BIT565(unsigned int r, unsigned int g, unsigned int b);
