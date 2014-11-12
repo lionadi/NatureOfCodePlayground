@@ -35,6 +35,11 @@ namespace Aurora
 			this->Y = value.Y;
 		}
 
+		VECTOR2D::VECTOR2D(VECTOR2D &&value) : X(value.X), Y(value.Y)
+		{
+
+		}
+
 		VECTOR2D::~VECTOR2D()
 		{
 		}
@@ -78,6 +83,13 @@ namespace Aurora
 		VECTOR2D &VECTOR2D::operator=(const VECTOR2D &value)
 		{
 			if(this == &value) { return(*this); }
+			this->X = value.X;
+			this->Y = value.Y;
+			return(*this);
+		}
+
+		VECTOR2D & VECTOR2D::operator=(VECTOR2D && value)
+		{
 			this->X = value.X;
 			this->Y = value.Y;
 			return(*this);

@@ -31,6 +31,11 @@ namespace Aurora
 				mRECT();
 				mRECT(int width, int height);
 				~mRECT();
+				mRECT(const mRECT &value);
+				mRECT & operator=(const mRECT & value);
+				mRECT(mRECT &&value);
+				mRECT & operator=(mRECT && value);
+
 				int Width;
 				int Height;
 

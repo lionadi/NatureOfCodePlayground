@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <utility>
 
 #include "..\Globals\GlobalDatatypes.h"
 #include "..\..\Perlin Noise\noise\src\noise.h"

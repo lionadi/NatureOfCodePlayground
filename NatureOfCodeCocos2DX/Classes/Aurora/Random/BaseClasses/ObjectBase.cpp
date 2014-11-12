@@ -9,6 +9,11 @@ namespace Aurora {
 			this->init();
 		}
 
+		IObjectBaseBasic::IObjectBaseBasic(IObjectBaseBasic &&value) : IRandomBase(std::move(value))
+		{
+
+		}
+
 		IObjectBaseBasic::~IObjectBaseBasic()
 		{
 			IRandomBase::~IRandomBase();
@@ -26,6 +31,12 @@ namespace Aurora {
 			// Do Other initializations
 			this->SetRandomNumberMode(value.GetRandomNumberMode());
 
+			return(*this);
+		}
+
+		IObjectBaseBasic & IObjectBaseBasic::operator=(IObjectBaseBasic && value)
+		{
+			IRandomBase::operator=(std::forward<IRandomBase>(value));
 			return(*this);
 		}
 

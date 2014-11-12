@@ -54,6 +54,8 @@ namespace Aurora
 				*/
 				VECTOR2D(const VECTOR2D &value);
 				~VECTOR2D();
+				VECTOR2D(VECTOR2D &&value);
+				VECTOR2D & operator=(VECTOR2D && value);
 
 				float X;
 				float Y;

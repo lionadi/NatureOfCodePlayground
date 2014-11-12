@@ -14,15 +14,15 @@ namespace Aurora {
 		//-------------------------------------------------------------------------
 		// START = Random Base Interfaces
 		//-------------------------------------------------------------------------
-		IRandomBase::IRandomBase()
-		{
+		//IRandomBase::IRandomBase()
+		//{
 
-		}
-		
-		IRandomBase::~IRandomBase()
-		{
+		//}
+		//
+		//IRandomBase::~IRandomBase()
+		//{
 
-		}
+		//}
 
 		void IRandomBase::SetRandomNumberMode(RandomNumberMode randomNumberMode)
 		{
@@ -35,6 +35,16 @@ namespace Aurora {
 		}
 
 		IRandomBaseBasic::IRandomBaseBasic() : IRandomBase()
+		{
+
+		}
+
+		IRandomBaseBasic::IRandomBaseBasic(const IRandomBaseBasic &value) : areaSize(value.areaSize)
+		{
+
+		}
+
+		IRandomBaseBasic::IRandomBaseBasic(IRandomBaseBasic &&value) : areaSize(std::move(value.areaSize))
 		{
 
 		}
@@ -54,47 +64,64 @@ namespace Aurora {
 			return(this->areaSize);
 		}
 
-		IRandomBaseNormal::IRandomBaseNormal() //: IRandomBaseBasic()
+		IRandomBaseBasic & IRandomBaseBasic::operator=(const IRandomBaseBasic &value)
+		{
+			this->areaSize = value.areaSize;
+			return(*this);
+		}
+
+		IRandomBaseBasic & IRandomBaseBasic::operator=(IRandomBaseBasic && value)
+		{
+			this->areaSize = std::move(value.areaSize);
+			return(*this);
+		}
+
+		void IRandomBaseBasic::init()
 		{
 
 		}
 
-		IRandomBaseNormal::~IRandomBaseNormal()
-		{
-			//IRandomBaseBasic::~IRandomBaseBasic();
-		}
+		//IRandomBaseNormal::IRandomBaseNormal() //: IRandomBaseBasic()
+		//{
 
-		IRandomBaseUniform::IRandomBaseUniform() //: IRandomBaseBasic()
-		{
+		//}
 
-		}
+		//IRandomBaseNormal::~IRandomBaseNormal()
+		//{
+		//	//IRandomBaseBasic::~IRandomBaseBasic();
+		//}
 
-		IRandomBaseUniform::~IRandomBaseUniform()
-		{
-			//IRandomBaseBasic::~IRandomBaseBasic();
-		}
+		//IRandomBaseUniform::IRandomBaseUniform() //: IRandomBaseBasic()
+		//{
 
-		IRandomBaseGaussian::IRandomBaseGaussian() //: IRandomBaseBasic()
-		{
+		//}
 
-		}
+		//IRandomBaseUniform::~IRandomBaseUniform()
+		//{
+		//	//IRandomBaseBasic::~IRandomBaseBasic();
+		//}
 
-		IRandomBaseGaussian::~IRandomBaseGaussian()
-		{
-			//IRandomBaseBasic::~IRandomBaseBasic();
-		}
+		//IRandomBaseGaussian::IRandomBaseGaussian() //: IRandomBaseBasic()
+		//{
 
-		IRandomBasePerlinNoise::IRandomBasePerlinNoise() //: IRandomBaseBasic()
-		{
+		//}
 
-		}
+		//IRandomBaseGaussian::~IRandomBaseGaussian()
+		//{
+		//	//IRandomBaseBasic::~IRandomBaseBasic();
+		//}
 
-		IRandomBasePerlinNoise::~IRandomBasePerlinNoise()
-		{
-			//IRandomBaseBasic::~IRandomBaseBasic();
-		}
+		//IRandomBasePerlinNoise::IRandomBasePerlinNoise() //: IRandomBaseBasic()
+		//{
 
-		IRandomBaseComplete::IRandomBaseComplete() : IRandomBaseUniform(), IRandomBaseGaussian(), IRandomBasePerlinNoise()
+		//}
+
+		//IRandomBasePerlinNoise::~IRandomBasePerlinNoise()
+		//{
+		//	//IRandomBaseBasic::~IRandomBaseBasic();
+		//}
+
+		/*IRandomBaseComplete::IRandomBaseComplete() : IRandomBaseUniform(), IRandomBaseGaussian(), IRandomBasePerlinNoise()
 		{
 			
 		}
@@ -104,7 +131,7 @@ namespace Aurora {
 			IRandomBaseUniform::~IRandomBaseUniform();
 			IRandomBaseGaussian::~IRandomBaseGaussian();
 			IRandomBasePerlinNoise::~IRandomBasePerlinNoise();
-		}
+		}*/
 
 		//-------------------------------------------------------------------------
 		// END = Random Base Interfaces
@@ -115,9 +142,14 @@ namespace Aurora {
             this->init();
         }
 
-		RandomBase::RandomBase(const RandomBase &value) : IRandomBaseBasic()
+		RandomBase::RandomBase(const RandomBase &value) : IRandomBaseBasic(value)
 		{
 			this->init(value.GetConstrainsRange(), value.GetRandomNumberMode());
+		}
+
+		RandomBase::RandomBase(RandomBase &&value) : IRandomBaseBasic(std::move(value))
+		{
+			
 		}
 
 		RandomBase::~RandomBase()
@@ -139,10 +171,21 @@ namespace Aurora {
 		{
 			if(this == &value) { return(*this); }
 
+			IRandomBaseBasic::operator=(value);
 			this->init(value.GetConstrainsRange(), value.GetRandomNumberMode());
 
 			return(*this);
 		}
+
+		RandomBase & RandomBase::operator=(RandomBase && value)
+		{
+			IRandomBaseBasic::operator=(std::move(value));
+			//this->SetConstrainsRange(std::move(value.areaSize));
+			this->SetRandomNumberMode(value.GetRandomNumberMode());
+
+			return(*this);
+		}
+
 		void RandomBase::init()
 		{
 			this->SetConstrainsRange(mRECT(0,0));
@@ -166,6 +209,13 @@ namespace Aurora {
 		RandomBaseComplete::RandomBaseComplete(const RandomBaseComplete &value) : RandomBase(value)
 		{
 			this->init(value.GetConstrainsRange(), value.GetRandomNumberMode());
+		}
+
+		RandomBaseComplete::RandomBaseComplete(RandomBaseComplete &&value) : RandomBase(std::move(value))
+		{
+			//this->PerlinNoiseCalculator = std::move(value.PerlinNoiseCalculator);
+			//this->SetConstrainsRange(std::move(value.areaSize));
+			this->SetRandomNumberMode(value.GetRandomNumberMode());
 		}
 
 		RandomBaseComplete::~RandomBaseComplete()
@@ -247,6 +297,15 @@ namespace Aurora {
 			return(*this);
 		}
 
+		RandomBaseComplete & RandomBaseComplete::operator=(RandomBaseComplete && value)
+		{
+			RandomBase::operator=(std::move(value));
+			//this->PerlinNoiseCalculator = std::move(value.PerlinNoiseCalculator);
+			//this->SetConstrainsRange(std::move(value.areaSize));
+			this->SetRandomNumberMode(value.GetRandomNumberMode());
+			return(*this);
+		}
+
 		void RandomBaseComplete::init()
 		{
 			RandomBase::init();
@@ -266,6 +325,12 @@ namespace Aurora {
 		RandomBasePerlinNoise::RandomBasePerlinNoise(const RandomBasePerlinNoise &value) : RandomBase(value)
 		{
 			this->init(value.GetConstrainsRange(), value.GetRandomNumberMode());
+		}
+
+		RandomBasePerlinNoise::RandomBasePerlinNoise(RandomBasePerlinNoise &&value) : RandomBase(std::move(value))
+		{
+			//this->SetConstrainsRange(std::move(value.areaSize));
+			this->SetRandomNumberMode(value.GetRandomNumberMode());
 		}
 
 		RandomBasePerlinNoise::~RandomBasePerlinNoise()
@@ -295,6 +360,15 @@ namespace Aurora {
 			return(*this);
 		}
 
+		RandomBasePerlinNoise & RandomBasePerlinNoise::operator=(RandomBasePerlinNoise && value)
+		{
+			RandomBase::operator=(std::move(value));
+			//this->PerlinNoiseCalculator = std::move(value.PerlinNoiseCalculator);
+			//this->SetConstrainsRange(std::move(value.areaSize));
+			this->SetRandomNumberMode(value.GetRandomNumberMode());
+			return(*this);
+		}
+
 		void RandomBasePerlinNoise::init()
 		{
 			RandomBase::init();
@@ -314,6 +388,12 @@ namespace Aurora {
 		RandomBaseGaussian::RandomBaseGaussian(const RandomBaseGaussian &value) : RandomBase(value)
 		{
 			this->init(value.GetConstrainsRange(), value.GetRandomNumberMode());
+		}
+
+		RandomBaseGaussian::RandomBaseGaussian(RandomBaseGaussian &&value) : RandomBase(std::move(value))
+		{
+			//this->SetConstrainsRange(std::move(value.areaSize));
+			this->SetRandomNumberMode(value.GetRandomNumberMode());
 		}
 
 		RandomBaseGaussian::~RandomBaseGaussian()
@@ -343,6 +423,14 @@ namespace Aurora {
 			return(*this);
 		}
 
+		RandomBaseGaussian & RandomBaseGaussian::operator=(RandomBaseGaussian && value)
+		{
+			RandomBase::operator=(std::move(value));
+			//this->SetConstrainsRange(std::move(value.areaSize));
+			this->SetRandomNumberMode(value.GetRandomNumberMode());
+			return(*this);
+		}
+
 		void RandomBaseGaussian::init()
 		{
 			RandomBase::init();
@@ -362,6 +450,12 @@ namespace Aurora {
 		RandomBaseUniform::RandomBaseUniform(const RandomBaseUniform &value) : RandomBase(value)
 		{
 			this->init(value.GetConstrainsRange(), value.GetRandomNumberMode());
+		}
+
+		RandomBaseUniform::RandomBaseUniform(RandomBaseUniform &&value) : RandomBase(std::move(value))
+		{
+			//this->SetConstrainsRange(std::move(value.areaSize));
+			this->SetRandomNumberMode(value.GetRandomNumberMode());
 		}
 
 		RandomBaseUniform::~RandomBaseUniform()
@@ -391,6 +485,14 @@ namespace Aurora {
 			return(*this);
 		}
 
+		RandomBaseUniform & RandomBaseUniform::operator=(RandomBaseUniform && value)
+		{
+			RandomBase::operator=(std::move(value));
+			//this->SetConstrainsRange(std::move(value.areaSize));
+			this->SetRandomNumberMode(value.GetRandomNumberMode());
+			return(*this);
+		}
+
 		void RandomBaseUniform::init()
 		{
 			RandomBase::init();
@@ -410,6 +512,12 @@ namespace Aurora {
 		RandomBaseNormal::RandomBaseNormal(const RandomBaseNormal &value) : RandomBase(value)
 		{
 			this->init(value.GetConstrainsRange(), value.GetRandomNumberMode());
+		}
+
+		RandomBaseNormal::RandomBaseNormal(RandomBaseNormal &&value) : RandomBase(std::move(value))
+		{
+			//this->SetConstrainsRange(std::move(value.areaSize));
+			this->SetRandomNumberMode(value.GetRandomNumberMode());
 		}
 
 		RandomBaseNormal::~RandomBaseNormal()
@@ -436,6 +544,14 @@ namespace Aurora {
 			RandomBase::operator=(value);
 			this->init(value.GetConstrainsRange(), value.GetRandomNumberMode());
 
+			return(*this);
+		}
+
+		RandomBaseNormal & RandomBaseNormal::operator=(RandomBaseNormal && value)
+		{
+			RandomBase::operator=(std::move(value));
+			//this->SetConstrainsRange(std::move(value.areaSize));
+			this->SetRandomNumberMode(value.GetRandomNumberMode());
 			return(*this);
 		}
 

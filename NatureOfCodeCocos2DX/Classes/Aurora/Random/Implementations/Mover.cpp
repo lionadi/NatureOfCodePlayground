@@ -75,6 +75,11 @@ namespace Aurora {
 
 		}
 
+		Mover::Mover(Mover &&value) : RandomBaseComplete(std::move(value))
+		{
+
+		}
+
 		Mover::~Mover()
 		{
 			IRandomBaseComplete::~IRandomBaseComplete();
@@ -110,6 +115,22 @@ namespace Aurora {
 			return(*this);
 		}
 
+		Mover & Mover::operator=(Mover && value)
+		{
+			RandomBaseComplete::operator=(std::move(value));
+
+			this->position = std::move(value.position);
+			this->probalitityFactor = std::move(value.probalitityFactor);
+			
+			this->target = std::move(value.target);
+			this->velocity = std::move(value.velocity);
+			this->acceleration = std::move(value.acceleration);
+			this->maximiunVelocity = std::move(value.maximiunVelocity);
+			this->minimumVelocity = std::move(value.minimumVelocity);
+
+			return(*this);
+		}
+
 		void Mover::init()
 		{
 			this->probalitityFactor = 0.5f;
@@ -117,7 +138,7 @@ namespace Aurora {
 
 		void Mover::init(const Mover &value)
 		{
-			this->areaSize = value.areaSize;
+			this->SetConstrainsRange(value.GetConstrainsRange());
 			//this->PerlinNoiseCalculator = value.PerlinNoiseCalculator;
 			this->position = value.position;
 			this->probalitityFactor = value.probalitityFactor;
@@ -160,6 +181,11 @@ namespace Aurora {
 			this->init();
 		}
 
+		IMover::IMover(IMover &&value) : IObjectBaseBasic(std::move(value)), MoverObject(std::move(value.MoverObject))
+		{
+			
+		}
+
 
 		IMover::~IMover()
 		{
@@ -182,6 +208,13 @@ namespace Aurora {
 			return(*this);
 		}
 
+		IMover & IMover::operator=(IMover && value)
+		{
+			IObjectBaseBasic::operator=(std::move(value));
+			this->MoverObject = std::move(value.MoverObject);
+			return(*this);
+		}
+
 		void IMover::init()
 		{
 			IObjectBaseBasic::init();
@@ -197,7 +230,7 @@ namespace Aurora {
 		{
 			IObjectBaseBasic::init(value.GetRandomNumberMode());
 			this->MoverObject = value.MoverObject;
-			this->SetRandomNumberMode(value.GetRandomNumberMode());
+			//this->SetRandomNumberMode(value.GetRandomNumberMode());
 		}
 
 	}; // END OF NAMESPACE Random

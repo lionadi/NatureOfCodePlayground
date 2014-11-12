@@ -24,7 +24,12 @@ namespace Aurora {
 
 		IWalker::IWalker(const IWalker &value) : IObjectBaseBasic(value), WalkerObject(value.WalkerObject)
 		{
-			
+			this->init();
+		}
+
+		IWalker::IWalker(IWalker &&value) : IObjectBaseBasic(std::move(value)), WalkerObject(std::move(value.WalkerObject))
+		{
+			this->init();
 		}
 
 		IWalker::~IWalker()
@@ -60,6 +65,13 @@ namespace Aurora {
 			IObjectBaseBasic::operator=(value);
 			this->init(value);
 
+			return(*this);
+		}
+
+		IWalker & IWalker::operator=(IWalker && value) 
+		{
+			this->WalkerObject = std::move(value.WalkerObject);
+			this->SetRandomNumberMode(value.GetRandomNumberMode());
 			return(*this);
 		}
 
@@ -161,8 +173,8 @@ namespace Aurora {
 			this->position.X = PerlinNoiseTool::Map(tempX, 0, 1, 0, this->GetConstrainsRange().Width);
 			this->position.Y = PerlinNoiseTool::Map(tempY, 0, 1, 0, this->GetConstrainsRange().Height);
 
-			this->perlinNoiseTime_PositionX += 0.1;
-			this->perlinNoiseTime_PositionY += 0.1;
+			this->perlinNoiseTime_PositionX += 0.1f;
+			this->perlinNoiseTime_PositionY += 0.1f;
 
 			VECTOR2D emptyVector;
 
@@ -195,6 +207,15 @@ namespace Aurora {
 		Walker::Walker(const Walker &value) : RandomBaseComplete(value)
 		{
 			this->init(value);
+		}
+
+		Walker::Walker(Walker &&value) : RandomBaseComplete(std::move(value))
+		{
+			this->position = std::move(value.position);
+			this->probalitityFactor = value.probalitityFactor;
+			this->perlinNoiseTime_PositionX = std::move(value.perlinNoiseTime_PositionX);
+			this->perlinNoiseTime_PositionY = std::move(value.perlinNoiseTime_PositionY);
+			this->target = std::move(value.target);
 		}
 
 
@@ -257,6 +278,18 @@ namespace Aurora {
 			RandomBaseComplete::operator=(value);
 
 			this->init(value);
+			
+			return(*this);
+		}
+
+		Walker & Walker::operator=(Walker && value)
+		{
+			RandomBaseComplete::operator=(std::move(value));
+			this->position = std::move(value.position);
+			this->probalitityFactor = value.probalitityFactor;
+			this->perlinNoiseTime_PositionX = std::move(value.perlinNoiseTime_PositionX);
+			this->perlinNoiseTime_PositionY = std::move(value.perlinNoiseTime_PositionY);
+			this->target = std::move(value.target);
 			
 			return(*this);
 		}

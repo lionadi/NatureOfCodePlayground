@@ -21,17 +21,17 @@ namespace Aurora {
 			Float probalitityFactor;
 
 			
-			void Constrain() override;
+			void Constrain() final;
 
-			void UniformCalculations() override;
+			void UniformCalculations() final;
 
-			void GaussianCalculations() override;
+			void GaussianCalculations() final;
 
-			void PerlinNoiseCalculations() override;
+			void PerlinNoiseCalculations() final;
 
 			void NormalCalculations();
 
-			virtual void init() override;
+			virtual void init() final;
 			virtual void init(const Mover &value);
 			virtual void init(const VECTOR2D &position, const VECTOR2D &velocity, const VECTOR2D &acceleration, const mRECT &areaSize);
 
@@ -42,6 +42,8 @@ namespace Aurora {
 			Mover(const VECTOR2D &position, const VECTOR2D &velocity, const mRECT &areaSize);
 			Mover(const VECTOR2D &position, const VECTOR2D &velocity, const VECTOR2D &acceleration, const mRECT &areaSize);
 			~Mover();
+			Mover(Mover &&value);
+			Mover & operator=(Mover && value);
 
 			void SetTarget(const VECTOR2D &target);
 			void SetVelocityRange(const Float &maximumVelocity, const Float &minimumVelocity);
@@ -59,7 +61,7 @@ namespace Aurora {
 		class IMover : public IObjectBaseBasic
 		{
 		private:
-			virtual void init() override;
+			virtual void init() final;
 			virtual void init(const mRECT &areaSize);
 			virtual void init(const IMover &value);
 		public:
@@ -67,6 +69,8 @@ namespace Aurora {
 			IMover();
 			IMover(const mRECT &areaSize);
 			IMover(const IMover &value);
+			IMover(IMover &&value);
+			IMover & operator=(IMover && value);
 			virtual ~IMover();
 			virtual void Render() override;
 

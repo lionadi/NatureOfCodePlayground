@@ -19,6 +19,8 @@ namespace Aurora {
                 virtual void Render() = 0;
 
 				IObjectBaseBasic& operator=(const IObjectBaseBasic& value);
+				IObjectBaseBasic(IObjectBaseBasic &&value);
+				IObjectBaseBasic & operator=(IObjectBaseBasic && value);
 
 				virtual void init() override;
 				virtual void init(RandomNumberMode randomNumberMode);
