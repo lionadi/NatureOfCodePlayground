@@ -44,7 +44,7 @@ bool MainMenu::init()
 	isTouching = false;
 
 	this->walker = std::make_shared<DotWalker>(visibleSize, Vec2((visibleSize.width / 2) + origin.x, (visibleSize.height / 2) + origin.y));
-	this->testBot = std::make_shared<TestBot>(visibleSize, Vec2((visibleSize.width / 2) + origin.x, (visibleSize.height / 2) + origin.y), Vec2::ZERO, Vec2(1,0));
+	this->testBot = std::make_shared<TestBot>(visibleSize, Vec2((visibleSize.width / 2) + origin.x, (visibleSize.height / 2) + origin.y), Vec2::ZERO, Vec2(1,1));
 	this->walker->SetRandomNumberMode(RandomNumberMode::Perlin);
 	this->walker->SetWalkerDrawNodeStartPosition(Vec2(origin.x, origin.y));
 	this->testBot->SetMoverDrawNodeStartPosition(Vec2(origin.x, origin.y));

@@ -99,11 +99,7 @@ namespace Aurora {
 			this->position -= this->velocity;
 		}
 
-		void Mover::SetVelocityRange(const Float &maximumVelocity, const Float &minimumVelocity)
-		{
-			this->minimumVelocity = minimumVelocity;
-			this->maximiunVelocity = maximiunVelocity;
-		}
+		
 
 		Mover& Mover::operator=(const Mover& value)
 		{
@@ -163,6 +159,12 @@ namespace Aurora {
 
 			if(!acceleration.IsZero())
 				this->acceleration = acceleration;
+		}
+
+		void Mover::SetVelocityRange(const Float moverMaximumVelocity, const Float moverMinimumVelocity)
+		{
+			this->minimumVelocity = moverMinimumVelocity;
+			this->maximiunVelocity = moverMaximumVelocity;
 		}
 
 		void IMover::Render()

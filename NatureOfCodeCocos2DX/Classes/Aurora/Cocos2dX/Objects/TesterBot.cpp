@@ -42,6 +42,7 @@ void Aurora::Cocos2DX::TestBot::Render()
 		return;
 	
 	this->mainColor = cocos2d::Color4F::YELLOW;
+	this->SetVelocityRange(5, 0);
 	this->dotMoverDrawNode->drawDot(this->dotMoverDrawNode->getPosition(), 10, this->mainColor);
 
 	IMover::Render();
@@ -59,13 +60,12 @@ void Aurora::Cocos2DX::TestBot::Render()
 void Aurora::Cocos2DX::TestBot::MoveMover()
 {
 	this->DoCalculations();
-	this->dotMoverDrawNode->setPosition(ConvertVECTOR2DTp_Vec2(this->GetCurentPosition()));
+	this->dotMoverDrawNode->setPosition(ConvertVECTOR2DTp_Vec2(this->GetCurentPosition()) + Director::getInstance()->getVisibleOrigin());
 }
 
 void Aurora::Cocos2DX::TestBot::init()
 {
 	this->dotMoverDrawNode = DrawNode::create();
-	this->SetVelocityRange(10, 0);
 	this->Render();
 }
 
@@ -73,7 +73,6 @@ void Aurora::Cocos2DX::TestBot::init(const Size &areaSize)
 {
 	this->viewSize = areaSize;
 	this->dotMoverDrawNode = DrawNode::create();
-	this->SetVelocityRange(10, 0);
 	this->Render();
 }
 

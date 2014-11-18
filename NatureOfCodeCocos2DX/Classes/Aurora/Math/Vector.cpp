@@ -170,7 +170,7 @@ namespace Aurora
         void VECTOR2D::Limit(	const Float &lowerLimit, const Float &upperLimit)
         {
             if ( this->X > upperLimit ) {
-                this->Y = upperLimit;
+                this->X = upperLimit;
             }
             
             if ( this->Y > upperLimit ) {
@@ -178,7 +178,7 @@ namespace Aurora
             }
 
 			if ( this->X < lowerLimit ) {
-				this->Y = lowerLimit;
+				this->X = lowerLimit;
 			}
 
 			if ( this->Y < lowerLimit ) {

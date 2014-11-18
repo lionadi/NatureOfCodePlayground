@@ -46,7 +46,7 @@ namespace Aurora {
 			Mover & operator=(Mover && value);
 
 			void SetTarget(const VECTOR2D &target);
-			void SetVelocityRange(const Float &maximumVelocity, const Float &minimumVelocity);
+			void SetVelocityRange(const Float moverMaximumVelocity, const Float moverMinimumVelocity);
 			const VECTOR2D GetCurentPosition() const;
 
 			void Accelerate() const;
