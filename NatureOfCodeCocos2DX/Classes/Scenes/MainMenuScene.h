@@ -16,7 +16,8 @@ public:
 	bool isTouching;
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
     virtual bool init();
-	DotWalker *walker; 
+	std::shared_ptr<DotWalker> walker;
+	std::shared_ptr<TestBot> testBot;
     
     // implement the "static create()" method manually
     CREATE_FUNC(MainMenu);

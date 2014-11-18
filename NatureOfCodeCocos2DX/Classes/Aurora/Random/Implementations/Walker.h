@@ -31,7 +31,7 @@ namespace Aurora {
 
 			void NormalCalculations() final;
 
-			virtual void init() final;
+			virtual void init() override;
 			virtual void init(const Walker &value);
 			virtual void init(const mRECT &areaSize, const VECTOR2D &walkerStartPosition);
 
@@ -56,27 +56,28 @@ namespace Aurora {
 		class IWalker : public IObjectBaseBasic
 		{
 		private:
-			virtual void init() final;
-			virtual void init(const mRECT &areaSize);
-			virtual void init(const IWalker &value);
+			/*virtual void init() override;
+			virtual void init(const mRECT &areaSize) = 0;
+			virtual void init(const IWalker &value) = 0;*/
 		public:
-			Walker WalkerObject;
-			IWalker();
-			IWalker(const IWalker &value);
-			IWalker(const mRECT &areaSize);
-			virtual ~IWalker();
-			IWalker(IWalker &&value);
+			//std::shared_ptr<Walker> WalkerObject = 0;
+			IWalker() = default;
+			/*IWalker(const IWalker &value);
+			IWalker(const mRECT &areaSize);*/
+			virtual ~IWalker() = default;
+			/*IWalker(IWalker &&value);
 			IWalker & operator=(IWalker && value);
+			IWalker& operator=(const IWalker& value);*/
 			virtual void Render() override;
 
 			
 
 			//virtual void SetRandomNumberMode(RandomNumberMode randomNumberMode);
-			virtual void RenderWalkerByPosition(const VECTOR2D &position);
+			virtual void RenderWalkerByPosition(const VECTOR2D &position) ;
 			virtual void SetWalkerTarget(const VECTOR2D &target);
 			virtual void StepWalker();
 
-			IWalker& operator=(const IWalker& value);
+			
 
 			
 

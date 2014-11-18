@@ -92,10 +92,9 @@ namespace Aurora {
         
         class IRandomBasePerlinNoise //: virtual public IRandomBaseBasic
         {
-            //TODO: IMPLEMENT AND USE PERLIN NOISE
             //var PerlinNoiseCalculator : PerlinNoise { get set };
 			protected:
-			module::Perlin PerlinNoiseCalculator;
+				std::shared_ptr<module::Perlin> PerlinNoiseCalculator = 0;
             public:
 				
 				IRandomBasePerlinNoise() = default;
@@ -140,7 +139,7 @@ namespace Aurora {
 			private:
 				
 		protected:
-				module::Perlin PerlinNoiseCalculator;
+				std::shared_ptr<module::Perlin> PerlinNoiseCalculator;
 				virtual void init() override;
 				virtual void init(const mRECT &areaSize, RandomNumberMode randomNumberMode);
 		public:
@@ -169,7 +168,7 @@ namespace Aurora {
 		private:
 			
 		protected:
-			module::Perlin PerlinNoiseCalculator;
+			std::shared_ptr<module::Perlin> PerlinNoiseCalculator;
 			virtual void init() override;
 			virtual void init(const mRECT &areaSize, RandomNumberMode randomNumberMode);
 		public:

@@ -188,8 +188,7 @@ namespace Aurora {
 
 		void RandomBase::init()
 		{
-			this->SetConstrainsRange(mRECT(0,0));
-			this->SetRandomNumberMode(RandomNumberMode::Normal);
+			this->init(mRECT(0, 0), RandomNumberMode::Normal);
 		}
 
 
@@ -309,12 +308,13 @@ namespace Aurora {
 		void RandomBaseComplete::init()
 		{
 			RandomBase::init();
-			this->SetRandomNumberMode(RandomNumberMode::Normal);
+			this->PerlinNoiseCalculator = std::make_shared <module::Perlin> ();
 		}
 
 		void RandomBaseComplete::init(const mRECT &areaSize, RandomNumberMode randomNumberMode)
 		{
 			RandomBase::init(areaSize, randomNumberMode);
+			this->PerlinNoiseCalculator = std::make_shared <module::Perlin>();
 		}
 
 		RandomBasePerlinNoise::RandomBasePerlinNoise() : RandomBase()
@@ -373,11 +373,13 @@ namespace Aurora {
 		{
 			RandomBase::init();
 			this->SetRandomNumberMode(RandomNumberMode::Perlin);
+			this->PerlinNoiseCalculator = std::make_shared <module::Perlin>();
 		}
 
 		void RandomBasePerlinNoise::init(const mRECT &areaSize, RandomNumberMode randomNumberMode)
 		{
 			RandomBase::init(areaSize, randomNumberMode);
+			this->PerlinNoiseCalculator = std::make_shared <module::Perlin>();
 		}
 
 		RandomBaseGaussian::RandomBaseGaussian() : RandomBase()

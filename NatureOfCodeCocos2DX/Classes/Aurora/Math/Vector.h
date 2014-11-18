@@ -20,7 +20,16 @@ namespace Aurora
 	*/
 	namespace Math
 	{
-		//TODO: Non-member Operators for implicit conversions
+		//TODO: Non-member Operators for implicit conversions with STD:move
+		/*
+		sample:
+		VECTOR2D // by-value return
+		 operator+(VECTOR2D&& lhs, const VECTOR2D& rhs)
+		 {
+		 lhs += rhs;
+		 return std::move(lhs); // move lhs into
+		 }
+		*/
 		/*!
 		 	\brief A class that can hold vector data and perform vector sepecific operations. For a more specific documentation see VECTOR4D text. Both classes work in the same way(same as VECTOR3D). The only difference are the scalar values in the vector classes.
 		 	\version 1.0
@@ -53,9 +62,10 @@ namespace Aurora
 					\return 
 				*/
 				VECTOR2D(const VECTOR2D &value);
-				~VECTOR2D();
+				virtual ~VECTOR2D();
 				VECTOR2D(VECTOR2D &&value);
 				VECTOR2D & operator=(VECTOR2D && value);
+				VECTOR2D &operator=(const VECTOR2D		&value);
 
 				float X;
 				float Y;
@@ -102,7 +112,7 @@ namespace Aurora
 					\param &value 
 					\return 
 				*/
-				VECTOR2D &operator=(const VECTOR2D		&value);
+				
 
 				/*!
 					\brief 

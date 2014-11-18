@@ -7,6 +7,8 @@
 
 #include "..\Globals\GlobalDatatypes.h"
 #include "..\..\Perlin Noise\noise\src\noise.h"
+#include <random>
+#include <chrono>
 using namespace noise;
 using namespace Aurora::DataTypes;
 
@@ -50,22 +52,35 @@ namespace Aurora {
 			// This will generate a number from 0.0 to 1.0, inclusive.
 			static Float GetRandomPositiveFloat()
 			{
-				srand(time(NULL));
-			    return (static_cast <float> (rand()) / static_cast <float> (RAND_MAX));
+				/*srand(time(NULL));
+			    return (static_cast <float> (rand()) / static_cast <float> (RAND_MAX));*/
+				auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+				std::default_random_engine dre(seed);
+				std::uniform_real_distribution<Float> di(0, RAND_MAX);
+				return(di(dre));
 			}
 
 			// This will generate a number from 0.0 to some arbitrary float, X:
 			static Float GetRandomPositiveFloat(Float  maxValue)
 			{
-				srand(time(NULL));
-			    return (static_cast <Float> (rand()) / (static_cast <Float> (RAND_MAX/maxValue)));
+				/*srand(time(NULL));
+			    return (static_cast <Float> (rand()) / (static_cast <Float> (RAND_MAX/maxValue)));*/
+				auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+				std::default_random_engine dre(seed);
+				std::uniform_real_distribution<Float> di(0, maxValue);
+				return(di(dre));
 			}
 
 			// This will generate a number from some arbitrary LO to some arbitrary HI:
 			static Float GetRandomPositiveFloat(Float minValue, Float  maxValue)
 			{
-				srand(time(NULL));
-			    return (minValue + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(maxValue-minValue))));
+				/*srand(time(NULL));
+			    return (minValue + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(maxValue-minValue))));*/
+
+				auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+				std::default_random_engine dre(seed);
+				std::uniform_real_distribution<Float> di(minValue, maxValue);
+				return(di(dre));
 			}
 
 			static Float GetRandomFloat( Float maxValue) 

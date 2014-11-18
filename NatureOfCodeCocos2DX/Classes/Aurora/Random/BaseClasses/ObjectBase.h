@@ -9,21 +9,21 @@
 namespace Aurora {
     namespace Random {
 
-		class IObjectBaseBasic : public IRandomBase
+		class IObjectBaseBasic //: public IRandomBase
         {
             protected:
                 
             public:
-				IObjectBaseBasic();
-				virtual ~IObjectBaseBasic();
+				IObjectBaseBasic() = default;
+				virtual ~IObjectBaseBasic() = default;
                 virtual void Render() = 0;
 
-				IObjectBaseBasic& operator=(const IObjectBaseBasic& value);
+				/*IObjectBaseBasic& operator=(const IObjectBaseBasic& value);
 				IObjectBaseBasic(IObjectBaseBasic &&value);
-				IObjectBaseBasic & operator=(IObjectBaseBasic && value);
+				IObjectBaseBasic & operator=(IObjectBaseBasic && value);*/
 
-				virtual void init() override;
-				virtual void init(RandomNumberMode randomNumberMode);
+				/*virtual void init() override;
+				virtual void init(RandomNumberMode randomNumberMode);*/
 
 		};
 

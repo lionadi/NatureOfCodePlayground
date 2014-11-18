@@ -31,7 +31,7 @@ namespace Aurora {
 
 			void NormalCalculations();
 
-			virtual void init() final;
+			virtual void init() override;
 			virtual void init(const Mover &value);
 			virtual void init(const VECTOR2D &position, const VECTOR2D &velocity, const VECTOR2D &acceleration, const mRECT &areaSize);
 
@@ -60,24 +60,12 @@ namespace Aurora {
 
 		class IMover : public IObjectBaseBasic
 		{
-		private:
-			virtual void init() final;
-			virtual void init(const mRECT &areaSize);
-			virtual void init(const IMover &value);
 		public:
-			Mover MoverObject;
-			IMover();
-			IMover(const mRECT &areaSize);
-			IMover(const IMover &value);
-			IMover(IMover &&value);
-			IMover & operator=(IMover && value);
-			virtual ~IMover();
+			IMover() = default;
+			virtual ~IMover() = default;
 			virtual void Render() override;
 
-			IMover& operator=(const IMover& value);
-
-			
-
+			virtual void MoveMover();
 		};
 
 	}; // END OF NAMESPACE Random

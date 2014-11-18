@@ -12,85 +12,86 @@ namespace Aurora {
 			this->WalkerObject.SetRandomNumberMode(randomNumberMode);
 		}*/
 
-		IWalker::IWalker(const mRECT &areaSize) : WalkerObject(areaSize)
-		{
-			this->init(areaSize);
-		}
+		//IWalker::IWalker(const mRECT &areaSize) //: WalkerObject(std::make_shared<Walker>(areaSize))
+		//{
+		//	this->init(areaSize);
+		//}
 
-		IWalker::IWalker() : IObjectBaseBasic() 
-		{
-			this->init();
-		}
+		//IWalker::IWalker() : IObjectBaseBasic() 
+		//{
+		//	this->init();
+		//	//this->WalkerObject = std::make_shared<Walker>();
+		//}
 
-		IWalker::IWalker(const IWalker &value) : IObjectBaseBasic(value), WalkerObject(value.WalkerObject)
-		{
-			this->init();
-		}
+		//IWalker::IWalker(const IWalker &value) : IObjectBaseBasic(value)//, WalkerObject(value.WalkerObject)
+		//{
+		//	this->init();
+		//}
 
-		IWalker::IWalker(IWalker &&value) : IObjectBaseBasic(std::move(value)), WalkerObject(std::move(value.WalkerObject))
-		{
-			this->init();
-		}
+		//IWalker::IWalker(IWalker &&value) : IObjectBaseBasic(std::move(value))//, WalkerObject(std::move(value.WalkerObject))
+		//{
+		//	this->init();
+		//}
 
-		IWalker::~IWalker()
-		{
-			IObjectBaseBasic::~IObjectBaseBasic();
-		}
+		//IWalker::~IWalker()
+		//{
+		//	IObjectBaseBasic::~IObjectBaseBasic();
+		//}
 
-		void IWalker::Render()
-		{
+		//void IWalker::Render()
+		//{
 
-		}
+		//}
 
-		void IWalker::RenderWalkerByPosition(const VECTOR2D &position)
-		{
+		//void IWalker::RenderWalkerByPosition(const VECTOR2D &position)
+		//{
 
-		}
+		//}
 
-		void IWalker::SetWalkerTarget(const VECTOR2D &target)
-		{
-			this->WalkerObject.SetTarget(target);
-		}
+		//void IWalker::SetWalkerTarget(const VECTOR2D &target)
+		//{
+		//	//this->WalkerObject->SetTarget(target);
+		//}
 
-		void IWalker::StepWalker()
-		{
+		//void IWalker::StepWalker()
+		//{
 
-		}
+		//}
 
-		IWalker& IWalker::operator=(const IWalker& value)
-		{
-			if(this == &value) { return(*this); }
+		//IWalker& IWalker::operator=(const IWalker& value)
+		//{
+		//	if(this == &value) { return(*this); }
 
-			// Do Other initializations
-			IObjectBaseBasic::operator=(value);
-			this->init(value);
+		//	// Do Other initializations
+		//	IObjectBaseBasic::operator=(value);
+		//	this->init(value);
 
-			return(*this);
-		}
+		//	return(*this);
+		//}
 
-		IWalker & IWalker::operator=(IWalker && value) 
-		{
-			this->WalkerObject = std::move(value.WalkerObject);
-			this->SetRandomNumberMode(value.GetRandomNumberMode());
-			return(*this);
-		}
+		//IWalker & IWalker::operator=(IWalker && value) 
+		//{
+		//	//this->WalkerObject = std::move(value.WalkerObject);
+		//	this->SetRandomNumberMode(value.GetRandomNumberMode());
+		//	return(*this);
+		//}
 
-		void IWalker::init()
-		{
-			IObjectBaseBasic::init();
-		}
+		//void IWalker::init()
+		//{
+		//	IObjectBaseBasic::init();
+		//}
 
-		void IWalker::init(const mRECT &areaSize)
-		{
-			IObjectBaseBasic::init(this->GetRandomNumberMode());
-			this->WalkerObject.SetConstrainsRange(areaSize);
-		}
+		//void IWalker::init(const mRECT &areaSize)
+		//{
+		//	IObjectBaseBasic::init(this->GetRandomNumberMode());
+		//	this->WalkerObject->SetConstrainsRange(areaSize);
+		//}
 
-		void IWalker::init(const IWalker &value)
-		{
-			IObjectBaseBasic::init(value.GetRandomNumberMode());
-			this->WalkerObject = value.WalkerObject;
-		}
+		//void IWalker::init(const IWalker &value)
+		//{
+		//	IObjectBaseBasic::init(value.GetRandomNumberMode());
+		//	//this->WalkerObject = value.WalkerObject;
+		//}
 
 		//void PWalker::StepWalkerByTarget(const VECTOR2D &target)
 		//{
@@ -128,20 +129,30 @@ namespace Aurora {
 
 			if(this->target == emptyVector)
 			{
-				auto choice = static_cast<int>(RandomNumberGenerator::GetRandomPositiveFloat(0,3));
-				auto randomMovementMagnitude = RandomNumberGenerator::GetRandomPositiveFloat(2);
+				auto choice = static_cast<int>(RandomNumberGenerator::GetRandomPositiveFloat(0,4));
+				auto randomMovementMagnitude = RandomNumberGenerator::GetRandomPositiveFloat(4);
 				switch(choice)
 				{
 				case 0:
-					this->position.X += randomMovementMagnitude;
+				{
+						  this->position.X += randomMovementMagnitude;
+				} break;
 				case 1:
-					this->position.X -= randomMovementMagnitude;
+				{
+						  this->position.Y += randomMovementMagnitude;
+				} break;
 				case 2:
-					this->position.Y += randomMovementMagnitude;
+				{
+						  this->position.X -= randomMovementMagnitude;
+				} break;
 				case 3:
-					this->position.Y -= randomMovementMagnitude;
+				{
+						  this->position.Y -= randomMovementMagnitude;
+				} break;
 				default:
-					this->position.X++;
+				{
+						   this->position.X++;
+				} break;
 				}
 			} else
 			{
@@ -157,8 +168,8 @@ namespace Aurora {
 		void Walker::PerlinNoiseCalculations()
 		{
 			RandomBaseComplete::PerlinNoiseCalculations();
-			auto tempX = this->PerlinNoiseCalculator.GetValue(this->perlinNoiseTime_PositionX.X, this->perlinNoiseTime_PositionX.Y, this->perlinNoiseTime_PositionX.Z);
-			auto tempY = this->PerlinNoiseCalculator.GetValue(this->perlinNoiseTime_PositionY.X, this->perlinNoiseTime_PositionY.Y, this->perlinNoiseTime_PositionY.Z);
+			auto tempX = this->PerlinNoiseCalculator->GetValue(this->perlinNoiseTime_PositionX.X, this->perlinNoiseTime_PositionX.Y, this->perlinNoiseTime_PositionX.Z);
+			auto tempY = this->PerlinNoiseCalculator->GetValue(this->perlinNoiseTime_PositionY.X, this->perlinNoiseTime_PositionY.Y, this->perlinNoiseTime_PositionY.Z);
 
 			if(tempX < 0)
 			{
@@ -178,7 +189,7 @@ namespace Aurora {
 
 			VECTOR2D emptyVector;
 
-			if(this->target == emptyVector)
+			if(this->target != emptyVector)
 			{
 				this->MoveWalkerTowardsTarget();
 			}
@@ -250,6 +261,7 @@ namespace Aurora {
 				this->position.X += RandomNumberGenerator::GetRandomFloat(2);
 				this->position.Y += RandomNumberGenerator::GetRandomFloat(2);
 			}
+			this->target = VECTOR2D::GetZeroVector();
 		}
 
 		void Walker::SetTarget(const VECTOR2D &target)
@@ -331,6 +343,27 @@ namespace Aurora {
 				this->position = walkerStartPosition;
 
 			this->SetRandomNumberMode(RandomNumberMode::Uniform);
+		}
+
+
+		void IWalker::Render()
+		{
+
+		}
+
+		void IWalker::RenderWalkerByPosition(const VECTOR2D &position)
+		{
+
+		}
+
+		void IWalker::SetWalkerTarget(const VECTOR2D &target)
+		{
+
+		}
+
+		void IWalker::StepWalker()
+		{
+
 		}
 
 	}; // END OF NAMESPACE Random

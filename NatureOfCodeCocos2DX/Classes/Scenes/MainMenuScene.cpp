@@ -43,7 +43,15 @@ bool MainMenu::init()
 
 	isTouching = false;
 
-	this->walker = new DotWalker(visibleSize);
+	this->walker = std::make_shared<DotWalker>(visibleSize, Vec2((visibleSize.width / 2) + origin.x, (visibleSize.height / 2) + origin.y));
+	this->testBot = std::make_shared<TestBot>(visibleSize, Vec2((visibleSize.width / 2) + origin.x, (visibleSize.height / 2) + origin.y), Vec2::ZERO, Vec2(1,0));
+	this->walker->SetRandomNumberMode(RandomNumberMode::Perlin);
+	this->walker->SetWalkerDrawNodeStartPosition(Vec2(origin.x, origin.y));
+	this->testBot->SetMoverDrawNodeStartPosition(Vec2(origin.x, origin.y));
+	//this->addChild(this->walker->GetWalkerDrawNode());
+	this->addChild(this->testBot->GetMoverDrawNode());
+
+	
     
     return true;
 }
@@ -59,27 +67,27 @@ bool MainMenu::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event * event)
 {
 	isTouching = true;
 	//touchPosition = touch->getLocation()
-
+	this->walker->SetWalkerTarget(touch->getLocation());
 	return(isTouching);
 }
 
 void MainMenu::onTouchMoved(cocos2d::Touch *touch, cocos2d::Event * event)
 {
-
+	onTouchBegan(touch, event);
 }
 
 void MainMenu::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event * event)
 {
-
+	isTouching = false;
 }
 
 void MainMenu::onTouchCancelled(cocos2d::Touch *touch, cocos2d::Event * event)
 {
-
+	onTouchEnded(touch, event);
 }
 
 MainMenu::~MainMenu()
 {
 	Layer::~Layer();
-	delete this->walker;
+	
 }

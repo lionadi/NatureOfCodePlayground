@@ -47,7 +47,7 @@ namespace Aurora {
 
 		void Mover::NormalCalculations()
 		{
-
+			this->Accelerate();
 		}
 
 		Mover::Mover(const mRECT &areaSize) : RandomBaseComplete()
@@ -165,73 +165,16 @@ namespace Aurora {
 				this->acceleration = acceleration;
 		}
 
-
-		IMover::IMover(const mRECT &areaSize) : IObjectBaseBasic(), MoverObject(areaSize)
-		{
-			this->init(areaSize);
-		}
-
-		IMover::IMover(const IMover &value) : IObjectBaseBasic(value), MoverObject(value.MoverObject)
-		{
-			
-		}
-
-		IMover::IMover() : IObjectBaseBasic()
-		{
-			this->init();
-		}
-
-		IMover::IMover(IMover &&value) : IObjectBaseBasic(std::move(value)), MoverObject(std::move(value.MoverObject))
-		{
-			
-		}
-
-
-		IMover::~IMover()
-		{
-			IObjectBaseBasic::~IObjectBaseBasic();
-		}
-
 		void IMover::Render()
 		{
 
 		}
 
-		IMover& IMover::operator=(const IMover& value)
+		void IMover::MoveMover()
 		{
-			if(this == &value) { return(*this); }
 
-			IObjectBaseBasic::operator=(value);
-			// Do Other initializations
-			this->init(value);
-
-			return(*this);
 		}
 
-		IMover & IMover::operator=(IMover && value)
-		{
-			IObjectBaseBasic::operator=(std::move(value));
-			this->MoverObject = std::move(value.MoverObject);
-			return(*this);
-		}
-
-		void IMover::init()
-		{
-			IObjectBaseBasic::init();
-		}
-
-		void IMover::init(const mRECT &areaSize)
-		{
-			IObjectBaseBasic::init(this->GetRandomNumberMode());
-			this->MoverObject.SetConstrainsRange(areaSize);
-		}
-
-		void IMover::init(const IMover &value)
-		{
-			IObjectBaseBasic::init(value.GetRandomNumberMode());
-			this->MoverObject = value.MoverObject;
-			//this->SetRandomNumberMode(value.GetRandomNumberMode());
-		}
-
+		
 	}; // END OF NAMESPACE Random
 }; // END OF NAMESPACE Aurora

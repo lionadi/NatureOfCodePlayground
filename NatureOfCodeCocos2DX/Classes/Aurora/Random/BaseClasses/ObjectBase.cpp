@@ -4,7 +4,7 @@ namespace Aurora {
     namespace Random {
 
 
-		IObjectBaseBasic::IObjectBaseBasic() : IRandomBase()
+		/*IObjectBaseBasic::IObjectBaseBasic() : IRandomBase()
 		{
 			this->init();
 		}
@@ -17,38 +17,38 @@ namespace Aurora {
 		IObjectBaseBasic::~IObjectBaseBasic()
 		{
 			IRandomBase::~IRandomBase();
-		}
+		}*/
 
 		void IObjectBaseBasic::Render()
 		{
 
 		}
 
-		IObjectBaseBasic& IObjectBaseBasic::operator=(const IObjectBaseBasic& value)
-		{
-			if(this == &value) { return(*this); }
+		//IObjectBaseBasic& IObjectBaseBasic::operator=(const IObjectBaseBasic& value)
+		//{
+		//	if(this == &value) { return(*this); }
 
-			// Do Other initializations
-			this->SetRandomNumberMode(value.GetRandomNumberMode());
+		//	// Do Other initializations
+		//	this->SetRandomNumberMode(value.GetRandomNumberMode());
 
-			return(*this);
-		}
+		//	return(*this);
+		//}
 
-		IObjectBaseBasic & IObjectBaseBasic::operator=(IObjectBaseBasic && value)
-		{
-			IRandomBase::operator=(std::forward<IRandomBase>(value));
-			return(*this);
-		}
+		//IObjectBaseBasic & IObjectBaseBasic::operator=(IObjectBaseBasic && value)
+		//{
+		//	IRandomBase::operator=(std::forward<IRandomBase>(value));
+		//	return(*this);
+		//}
 
-		void IObjectBaseBasic::init()
-		{
-			this->SetRandomNumberMode(RandomNumberMode::Normal);
-		}
+		//void IObjectBaseBasic::init()
+		//{
+		//	this->SetRandomNumberMode(RandomNumberMode::Normal);
+		//}
 
-		void IObjectBaseBasic::init(RandomNumberMode randomNumberMode)
-		{
-			this->SetRandomNumberMode(randomNumberMode);
-		}
+		//void IObjectBaseBasic::init(RandomNumberMode randomNumberMode)
+		//{
+		//	this->SetRandomNumberMode(randomNumberMode);
+		//}
 
 	}; // END OF NAMESPACE Random
 }; // END OF NAMESPACE Aurora

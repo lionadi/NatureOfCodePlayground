@@ -14,5 +14,10 @@ namespace Aurora {
 			return(VECTOR2D(vec2.x, vec2.y));
 		}
 
+		cocos2d::Vec2 ConvertVECTOR2DTp_Vec2(const VECTOR2D &value)
+		{
+			return(cocos2d::Vec2(value.X, value.Y));
+		}
+
 	};
 };
