@@ -17,8 +17,15 @@ Aurora::Cocos2DX::TestBot::TestBot(const Size &viewSize, const Vec2 &position, c
 {
 
 	this->init(viewSize);
-	//Vec2 t3 = this->dotMoverDrawNode->getParent()->convertToNodeSpace(position);
 	this->dotMoverDrawNode->setAnchorPoint(Vec2(0,0));
+	this->Render();
+}
+
+Aurora::Cocos2DX::TestBot::TestBot(const Size &viewSize, const Vec2 &position, const Vec2 &velocity, const Vec2 &acceleration, const cocos2d::Color4F &color)
+{
+	this->init(viewSize);
+	this->mainColor = color;
+	this->dotMoverDrawNode->setAnchorPoint(Vec2(0, 0));
 	this->Render();
 }
 
@@ -46,15 +53,7 @@ void Aurora::Cocos2DX::TestBot::Render()
 	this->mainColor = cocos2d::Color4F::MAGENTA;
 	this->SetVelocityRange(5, 0);
 
-	//this->dotMoverDrawNode->drawDot(ConvertVECTOR2DTp_Vec2(this->GetCurentPosition()), 10, this->mainColor);
 	this->dotMoverDrawNode->drawDot(Vec2(0,0), 10, this->mainColor);
-	/*this->dotMoverDrawNode->drawDot(Vec2(0, visibleSize.height / 2), 10, cocos2d::Color4F::BLUE);
-	this->dotMoverDrawNode->drawDot(Vec2(600, 200), 10, cocos2d::Color4F::GREEN);
-	
-	
-	this->dotMoverDrawNode->drawDot(Vec2(10, 10), 10, cocos2d::Color4F::ORANGE);
-	this->dotMoverDrawNode->drawDot(Vec2(visibleSize.width / 2, visibleSize.height/2), 10, cocos2d::Color4F::MAGENTA);
-	this->dotMoverDrawNode->drawDot(Vec2(winSize.width/2, winSize.height/2), 10, cocos2d::Color4F::RED);*/
 
 	IMover::Render();
 	DelayTime *delayAction = DelayTime::create(0.0001f);
@@ -81,13 +80,7 @@ void Aurora::Cocos2DX::TestBot::MoveMover()
 	this->DoCalculations();
 	this->Accelerate();
 	Point origin = Director::getInstance()->getVisibleOrigin();
-	Vec2 t = this->dotMoverDrawNode->getParent()->convertToNodeSpace(ConvertVECTOR2DTp_Vec2(this->GetCurentPosition()));
-	Vec2 t2 = this->dotMoverDrawNode->getParent()->convertToWorldSpace(ConvertVECTOR2DTp_Vec2(this->GetCurentPosition()));
-	Vec2 tt = ConvertVECTOR2DTp_Vec2(this->GetCurentPosition()) + origin;
-	this->dotMoverDrawNode->setPosition(tt);
-	Vec2 t3 = this->dotMoverDrawNode->convertToWorldSpace(ConvertVECTOR2DTp_Vec2(this->GetCurentPosition()));
-	
-	Vec2 t5 = this->dotMoverDrawNode->convertToNodeSpace(ConvertVECTOR2DTp_Vec2(this->GetCurentPosition()));
+	this->dotMoverDrawNode->setPosition(ConvertVECTOR2DTp_Vec2(this->GetCurentPosition()) + origin);
 }
 
 void Aurora::Cocos2DX::TestBot::init()

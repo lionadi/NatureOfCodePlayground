@@ -23,6 +23,7 @@ namespace Aurora
 			TestBot();
 			TestBot(const Size &viewSize);
 			TestBot(const Size &viewSize, const Vec2 &position, const Vec2 &velocity, const Vec2 &acceleration);
+			TestBot(const Size &viewSize, const Vec2 &position, const Vec2 &velocity, const Vec2 &acceleration, const cocos2d::Color4F &color);
 			~TestBot();
 
 
@@ -42,8 +43,14 @@ namespace Aurora
 
 			void SetMoverTarget(const Vec2 &target);
 
+			//void SetColor(const cocos2d::Color4F &value);
+
 			//void SetMoverTarget(const VECTOR2D &target) override {};
 
+		};
+		namespace AliasDeclarations
+		{
+			using VectorTestBots = std::vector < std::shared_ptr<Aurora::Cocos2DX::TestBot> > ;
 		};
 
 	};

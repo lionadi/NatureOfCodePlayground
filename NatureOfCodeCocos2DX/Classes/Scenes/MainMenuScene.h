@@ -21,7 +21,7 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(MainMenu);
-
+	AliasDeclarations::VectorTestBots testBots;
 	void update(float dt);
 
 	bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event * event);
