@@ -13,13 +13,16 @@ namespace Aurora {
 			mutable VECTOR2D position;
 			mutable VECTOR2D velocity;
 			mutable VECTOR2D acceleration;
-			VECTOR2D target;
+			mutable VECTOR2D target;
+			mutable VECTOR3D perlinNoiseTime_PositionX;
+			mutable VECTOR3D perlinNoiseTime_PositionY;
 
 			Float maximiunVelocity;
 			Float minimumVelocity;
 			
 			Float probalitityFactor;
 
+			void MoveTowardsTarget();
 			
 			void Constrain() final;
 
@@ -33,6 +36,7 @@ namespace Aurora {
 
 			virtual void init() override;
 			virtual void init(const Mover &value);
+			virtual void init(const Mover &&value);
 			virtual void init(const VECTOR2D &position, const VECTOR2D &velocity, const VECTOR2D &acceleration, const mRECT &areaSize);
 
 		public:
@@ -44,15 +48,20 @@ namespace Aurora {
 			~Mover();
 			Mover(Mover &&value);
 			Mover & operator=(Mover && value);
+			void DoCalculations() override;
 
 			void SetTarget(const VECTOR2D &target);
+			void SetPosition(const VECTOR2D &position);
 			void SetVelocityRange(const Float moverMaximumVelocity, const Float moverMinimumVelocity);
 			const VECTOR2D GetCurentPosition() const;
+			const VECTOR2D GetCurentTarget() const;
 
-			void Accelerate() const;
-			void Decellerate() const;
+			void Accelerate();
+			void Decellerate();
 
 			Mover& operator=(const Mover& value);
+
+			bool MoveAutomatically = true;
 
 			
 
@@ -64,6 +73,8 @@ namespace Aurora {
 			IMover() = default;
 			virtual ~IMover() = default;
 			virtual void Render() override;
+
+			//virtual void SetMoverTarget(const VECTOR2D &target);
 
 			virtual void MoveMover();
 		};

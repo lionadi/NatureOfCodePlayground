@@ -30,6 +30,7 @@ bool MainMenu::init()
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Point origin = Director::getInstance()->getVisibleOrigin();
+	Size winSize = Director::getInstance()->getWinSize();
 
 	auto listener = EventListenerTouchOneByOne::create();
 	listener->setSwallowTouches(true);
@@ -43,17 +44,24 @@ bool MainMenu::init()
 
 	isTouching = false;
 
-	this->walker = std::make_shared<DotWalker>(visibleSize, Vec2((visibleSize.width / 2) + origin.x, (visibleSize.height / 2) + origin.y));
-	this->testBot = std::make_shared<TestBot>(visibleSize, Vec2((visibleSize.width / 2) + origin.x, (visibleSize.height / 2) + origin.y), Vec2::ZERO, Vec2(1,1));
+	this->walker = std::make_shared<DotWalker>(visibleSize, Vec2((visibleSize.width / 2), (visibleSize.height / 2)));
+	this->testBot = std::make_shared<TestBot>(visibleSize, Vec2((visibleSize.width / 2), (visibleSize.height / 2)), Vec2::ZERO, Vec2(1,1));
 	this->walker->SetRandomNumberMode(RandomNumberMode::Perlin);
+	this->testBot->SetRandomNumberMode(RandomNumberMode::Perlin);
 	this->walker->SetWalkerDrawNodeStartPosition(Vec2(origin.x, origin.y));
 	this->testBot->SetMoverDrawNodeStartPosition(Vec2(origin.x, origin.y));
 	//this->addChild(this->walker->GetWalkerDrawNode());
 	this->addChild(this->testBot->GetMoverDrawNode());
-
+	/*Size cS = this->getContentSize();
+	Vec2 cp = this->getPosition();*/
 	
     
     return true;
+}
+
+void MainMenu::update(float dt)
+{
+
 }
 
 void MainMenu::GoToGameScene(cocos2d::Ref *pSender)
@@ -67,7 +75,11 @@ bool MainMenu::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event * event)
 {
 	isTouching = true;
 	//touchPosition = touch->getLocation()
-	this->walker->SetWalkerTarget(touch->getLocation());
+	CCPoint touchLocation = touch->getLocationInView();
+	touchLocation = CCDirector::sharedDirector()->convertToGL(touchLocation);
+	
+	this->walker->SetWalkerTarget(touchLocation);
+	this->testBot->SetMoverTarget(touchLocation);
 	return(isTouching);
 }
 

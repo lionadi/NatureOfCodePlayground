@@ -17,8 +17,8 @@ namespace Aurora
 			cocos2d::Color4F mainColor;
 			int colorCount;
 			int colorCountLimit;
-			Vec2 TargetForWalker;
 			cocos2d::DrawNode *dotMoverDrawNode;
+			Vec2 moverDrawNodeTarget;
 		public:
 			TestBot();
 			TestBot(const Size &viewSize);
@@ -39,6 +39,10 @@ namespace Aurora
 			void init(const IWalker &value);
 
 			void MoveMover() final;
+
+			void SetMoverTarget(const Vec2 &target);
+
+			//void SetMoverTarget(const VECTOR2D &target) override {};
 
 		};
 

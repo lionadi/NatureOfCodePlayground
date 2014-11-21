@@ -162,6 +162,7 @@ namespace Aurora
 				const VECTOR2D &operator*=(const Float		&value);
             
                 const VECTOR2D operator/(const Float		&value);
+				const VECTOR2D &operator/=(const Float		&value);
 
                 const VECTOR2D &operator*=(const MATRIX2X2		&value);
             
@@ -179,8 +180,10 @@ namespace Aurora
 
 				static VECTOR2D GetZeroVector(void);
             
-                void Limit(	const Float &lowerLimit, const Float &upperLimit);
+				void Limit(const Float &limit);
 				bool IsZero() const;
+				float Magnitude() const;
+				void Normalize();
 
 			protected:
 

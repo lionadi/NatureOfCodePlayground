@@ -1,6 +1,7 @@
 //#include "stdafx.h"
 #include "Vector.h"
 #include "..\Globals\GlobalDatatypes.h"
+#include <cmath>
 /*!
 Namespace: Aurora
 
@@ -142,6 +143,13 @@ namespace Aurora
 			this->Y *= value;
 			return(*this);
 		}
+
+		const VECTOR2D &VECTOR2D::operator/= (const Float		&value)
+		{
+			this->X /= value;
+			this->Y /= value;
+			return(*this);
+		}
         
         const VECTOR2D VECTOR2D::operator/(const Float		&value)
         {
@@ -167,22 +175,22 @@ namespace Aurora
 			this->X = this->Y = 0.0f;
 		}
         
-        void VECTOR2D::Limit(	const Float &lowerLimit, const Float &upperLimit)
+        void VECTOR2D::Limit(	const Float &limit)
         {
-            if ( this->X > upperLimit ) {
-                this->X = upperLimit;
+			if (this->X > limit) {
+				this->X = limit;
             }
             
-            if ( this->Y > upperLimit ) {
-                this->Y = upperLimit;
+			if (this->Y > limit) {
+				this->Y = limit;
             }
 
-			if ( this->X < lowerLimit ) {
-				this->X = lowerLimit;
+			if (this->X < -limit) {
+				this->X = -limit;
 			}
 
-			if ( this->Y < lowerLimit ) {
-				this->Y = lowerLimit;
+			if (this->Y < -limit) {
+				this->Y = -limit;
 			}
         }
 
@@ -219,6 +227,18 @@ namespace Aurora
 		VECTOR2D VECTOR2D::GetZeroVector(void)
 		{
 			return(VECTOR2D(0,0));
+		}
+
+		float VECTOR2D::Magnitude() const
+		{
+			return(sqrt(this->X*this->X + this->Y*this->Y));
+		}
+
+		void VECTOR2D::Normalize()
+		{
+			float magnitude = this->Magnitude();
+			if (magnitude != 0)
+				*this /= magnitude;
 		}
 
 // VECTOR3D -----------------------------------------------------------

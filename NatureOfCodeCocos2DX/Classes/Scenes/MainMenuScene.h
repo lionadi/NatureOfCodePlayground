@@ -21,7 +21,9 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(MainMenu);
-    
+
+	void update(float dt);
+
 	bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event * event);
 	void onTouchMoved(cocos2d::Touch *touch, cocos2d::Event * event);
 	void onTouchEnded(cocos2d::Touch *touch, cocos2d::Event * event);

@@ -2,6 +2,7 @@
 #define GLOBALDATATYPES_H
 #include <string>
 #include <vector>
+#include <math.h>
 
 /*!
 Namespace: Aurora
