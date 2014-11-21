@@ -43,6 +43,7 @@ namespace Aurora {
 			Mover();
 			Mover(const mRECT &areaSize);
 			Mover(const Mover &value);
+			Mover& operator=(const Mover& value);
 			Mover(const VECTOR2D &position, const VECTOR2D &velocity, const mRECT &areaSize);
 			Mover(const VECTOR2D &position, const VECTOR2D &velocity, const VECTOR2D &acceleration, const mRECT &areaSize);
 			~Mover();
@@ -59,7 +60,7 @@ namespace Aurora {
 			void Accelerate();
 			void Decellerate();
 
-			Mover& operator=(const Mover& value);
+			
 
 			bool MoveAutomatically = true;
 
