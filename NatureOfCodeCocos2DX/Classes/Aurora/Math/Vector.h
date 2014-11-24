@@ -185,6 +185,8 @@ namespace Aurora
 				float Magnitude() const;
 				void Normalize();
 
+				VECTOR2D Clone() const;
+
 			protected:
 
 		};

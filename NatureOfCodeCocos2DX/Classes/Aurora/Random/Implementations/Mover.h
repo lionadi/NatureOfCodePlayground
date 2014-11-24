@@ -2,6 +2,9 @@
 #define NatureOfCodeCocos2DX_Mover_h
 
 #include "..\BaseClasses\ObjectBase.h"
+#include "..\..\Physics\PhysicsOperations.h"
+
+
 
 namespace Aurora {
 	namespace Random {
@@ -10,15 +13,16 @@ namespace Aurora {
 		{
 
 		private:
-			mutable VECTOR2D position;
+			/*mutable VECTOR2D position;
 			mutable VECTOR2D velocity;
-			mutable VECTOR2D acceleration;
+			mutable VECTOR2D acceleration;*/
+			std::shared_ptr<Physics::Force> moverPhysic;
 			mutable VECTOR2D target;
 			mutable VECTOR3D perlinNoiseTime_PositionX;
 			mutable VECTOR3D perlinNoiseTime_PositionY;
 
-			Float maximiunVelocity;
-			Float minimumVelocity;
+			/*Float maximiunVelocity;
+			Float minimumVelocity;*/
 			
 			Float probalitityFactor;
 
@@ -57,9 +61,9 @@ namespace Aurora {
 			const VECTOR2D GetCurentPosition() const;
 			const VECTOR2D GetCurentTarget() const;
 
+			
 			void Accelerate();
 			void Decellerate();
-
 			
 
 			bool MoveAutomatically = true;

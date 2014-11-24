@@ -48,30 +48,15 @@ bool MainMenu::init()
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 	this->setColor(cocos2d::Color3B::WHITE);
 	//this->testBots = std::make_unique<AliasDeclarations::VectorTestBots>();
-	this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.width), RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.height)), Vec2::ZERO, Vec2(1, 1)));
-	this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.width), RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.height)), Vec2::ZERO, Vec2(1, 1)));
-	this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.width), RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.height)), Vec2::ZERO, Vec2(1, 1)));
-	this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.width), RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.height)), Vec2::ZERO, Vec2(1, 1)));
 
-	this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.width), RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.height)), Vec2::ZERO, Vec2(1, 1)));
-	this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.width), RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.height)), Vec2::ZERO, Vec2(1, 1)));
-	this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.width), RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.height)), Vec2::ZERO, Vec2(1, 1)));
-	this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.width), RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.height)), Vec2::ZERO, Vec2(1, 1)));
-
-	this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.width), RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.height)), Vec2::ZERO, Vec2(1, 1)));
-	this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.width), RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.height)), Vec2::ZERO, Vec2(1, 1)));
-	this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.width), RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.height)), Vec2::ZERO, Vec2(1, 1)));
-	this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.width), RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.height)), Vec2::ZERO, Vec2(1, 1)));
-
-	this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.width), RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.height)), Vec2::ZERO, Vec2(1, 1)));
-	this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.width), RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.height)), Vec2::ZERO, Vec2(1, 1)));
-	this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.width), RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.height)), Vec2::ZERO, Vec2(1, 1)));
-	this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.width), RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.height)), Vec2::ZERO, Vec2(1, 1)));
-
+	for (int x = 0; x < 2; ++x)
+	{
+		this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.width), RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.height)), Vec2::ZERO, Vec2(1, 1)));
+	}
 
 
 	this->walker = std::make_shared<DotWalker>(visibleSize, Vec2((visibleSize.width / 2), (visibleSize.height / 2)));
-	//this->testBot = std::make_shared<TestBot>(visibleSize, Vec2((visibleSize.width / 2), (visibleSize.height / 2)), Vec2::ZERO, Vec2(1,1));
+	this->testBot = std::make_shared<TestBot>(visibleSize, Vec2((visibleSize.width / 2), (visibleSize.height / 2)), Vec2::ZERO, Vec2(1,1));
 	this->walker->SetRandomNumberMode(RandomNumberMode::Perlin);
 	//this->testBot->SetRandomNumberMode(RandomNumberMode::Perlin);
 	this->walker->SetWalkerDrawNodeStartPosition(Vec2(origin.x, origin.y));
@@ -107,8 +92,9 @@ bool MainMenu::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event * event)
 	isTouching = true;
 	//touchPosition = touch->getLocation()
 	CCPoint touchLocation = touch->getLocationInView();
+	// Convert to visible + origin size area
 	touchLocation = CCDirector::sharedDirector()->convertToGL(touchLocation);
-	
+	//this->testBot->SetMoverTarget(touchLocation);
 	for (auto testBotTemp : this->testBots)
 	{
 		testBotTemp->SetMoverTarget(touchLocation);

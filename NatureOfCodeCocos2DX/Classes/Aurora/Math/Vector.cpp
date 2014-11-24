@@ -241,6 +241,11 @@ namespace Aurora
 				*this /= magnitude;
 		}
 
+		Aurora::Math::VECTOR2D VECTOR2D::Clone() const
+		{
+			return(VECTOR2D(this->X, this->Y));
+		}
+
 // VECTOR3D -----------------------------------------------------------
 		VECTOR3D::VECTOR3D()  : X(0), Y(0), Z(0)
 		{

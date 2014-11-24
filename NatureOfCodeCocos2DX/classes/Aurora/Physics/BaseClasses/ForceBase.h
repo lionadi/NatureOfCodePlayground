@@ -9,6 +9,7 @@
 namespace Aurora {
 	namespace Physics {
 
+		
 		class IForceBase 
 		{
 		protected:
@@ -17,7 +18,6 @@ namespace Aurora {
 			IForceBase() = default;
 			virtual ~IForceBase() = default;
 			virtual void init() = 0;
-
 			
 
 		};
