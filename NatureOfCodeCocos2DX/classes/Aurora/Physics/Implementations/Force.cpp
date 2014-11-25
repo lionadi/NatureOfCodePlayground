@@ -6,6 +6,7 @@ void Force::init()
 {
 	this->acceleration = VECTOR2D::GetZeroVector();
 	this->maximiunVelocity = 2;
+	this->mass = 10;
 	this->position = VECTOR2D::GetZeroVector();
 	this->velocity = VECTOR2D::GetZeroVector();
 }
@@ -16,6 +17,7 @@ void Force::init(const Force &value)
 	this->maximiunVelocity = value.maximiunVelocity;
 	this->position = value.position;
 	this->velocity = value.velocity;
+	this->mass = value.mass;
 }
 
 void Force::init(Force &&value)
@@ -24,6 +26,7 @@ void Force::init(Force &&value)
 	this->maximiunVelocity = std::move(value.maximiunVelocity);
 	this->position = std::move(value.position);
 	this->velocity = std::move(value.velocity);
+	this->mass = std::move(value.mass);
 }
 
 Force::Force()
@@ -58,9 +61,10 @@ Force &Force::operator=(Force && value)
 	return(*this);
 }
 
-void Force::applyForce(const VECTOR2D &value)
+void Force::ApplyForce(const VECTOR2D &value)
 {
-	this->acceleration += value;
+	this->acceleration += (value / this->mass);
+	//this->acceleration += value;
 }
 
 void Force::Update()
@@ -69,6 +73,28 @@ void Force::Update()
 	this->velocity.Limit(maximiunVelocity);
 	this->position += velocity;
 	this->acceleration = VECTOR2D::GetZeroVector();
+	this->ConstrainToAreaSize();
+}
+
+void Force::ConstrainToAreaSize()
+{
+	if (position.X > this->areaSize.Width) {
+		position.X = this->areaSize.Width;
+		velocity.X *= -1;
+	}
+	else if (position.X < 0) {
+		velocity.X *= -1;
+		position.X = 0;
+	}
+
+	if (position.Y > this->areaSize.Height) {
+		velocity.Y *= -1;
+		position.Y = this->areaSize.Height;
+	}
+	else if (position.Y < 0) {
+		velocity.Y *= -1;
+		position.Y = 0;
+	}
 }
 
 

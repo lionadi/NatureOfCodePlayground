@@ -13,18 +13,25 @@ Aurora::Cocos2DX::TestBot::TestBot(const Size &viewSize) : Mover(ConvertSizeTo_m
 	this->init(viewSize);
 }
 
-Aurora::Cocos2DX::TestBot::TestBot(const Size &viewSize, const Vec2 &position, const Vec2 &velocity, const Vec2 &acceleration) : Mover(ConvertVec2Tp_VECTOR2D(position), ConvertVec2Tp_VECTOR2D(velocity), ConvertVec2Tp_VECTOR2D(acceleration), ConvertSizeTo_mRect(viewSize))
-{
-
-	this->init(viewSize);
-	this->dotMoverDrawNode->setAnchorPoint(Vec2(0,0));
-	this->Render();
-}
+//Aurora::Cocos2DX::TestBot::TestBot(const Size &viewSize, const Vec2 &position, const Vec2 &velocity, const Vec2 &acceleration) : Mover(ConvertVec2Tp_VECTOR2D(position), ConvertVec2Tp_VECTOR2D(velocity), ConvertVec2Tp_VECTOR2D(acceleration), ConvertSizeTo_mRect(viewSize))
+//{
+//
+//	this->init(viewSize);
+//	this->dotMoverDrawNode->setAnchorPoint(Vec2(0,0));
+//	this->Render();
+//}
 
 Aurora::Cocos2DX::TestBot::TestBot(const Size &viewSize, const Vec2 &position, const Vec2 &velocity, const Vec2 &acceleration, const cocos2d::Color4F &color)
 {
 	this->init(viewSize);
 	this->mainColor = color;
+	this->dotMoverDrawNode->setAnchorPoint(Vec2(0, 0));
+	this->Render();
+}
+
+Aurora::Cocos2DX::TestBot::TestBot(const Size &viewSize, const Vec2 &position, const Vec2 &velocity, const Vec2 &acceleration, const float &mass) : Mover(ConvertVec2Tp_VECTOR2D(position), ConvertVec2Tp_VECTOR2D(velocity), ConvertVec2Tp_VECTOR2D(acceleration), ConvertSizeTo_mRect(viewSize), mass)
+{
+	this->init(viewSize);
 	this->dotMoverDrawNode->setAnchorPoint(Vec2(0, 0));
 	this->Render();
 }
@@ -53,7 +60,7 @@ void Aurora::Cocos2DX::TestBot::Render()
 	this->mainColor = cocos2d::Color4F::MAGENTA;
 	this->SetVelocityRange(5, 0);
 
-	this->dotMoverDrawNode->drawDot(Vec2(0,0), 10, this->mainColor);
+	this->dotMoverDrawNode->drawDot(Vec2(0,0), this->GetMoverMass(), this->mainColor);
 
 	IMover::Render();
 	DelayTime *delayAction = DelayTime::create(0.0001f);

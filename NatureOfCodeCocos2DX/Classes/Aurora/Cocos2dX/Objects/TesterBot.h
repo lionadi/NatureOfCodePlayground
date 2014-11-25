@@ -22,7 +22,7 @@ namespace Aurora
 		public:
 			TestBot();
 			TestBot(const Size &viewSize);
-			TestBot(const Size &viewSize, const Vec2 &position, const Vec2 &velocity, const Vec2 &acceleration);
+			TestBot(const Size &viewSize, const Vec2 &position, const Vec2 &velocity, const Vec2 &acceleration, const float &mass);
 			TestBot(const Size &viewSize, const Vec2 &position, const Vec2 &velocity, const Vec2 &acceleration, const cocos2d::Color4F &color);
 			~TestBot();
 

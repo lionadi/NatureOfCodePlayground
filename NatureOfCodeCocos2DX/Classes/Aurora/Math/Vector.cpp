@@ -151,7 +151,7 @@ namespace Aurora
 			return(*this);
 		}
         
-        const VECTOR2D VECTOR2D::operator/(const Float		&value)
+        const VECTOR2D VECTOR2D::operator/(const Float		&value) const
         {
             return(VECTOR2D(this->X / value, this->Y / value));
         }

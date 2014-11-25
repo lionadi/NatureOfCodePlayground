@@ -19,7 +19,11 @@ namespace Aurora {
 			VECTOR2D acceleration;
 			
 			Float maximiunVelocity;
-			
+
+			Float mass;
+
+			void ConstrainToAreaSize();
+
 		public:
 
 #pragma region Initializations and Constructs
@@ -55,11 +59,16 @@ namespace Aurora {
 			Aurora::DataTypes::Float MaximiunVelocity() const { return maximiunVelocity; }
 			void MaximiunVelocity(const Aurora::DataTypes::Float &value) { maximiunVelocity = value; }
 			void MaximiunVelocity(Aurora::DataTypes::Float &&value) { maximiunVelocity = std::move(value); }
+
+			Aurora::DataTypes::Float Mass() const { return mass; }
+			void Mass(const Aurora::DataTypes::Float &value) { mass = value; }
+			void Mass(Aurora::DataTypes::Float &&value) { mass = std::move(value); }
 #pragma endregion Encapsulated Properties
 
-			void applyForce(const VECTOR2D &value);
+			void ApplyForce(const VECTOR2D &value);
 			
 			void Update();
+			
 		};
 
 	}; // END OF NAMESPACE Random

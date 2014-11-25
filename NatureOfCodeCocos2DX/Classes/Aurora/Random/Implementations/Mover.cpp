@@ -85,7 +85,7 @@ namespace Aurora {
 				/*this->acceleration.X += xdir;
 				this->acceleration.Y += ydir;*/
 				
-				this->moverPhysic->applyForce(normalizedDistancetweenTargetAndPosition * 0.5f);
+				this->moverPhysic->ApplyForce(normalizedDistancetweenTargetAndPosition * 0.5f);
 				CCLOG("Mover target - Address: %X", this);
 				CCLOG("Mover target - position Magnitude: %f", distanceBetweenTargetAndPosition.Magnitude());
 				CCLOG("Mover target location X: %f Y: %f", this->target.X, this->target.Y);
@@ -118,6 +118,9 @@ namespace Aurora {
 			{
 				MoveTowardsTarget();
 			}
+			// TO BE REMOVED TEST PURPOSES: Adds wind simulation
+			this->moverPhysic->ApplyForce(VECTOR2D(0.01f, 0));
+			this->moverPhysic->ApplyForce(VECTOR2D(0, -0.1f));
 		}
 
 		void Mover::UniformCalculations()
@@ -167,16 +170,17 @@ namespace Aurora {
 		{
 			this->SetConstrainsRange(areaSize);
 			this->init();
+			this->moverPhysic->AreaSize(areaSize);
 		}
 
 		Mover::Mover(const VECTOR2D &position, const VECTOR2D &velocity, const mRECT &areaSize) : RandomBaseComplete()
 		{
-			this->init(position, velocity, VECTOR2D::GetZeroVector(), areaSize);
+			this->init(position, velocity, VECTOR2D::GetZeroVector(), areaSize, 1);
 		}
 
-		Mover::Mover(const VECTOR2D &position, const VECTOR2D &velocity, const VECTOR2D &acceleration, const mRECT &areaSize) : RandomBaseComplete()
+		Mover::Mover(const VECTOR2D &position, const VECTOR2D &velocity, const VECTOR2D &acceleration, const mRECT &areaSize, const float &mass) : RandomBaseComplete()
 		{
-			this->init(position, velocity, acceleration, areaSize);
+			this->init(position, velocity, acceleration, areaSize, mass);
 		}
 
 		Mover::Mover(const Mover &value) : RandomBaseComplete(value)
@@ -241,6 +245,7 @@ namespace Aurora {
 		void Mover::init(const Mover &value)
 		{
 			this->SetConstrainsRange(value.GetConstrainsRange());
+			this->moverPhysic->AreaSize(value.GetConstrainsRange());
 			//this->PerlinNoiseCalculator = value.PerlinNoiseCalculator;
 			this->moverPhysic = value.moverPhysic;
 			this->probalitityFactor = value.probalitityFactor;
@@ -262,12 +267,15 @@ namespace Aurora {
 			this->perlinNoiseTime_PositionY = std::move(value.perlinNoiseTime_PositionY);
 		}
 
-		void Mover::init(const VECTOR2D &position, const VECTOR2D &velocity, const VECTOR2D &acceleration, const mRECT &areaSize)
+		void Mover::init(const VECTOR2D &position, const VECTOR2D &velocity, const VECTOR2D &acceleration, const mRECT &areaSize, const float &mass)
 		{
 			this->init();
 
-			if(!areaSize.IsZero())
+			if (!areaSize.IsZero())
+			{
 				this->SetConstrainsRange(areaSize);
+				this->moverPhysic->AreaSize(areaSize);
+			}
 
 			if(!position.IsZero())
 				this->moverPhysic->Position(position);
@@ -277,6 +285,8 @@ namespace Aurora {
 
 			if(!acceleration.IsZero())
 				this->moverPhysic->Acceleration(acceleration);
+
+			this->moverPhysic->Mass(mass);
 		}
 
 		void Mover::SetVelocityRange(const Float moverMaximumVelocity, const Float moverMinimumVelocity)
@@ -287,6 +297,11 @@ namespace Aurora {
 		void Mover::SetPosition(const VECTOR2D &position)
 		{
 			this->moverPhysic->Position(position);
+		}
+
+		const float Mover::GetMoverMass() const
+		{
+			return(this->moverPhysic->Mass());
 		}
 
 		void IMover::Render()

@@ -161,7 +161,7 @@ namespace Aurora
 				*/
 				const VECTOR2D &operator*=(const Float		&value);
             
-                const VECTOR2D operator/(const Float		&value);
+                const VECTOR2D operator/(const Float		&value) const;
 				const VECTOR2D &operator/=(const Float		&value);
 
                 const VECTOR2D &operator*=(const MATRIX2X2		&value);

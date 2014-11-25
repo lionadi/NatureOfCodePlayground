@@ -41,7 +41,7 @@ namespace Aurora {
 			virtual void init() override;
 			virtual void init(const Mover &value);
 			virtual void init(const Mover &&value);
-			virtual void init(const VECTOR2D &position, const VECTOR2D &velocity, const VECTOR2D &acceleration, const mRECT &areaSize);
+			virtual void init(const VECTOR2D &position, const VECTOR2D &velocity, const VECTOR2D &acceleration, const mRECT &areaSize, const float &mass);
 
 		public:
 			Mover();
@@ -49,7 +49,7 @@ namespace Aurora {
 			Mover(const Mover &value);
 			Mover& operator=(const Mover& value);
 			Mover(const VECTOR2D &position, const VECTOR2D &velocity, const mRECT &areaSize);
-			Mover(const VECTOR2D &position, const VECTOR2D &velocity, const VECTOR2D &acceleration, const mRECT &areaSize);
+			Mover(const VECTOR2D &position, const VECTOR2D &velocity, const VECTOR2D &acceleration, const mRECT &areaSize, const float &mass);
 			~Mover();
 			Mover(Mover &&value);
 			Mover & operator=(Mover && value);
@@ -60,6 +60,8 @@ namespace Aurora {
 			void SetVelocityRange(const Float moverMaximumVelocity, const Float moverMinimumVelocity);
 			const VECTOR2D GetCurentPosition() const;
 			const VECTOR2D GetCurentTarget() const;
+
+			const float GetMoverMass() const;
 
 			
 			void Accelerate();

@@ -49,14 +49,18 @@ bool MainMenu::init()
 	this->setColor(cocos2d::Color3B::WHITE);
 	//this->testBots = std::make_unique<AliasDeclarations::VectorTestBots>();
 
-	for (int x = 0; x < 2; ++x)
+	for (int x = 0; x < 10; ++x)
 	{
-		this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.width), RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.height)), Vec2::ZERO, Vec2(1, 1)));
+		// For random generated objects
+		this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.width) / 2, RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.height) / 2), Vec2::ZERO, Vec2::ZERO, RandomNumberGenerator::GetRandomPositiveFloat(30)));
+
+		// Single object
+		//this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(visibleSize.width / 2, visibleSize.height / 2), Vec2::ZERO, Vec2::ZERO));
 	}
 
 
 	this->walker = std::make_shared<DotWalker>(visibleSize, Vec2((visibleSize.width / 2), (visibleSize.height / 2)));
-	this->testBot = std::make_shared<TestBot>(visibleSize, Vec2((visibleSize.width / 2), (visibleSize.height / 2)), Vec2::ZERO, Vec2(1,1));
+	//this->testBot = std::make_shared<TestBot>(visibleSize, Vec2((visibleSize.width / 2), (visibleSize.height / 2)), Vec2::ZERO, Vec2(1,1));
 	this->walker->SetRandomNumberMode(RandomNumberMode::Perlin);
 	//this->testBot->SetRandomNumberMode(RandomNumberMode::Perlin);
 	this->walker->SetWalkerDrawNodeStartPosition(Vec2(origin.x, origin.y));
@@ -77,7 +81,7 @@ bool MainMenu::init()
 
 void MainMenu::update(float dt)
 {
-
+	
 }
 
 void MainMenu::GoToGameScene(cocos2d::Ref *pSender)
