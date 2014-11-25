@@ -9,6 +9,8 @@ void Force::init()
 	this->mass = 10;
 	this->position = VECTOR2D::GetZeroVector();
 	this->velocity = VECTOR2D::GetZeroVector();
+	this->normal = 1;
+	this->frictionCoefficient = 0.01f;
 }
 
 void Force::init(const Force &value)
@@ -18,6 +20,9 @@ void Force::init(const Force &value)
 	this->position = value.position;
 	this->velocity = value.velocity;
 	this->mass = value.mass;
+	this->normal = value.normal;
+	this->friction = value.friction;
+	this->frictionCoefficient = value.frictionCoefficient;
 }
 
 void Force::init(Force &&value)
@@ -27,6 +32,9 @@ void Force::init(Force &&value)
 	this->position = std::move(value.position);
 	this->velocity = std::move(value.velocity);
 	this->mass = std::move(value.mass);
+	this->normal = std::move(value.normal);
+	this->friction = std::move(value.friction);
+	this->frictionCoefficient = std::move(value.frictionCoefficient);
 }
 
 Force::Force()
@@ -34,19 +42,19 @@ Force::Force()
 	this->init();
 }
 
-Force::Force(const Force &value) : IForceBase(value)
+Force::Force(const Force &value) : IPhysicsBase(value)
 {
 	this->init(value);
 }
 
-Force::Force(Force &&value) : IForceBase(std::move(value))
+Force::Force(Force &&value) : IPhysicsBase(std::move(value))
 {
 	this->init(std::move(value));
 }
 
 Force::~Force()
 {
-	IForceBase::~IForceBase();
+	IPhysicsBase::~IPhysicsBase();
 }
 
 Force& Force::operator=(const Force& value)
@@ -95,6 +103,15 @@ void Force::ConstrainToAreaSize()
 		velocity.Y *= -1;
 		position.Y = 0;
 	}
+}
+
+void Force::CalculateFriction()
+{
+	float frictionMagnitude = this->frictionCoefficient * this->normal;
+	this->friction = this->velocity.Clone();
+	this->friction *= -1;
+	this->friction.Normalize();
+	this->friction *= frictionMagnitude;
 }
 
 

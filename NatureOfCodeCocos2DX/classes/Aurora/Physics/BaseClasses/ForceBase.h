@@ -11,14 +11,16 @@ namespace Aurora {
 	namespace Physics {
 
 		
-		class IForceBase 
+		class IPhysicsBase 
 		{
 		protected:
 			mRECT areaSize;
+
+			
 			
 		public:
-			IForceBase() = default;
-			virtual ~IForceBase() = default;
+			IPhysicsBase() = default;
+			virtual ~IPhysicsBase() = default;
 			virtual void init() = 0;
 			
 			Aurora::Math::mRECT AreaSize() const { return areaSize; }

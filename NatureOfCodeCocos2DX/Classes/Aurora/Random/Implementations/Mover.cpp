@@ -120,7 +120,9 @@ namespace Aurora {
 			}
 			// TO BE REMOVED TEST PURPOSES: Adds wind simulation
 			this->moverPhysic->ApplyForce(VECTOR2D(0.01f, 0));
-			this->moverPhysic->ApplyForce(VECTOR2D(0, -0.1f));
+
+			// TO BE REMOVED TEST PURPOSES: Adds gravity simulation, NOTICE the mass multiplication to simulate gravity
+			this->moverPhysic->ApplyForce(VECTOR2D(0, -0.1f * this->moverPhysic->Mass()));
 		}
 
 		void Mover::UniformCalculations()

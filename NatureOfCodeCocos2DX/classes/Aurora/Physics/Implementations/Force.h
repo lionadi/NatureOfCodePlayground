@@ -9,20 +9,30 @@ using namespace Aurora::Math;
 namespace Aurora {
 	namespace Physics {
 
-		class Force : public IForceBase
+		class Force : public IPhysicsBase
 		{
 		protected:
 			VECTOR2D position;
 			
+
 			VECTOR2D velocity;
 			
 			VECTOR2D acceleration;
+
+			VECTOR2D friction;
+			
+			Float frictionCoefficient;
 			
 			Float maximiunVelocity;
 
 			Float mass;
 
+			Float normal;
+			
+
 			void ConstrainToAreaSize();
+
+			void CalculateFriction();
 
 		public:
 
@@ -42,27 +52,39 @@ namespace Aurora {
 #pragma region Encapsulated Properties
 
 			Aurora::Math::VECTOR2D Position() const { return position; }
-			void Position(const Aurora::Math::VECTOR2D &value) { position = value; }
-			void Position(Aurora::Math::VECTOR2D &&value) { position = std::move(value); }
-
+			template<typename T>
+			void Position(T &&value) { position = std::forward<T>(value); }
 
 			Aurora::Math::VECTOR2D Velocity() const { return velocity; }
-			void Velocity(const Aurora::Math::VECTOR2D &value) { velocity = value; }
-			void Velocity(Aurora::Math::VECTOR2D &&value) { velocity = std::move(value); }
-
+			template<typename T>
+			void Velocity(T &&value) { velocity = std::forward<T>(value); }
 
 			Aurora::Math::VECTOR2D Acceleration() const { return acceleration; }
-			void Acceleration(const Aurora::Math::VECTOR2D &value) { acceleration = value; }
-			void Acceleration(Aurora::Math::VECTOR2D &&value) { acceleration = std::move(value); }
+			template<typename T>
+			void Acceleration(T &&value) { acceleration = std::forward<T>(value); }
+			
+			Aurora::Math::VECTOR2D Friction() const { return friction; }
+			template<typename T>
+			void Friction(T &&value) { friction = std::forward<T>(value); }
 
+			
+			Aurora::DataTypes::Float FrictionCoefficient() const { return frictionCoefficient; }
+			template<typename T>
+			void FrictionCoefficient(T &&value) { frictionCoefficient = std::forward<T>(value); }
 
+			
 			Aurora::DataTypes::Float MaximiunVelocity() const { return maximiunVelocity; }
-			void MaximiunVelocity(const Aurora::DataTypes::Float &value) { maximiunVelocity = value; }
-			void MaximiunVelocity(Aurora::DataTypes::Float &&value) { maximiunVelocity = std::move(value); }
-
+			template<typename T>
+			void MaximiunVelocity(T &&value) { maximiunVelocity = std::forward<T>(value); }
+			
 			Aurora::DataTypes::Float Mass() const { return mass; }
-			void Mass(const Aurora::DataTypes::Float &value) { mass = value; }
-			void Mass(Aurora::DataTypes::Float &&value) { mass = std::move(value); }
+			template<typename T>
+			void Mass(T &&value) { mass = std::forward<T>(value); }
+			
+			Aurora::DataTypes::Float Normal() const { return normal; }
+			template<typename T>
+			void Normal(T &&value) { normal = std::forward<T>(value); }
+			
 #pragma endregion Encapsulated Properties
 
 			void ApplyForce(const VECTOR2D &value);

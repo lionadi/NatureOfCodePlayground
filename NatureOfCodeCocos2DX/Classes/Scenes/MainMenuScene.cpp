@@ -49,10 +49,10 @@ bool MainMenu::init()
 	this->setColor(cocos2d::Color3B::WHITE);
 	//this->testBots = std::make_unique<AliasDeclarations::VectorTestBots>();
 
-	for (int x = 0; x < 10; ++x)
+	for (int x = 0; x < 100; ++x)
 	{
 		// For random generated objects
-		this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.width) / 2, RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.height) / 2), Vec2::ZERO, Vec2::ZERO, RandomNumberGenerator::GetRandomPositiveFloat(30)));
+		this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.width), RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.height)), Vec2::ZERO, Vec2(RandomNumberGenerator::GetRandomFloat(2), RandomNumberGenerator::GetRandomFloat(2)), RandomNumberGenerator::GetRandomPositiveFloat(30)));
 
 		// Single object
 		//this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(visibleSize.width / 2, visibleSize.height / 2), Vec2::ZERO, Vec2::ZERO));
