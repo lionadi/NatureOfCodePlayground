@@ -120,9 +120,11 @@ namespace Aurora {
 			}
 			// TO BE REMOVED TEST PURPOSES: Adds wind simulation
 			this->moverPhysic->ApplyForce(VECTOR2D(0.01f, 0));
+			std::shared_ptr<CommonCalculations> cc = CommonCalculations::GetInstance();
+			VECTOR2D gravityForce = cc->Calculations->call(PhysicsConstants::Callbacks_NormalEarthGravityCalculations_FunctionName, VECTOR2D::GetZeroVector(), PhysicsConstants::EarthGravity, this->moverPhysic->Mass());
 
 			// TO BE REMOVED TEST PURPOSES: Adds gravity simulation, NOTICE the mass multiplication to simulate gravity
-			this->moverPhysic->ApplyForce(VECTOR2D(0, -0.1f * this->moverPhysic->Mass()));
+			this->moverPhysic->ApplyForce(gravityForce);
 		}
 
 		void Mover::UniformCalculations()

@@ -3,14 +3,11 @@
 namespace Aurora {
 	namespace Physics {
 		
+		std::shared_ptr<CommonCalculations> CommonCalculations::instance = nullptr;
 
-		const VECTOR2D CommonCalculations::EarthGravity = VECTOR2D{ 0, 0.1f };
-		const float CommonCalculations::NormalSurfaceFrictionCoefficient = 0.01f;
-
-
-		void CommonCalculations::init()
+		CommonCalculations::CommonCalculations()
 		{
-			
+			this->init();
 		}
 
 	}; // END OF NAMESPACE Random

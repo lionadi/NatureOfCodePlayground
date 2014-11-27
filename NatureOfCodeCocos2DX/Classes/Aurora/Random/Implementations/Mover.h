@@ -4,7 +4,7 @@
 #include "..\BaseClasses\ObjectBase.h"
 #include "..\..\Physics\PhysicsOperations.h"
 
-
+using namespace Aurora::Physics;
 
 namespace Aurora {
 	namespace Random {

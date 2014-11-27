@@ -2,7 +2,7 @@
 #define NatureOfCodeCocos2DX_Force_h
 
 
-#include "../BaseClasses/ForceBase.h"
+#include "../BaseClasses/PhysicsBase.h"
 
 using namespace Aurora::Math;
 
@@ -33,6 +33,8 @@ namespace Aurora {
 			void ConstrainToAreaSize();
 
 			void CalculateFriction();
+
+			
 
 		public:
 
@@ -91,7 +93,11 @@ namespace Aurora {
 			
 			void Update();
 			
+			
+			
 		};
+
+		
 
 	}; // END OF NAMESPACE Random
 }; // END OF NAMESPACE Aurora

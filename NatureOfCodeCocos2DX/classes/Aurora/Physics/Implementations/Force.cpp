@@ -77,6 +77,7 @@ void Force::ApplyForce(const VECTOR2D &value)
 
 void Force::Update()
 {
+	//this->ApplyForce(this->callbacks->call(PhysicsConstants::Callbacks_FrictionCalculations_FunctionName, ))
 	this->velocity += this->acceleration;
 	this->velocity.Limit(maximiunVelocity);
 	this->position += velocity;
@@ -103,15 +104,6 @@ void Force::ConstrainToAreaSize()
 		velocity.Y *= -1;
 		position.Y = 0;
 	}
-}
-
-void Force::CalculateFriction()
-{
-	float frictionMagnitude = this->frictionCoefficient * this->normal;
-	this->friction = this->velocity.Clone();
-	this->friction *= -1;
-	this->friction.Normalize();
-	this->friction *= frictionMagnitude;
 }
 
 

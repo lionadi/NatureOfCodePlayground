@@ -2,31 +2,52 @@
 #define NatureOfCodeCocos2DX_CommonCalculations_h
 
 
-#include "../BaseClasses/ForceBase.h"
+
+#include "PhysicsConstants.h"
 
 using namespace Aurora::Math;
 
 namespace Aurora {
 	namespace Physics {
-		class CommonCalculations
-		{
-		protected:
-			const static  VECTOR2D EarthGravity;
-			const static float NormalSurfaceFrictionCoefficient;
-		public:
-			static void init();
-			//static VECTOR2D CalculateGravityForMass(const Float &mass);
-			//static VECTOR2D CalculateGravityForMass(const Float &mass);
-			/*Force();
-			virtual ~Force();
-			Force(const Force &value);
-			Force& operator=(const Force& value);
-			Force(Force &&value);
-			Force & operator=(Force && value);
 
-			virtual void init() override;
-			virtual void init(const Force &value);
-			virtual void init(Force &&value);*/
+		/*std::function<VECTOR2D(VECTOR2D, float, float)> FrictionCalculations = [](VECTOR2D velocity, float frictionCoefficient, float normal)
+		{
+			float frictionMagnitude = frictionCoefficient * normal;
+			VECTOR2D friction = velocity.Clone();
+			friction *= -1;
+			friction.Normalize();
+			friction *= frictionMagnitude;
+			return friction;
+		};*/
+
+		class CommonCalculations : public ICalculationsBase
+		{
+		private:
+			
+			static std::shared_ptr<CommonCalculations> instance;
+			virtual void init() override
+			{
+				Calculations = std::make_shared < Global::Callbacks>();
+
+				Calculations->add(PhysicsConstants::Callbacks_NormalEarthGravityCalculations_FunctionName, [](VECTOR2D gravity, float mass)
+				{
+					return VECTOR2D(gravity.X, gravity.Y * mass);
+				});
+			}
+
+		public:
+			CommonCalculations();
+			virtual ~CommonCalculations() = default;
+			static std::shared_ptr<CommonCalculations> GetInstance()
+			{
+				if (instance == nullptr)
+				{
+					instance = std::make_shared<CommonCalculations>();
+				}
+
+				return instance;
+			}
+
 		};
 	}; // END OF NAMESPACE Random
 }; // END OF NAMESPACE Aurora

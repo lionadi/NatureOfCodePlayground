@@ -10,6 +10,8 @@
 #include <typeinfo>
 #include <string>
 #include <map>
+#include <memory>
+#include "Constants.h"
 
 /*! \file */ 
 /*! A quick define for a debug mode key usage without any big complications. */
@@ -106,7 +108,7 @@ namespace Aurora
 			~Callbacks(void)
 			{
 				for (auto entry : _callbacks) {
-					delete static_cast<std::function<void()>*>(entry.second.function);
+					delete static_cast<std::function<void()>*>(entry.second->function);
 				}
 			}
 
@@ -120,8 +122,10 @@ namespace Aurora
 
 				auto function = new decltype(to_function(lambda))(to_function(lambda));
 
-				_callbacks[name].function = static_cast<void*>(function);
-				_callbacks[name].signature = &typeid(function);
+				this->_callbacks.emplace(name, std::make_shared<Callback>());
+
+				_callbacks[name]->function = static_cast<void*>(function);
+				_callbacks[name]->signature = &typeid(function);
 			}
 
 			void
@@ -131,7 +135,7 @@ namespace Aurora
 					return;
 				}
 
-				delete static_cast<std::function<void()>*>(_callbacks[name].function);
+				delete static_cast<std::function<void()>*>(_callbacks[name]->function);
 			}
 
 			template <typename ...Args>
@@ -140,17 +144,34 @@ namespace Aurora
 			{
 				auto callback = _callbacks.at(name);
 				auto function = static_cast<std::function<void(Args...)>*>(
-					callback.function);
+					callback->function);
 
-				if (typeid(function) != *(callback.signature)) {
+				if (typeid(function) != *(callback->signature)) {
 					throw std::bad_typeid();
 				}
 
 				(*function)(args...);
 			}
 
+			template <typename returntype, typename ...Args >
+			auto
+				call(std::string name,returntype returnType, Args... args) -> decltype(returnType)
+			{
+				auto callback = _callbacks.at(name);
+				auto function = static_cast<std::function<decltype(returnType)(Args...)>*>(
+					callback->function);
+
+				if (typeid(function) != *(callback->signature)) {
+					throw std::bad_typeid();
+				}
+
+				auto returnValue = (*function)(args...);
+
+				return(returnValue);
+			}
+
 		private:
-			std::map<std::string, Callback> _callbacks;
+			std::map<std::string, std::shared_ptr<Callback>> _callbacks;
 		};
 
 		//###################################################################################
