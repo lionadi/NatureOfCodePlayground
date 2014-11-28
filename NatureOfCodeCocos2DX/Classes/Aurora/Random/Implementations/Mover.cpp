@@ -119,11 +119,19 @@ namespace Aurora {
 				MoveTowardsTarget();
 			}
 			// TO BE REMOVED TEST PURPOSES: Adds wind simulation
-			this->moverPhysic->ApplyForce(VECTOR2D(0.01f, 0));
-			std::shared_ptr<CommonCalculations> cc = CommonCalculations::GetInstance();
-			VECTOR2D gravityForce = cc->Calculations->call(PhysicsConstants::Callbacks_NormalEarthGravityCalculations_FunctionName, VECTOR2D::GetZeroVector(), PhysicsConstants::EarthGravity, this->moverPhysic->Mass());
+			
+			//std::shared_ptr<CommonCalculations> cc = CommonCalculations::GetInstance();
+			PhysicsCalculatorAlias physicsCalculator = PhysicsCalculator::GetInstance(PhysicsCalculationMode::Normal);
+			VECTOR2D gravityForce = CommonCalculations::NormalEarthGravityCalculations(PhysicsConstants::EarthGravity, this->moverPhysic->Mass());
+			VECTOR2D frictionForce = FrictionCalculations::NormalFrictionCalculations(this->moverPhysic->Velocity(), PhysicsConstants::NormalSurfaceFrictionCoefficient, this->moverPhysic->Normal());
+			/*VECTOR2D gravityForce = cc->Calculations->call(PhysicsConstants::Callbacks_NormalEarthGravityCalculations_FunctionName, VECTOR2D::GetZeroVector(), PhysicsConstants::EarthGravity, this->moverPhysic->Mass());
+			VECTOR2D friction = VECTOR2D::GetZeroVector();
+			VECTOR2D gravityForce2 = cc->Calculations->call(PhysicsConstants::Callbacks_NormalEarthGravityCalculations_FunctionName, VECTOR2D::GetZeroVector(), friction, this->moverPhysic->Mass());*/
+			//VECTOR2D gravityForce2 = cc->Calculations->call(PhysicsConstants::Callbacks_NormalEarthGravityCalculations_FunctionName, PhysicsConstants::EarthGravity, this->moverPhysic->Mass());
 
 			// TO BE REMOVED TEST PURPOSES: Adds gravity simulation, NOTICE the mass multiplication to simulate gravity
+			this->moverPhysic->ApplyForce(frictionForce);
+			this->moverPhysic->ApplyForce(VECTOR2D(0.01f, 0));
 			this->moverPhysic->ApplyForce(gravityForce);
 		}
 

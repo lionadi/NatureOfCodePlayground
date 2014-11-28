@@ -138,7 +138,7 @@ namespace Aurora
 				delete static_cast<std::function<void()>*>(_callbacks[name]->function);
 			}
 
-			template <typename ...Args>
+			/*template <typename ...Args>
 			void
 				call(std::string name, Args... args)
 			{
@@ -146,20 +146,26 @@ namespace Aurora
 				auto function = static_cast<std::function<void(Args...)>*>(
 					callback->function);
 
+				CCLOG("Callback type id: %s", *(callback->signature));
+				CCLOG("Function type id: %s", typeid(function));
+
 				if (typeid(function) != *(callback->signature)) {
 					throw std::bad_typeid();
 				}
 
 				(*function)(args...);
-			}
+			}*/
 
 			template <typename returntype, typename ...Args >
 			auto
-				call(std::string name,returntype returnType, Args... args) -> decltype(returnType)
+				call(std::string name,returntype returnType, Args ...args) -> decltype(returnType)
 			{
 				auto callback = _callbacks.at(name);
 				auto function = static_cast<std::function<decltype(returnType)(Args...)>*>(
 					callback->function);
+
+				CCLOG("Callback type id: %s", callback->signature->name());
+				CCLOG("Function type id: %s", typeid(function).name());
 
 				if (typeid(function) != *(callback->signature)) {
 					throw std::bad_typeid();

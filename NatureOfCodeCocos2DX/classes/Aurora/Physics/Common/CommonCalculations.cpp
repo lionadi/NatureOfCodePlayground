@@ -3,12 +3,12 @@
 namespace Aurora {
 	namespace Physics {
 		
-		std::shared_ptr<CommonCalculations> CommonCalculations::instance = nullptr;
+		
 
-		CommonCalculations::CommonCalculations()
+		const std::function<Aurora::Math::VECTOR2D(const Aurora::Math::VECTOR2D&, float)> CommonCalculations::NormalEarthGravityCalculations = [](const VECTOR2D &gravity, float mass)
 		{
-			this->init();
-		}
+			return VECTOR2D(gravity.X, gravity.Y * mass);
+		};
 
 	}; // END OF NAMESPACE Random
 }; // END OF NAMESPACE Aurora

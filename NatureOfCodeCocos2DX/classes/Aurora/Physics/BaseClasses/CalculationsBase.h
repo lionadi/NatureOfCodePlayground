@@ -10,6 +10,10 @@ using namespace Aurora::Math;
 namespace Aurora {
 	namespace Physics {
 
+		enum class PhysicsCalculationMode
+		{
+			Base, Normal
+		};
 
 		class ICalculationsBase
 		{
@@ -20,8 +24,8 @@ namespace Aurora {
 			ICalculationsBase() = default;
 			virtual ~ICalculationsBase() = default;
 			virtual void init() = 0;
-			std::shared_ptr<Global::Callbacks> Calculations;
-			
+			//std::shared_ptr<Global::Callbacks> Calculations;
+			virtual void DoCalculations() = 0;
 			
 		};
 
