@@ -2,19 +2,22 @@
 #define NatureOfCodeCocos2DX_BasePhysicsCalculator_h
 
 
-#include "../BaseClasses/PhysicsBase.h"
+#include "../Common/FrictionCalculations.h"
 #include "Force.h"
 
 using namespace Aurora::Math;
 
 namespace Aurora {
 	namespace Physics {
+		// Use Singleton?;Factory + Builder?
 		class PhysicsCalculator : public ICalculationsBase
 		{
 			protected:
 			static std::shared_ptr<PhysicsCalculator> instance;
 			virtual void init() override;
 			std::vector<VECTOR2D> constantForces;
+			std::map<PhysicsCalculationMode, std::shared_ptr<PhysicsCalculator>> physicsCalculatorInstances;
+			
 		public:
 			PhysicsCalculator() = default;
 			virtual ~PhysicsCalculator() = default;
@@ -22,14 +25,16 @@ namespace Aurora {
 			template<typename ConstantForce>
 			void AddConstantForceToCalculator(ConstantForce &&constantForce);
 			
-			virtual void PerformCalculationsOnForce(Force &&value);
-			virtual void PerformCalculationsOnForce(const Force &value);
+			virtual void PerformCalculationsOnForce(ForceAlias &value);
 
 			
 
 			virtual void DoCalculations() override;
 
-			static std::shared_ptr<PhysicsCalculator> GetInstance(PhysicsCalculationMode calculationMode);
+			static std::shared_ptr<PhysicsCalculator> GetInstance();
+
+			std::shared_ptr<PhysicsCalculator> GetPhysicsCalculatorOption(PhysicsCalculationMode calculationMode);
+			void CreateInstanceOfPhysicsCalculatorOption(PhysicsCalculationMode calculationMode);
 		};
 
 		class NormalPhysicsCalculator : public PhysicsCalculator
@@ -41,9 +46,7 @@ namespace Aurora {
 			NormalPhysicsCalculator() = default;
 			virtual ~NormalPhysicsCalculator() = default;
 
-			virtual void PerformCalculationsOnForce(Force &&value) override;
-
-			virtual void PerformCalculationsOnForce(const Force &value) override;
+			virtual void PerformCalculationsOnForce(ForceAlias &value) override;
 
 			
 

@@ -2,10 +2,11 @@
 #define NatureOfCodeCocos2DX_PhysicsOperations_h
 
 #include "Implementations/PhysicsCalculator.h"
-#include "Common/FrictionCalculations.h"
+#include "Representations/Liquid.h"
 namespace Aurora {
 	namespace Physics {
-		using PhysicsCalculatorAlias = std::shared_ptr < PhysicsCalculator > ;
+		using PhysicsCalculatorAlias = std::shared_ptr < PhysicsCalculator >;
+		
 	};
 };
 #endif

@@ -16,7 +16,8 @@ namespace Aurora {
 			/*mutable VECTOR2D position;
 			mutable VECTOR2D velocity;
 			mutable VECTOR2D acceleration;*/
-			std::shared_ptr<Physics::Force> moverPhysic;
+			std::shared_ptr<Physics::Force> objectPhysics;
+			
 			mutable VECTOR2D target;
 			mutable VECTOR3D perlinNoiseTime_PositionX;
 			mutable VECTOR3D perlinNoiseTime_PositionY;
@@ -67,6 +68,8 @@ namespace Aurora {
 			void Accelerate();
 			void Decellerate();
 			
+			template<typename T>
+			void ObjectPhysics(T &&value) { objectPhysics = std::forward<T>(value); }
 
 			bool MoveAutomatically = true;
 

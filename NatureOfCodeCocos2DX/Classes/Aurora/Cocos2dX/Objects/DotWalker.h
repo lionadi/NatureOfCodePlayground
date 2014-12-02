@@ -21,12 +21,17 @@ namespace Aurora
 			void RenderWalkerByPosition(const VECTOR2D &position);
 			void CalculateColor();
 			DrawNode *dotWalkerDrawNode;
+			void init() final;
+
+			void init(const Size &areaSize);
+
+			void init(const IWalker &value);
 		public:
 			DotWalker();
 			DotWalker(const Size &viewSize);
 			DotWalker(const Size &viewSize, const Vec2 &position);
 			DotWalker(const Vec2 &position);
-			~DotWalker();
+			virtual ~DotWalker();
 
 			
 			DrawNode * GetWalkerDrawNode();
@@ -38,11 +43,7 @@ namespace Aurora
 
 			void Render() final;
 
-			void init() final;
-
-			void init(const Size &areaSize);
-
-			void init(const IWalker &value);
+			
 
 		};
 

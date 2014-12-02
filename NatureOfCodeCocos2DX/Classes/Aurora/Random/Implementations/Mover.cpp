@@ -5,7 +5,7 @@ namespace Aurora {
 
 		void Mover::Accelerate()
 		{
-			this->moverPhysic->Update();
+			this->objectPhysics->Update();
 			//VECTOR2D emptyVector;
 			/*if (this->target != emptyVector)
 			{
@@ -18,7 +18,7 @@ namespace Aurora {
 
 		void Mover::Decellerate()
 		{
-			this->moverPhysic->Update();
+			this->objectPhysics->Update();
 			/*VECTOR2D emptyVector;
 			if (this->target != emptyVector)
 			{
@@ -36,7 +36,7 @@ namespace Aurora {
 
 		const VECTOR2D Mover::GetCurentPosition() const
 		{
-			return(this->moverPhysic->Position());
+			return(this->objectPhysics->Position());
 		}
 
 		const VECTOR2D  Mover::GetCurentTarget() const
@@ -46,25 +46,25 @@ namespace Aurora {
 
 		void Mover::Constrain()
 		{
-			if (this->moverPhysic->Position().X > this->GetConstrainsRange().Width) {
-				this->moverPhysic->Position(VECTOR2D(0, this->moverPhysic->Position().Y));
+			if (this->objectPhysics->Position().X > this->GetConstrainsRange().Width) {
+				this->objectPhysics->Position(VECTOR2D(0, this->objectPhysics->Position().Y));
 			}
-			else if (this->moverPhysic->Position().X < 0) {
-				this->moverPhysic->Position(VECTOR2D(this->GetConstrainsRange().Width, this->moverPhysic->Position().Y));
+			else if (this->objectPhysics->Position().X < 0) {
+				this->objectPhysics->Position(VECTOR2D(this->GetConstrainsRange().Width, this->objectPhysics->Position().Y));
 			}
 
-			if (this->moverPhysic->Position().Y > this->GetConstrainsRange().Height) {
-				this->moverPhysic->Position(VECTOR2D(this->moverPhysic->Position().X, 0));
+			if (this->objectPhysics->Position().Y > this->GetConstrainsRange().Height) {
+				this->objectPhysics->Position(VECTOR2D(this->objectPhysics->Position().X, 0));
 			}
-			else if (this->moverPhysic->Position().Y < 0) {
-				this->moverPhysic->Position(VECTOR2D(this->moverPhysic->Position().X, this->GetConstrainsRange().Height));
+			else if (this->objectPhysics->Position().Y < 0) {
+				this->objectPhysics->Position(VECTOR2D(this->objectPhysics->Position().X, this->GetConstrainsRange().Height));
 			}
 		}
 
 		void Mover::MoveTowardsTarget()
 		{			
 			Float choice = RandomNumberGenerator::GetRandomPositiveFloat(0, 1);
-			VECTOR2D distanceBetweenTargetAndPosition = this->target - this->moverPhysic->Position();
+			VECTOR2D distanceBetweenTargetAndPosition = this->target - this->objectPhysics->Position();
 			VECTOR2D normalizedDistancetweenTargetAndPosition = distanceBetweenTargetAndPosition;
 			normalizedDistancetweenTargetAndPosition.Normalize();
 
@@ -85,11 +85,11 @@ namespace Aurora {
 				/*this->acceleration.X += xdir;
 				this->acceleration.Y += ydir;*/
 				
-				this->moverPhysic->ApplyForce(normalizedDistancetweenTargetAndPosition * 0.5f);
+				this->objectPhysics->ApplyForce(normalizedDistancetweenTargetAndPosition * 0.5f);
 				CCLOG("Mover target - Address: %X", this);
 				CCLOG("Mover target - position Magnitude: %f", distanceBetweenTargetAndPosition.Magnitude());
 				CCLOG("Mover target location X: %f Y: %f", this->target.X, this->target.Y);
-				CCLOG("Mover position location X: %f Y: %f", this->moverPhysic->Position().X, this->moverPhysic->Position().Y);
+				CCLOG("Mover position location X: %f Y: %f", this->objectPhysics->Position().X, this->objectPhysics->Position().Y);
 				CCLOG("Mover distanceBetweenTargetAndPosition location X: %f Y: %f", distanceBetweenTargetAndPosition.X, distanceBetweenTargetAndPosition.Y);
 				// Notice that if a targe is specified the mover must move towards that target untill it has reached it then only we can null the target and allow the mover to go on randomly
 				if (this->MoveAutomatically && (distanceBetweenTargetAndPosition.Magnitude() <= 10))
@@ -102,7 +102,7 @@ namespace Aurora {
 			}
 			else
 			{
-				this->moverPhysic->Acceleration(VECTOR2D(RandomNumberGenerator::GetRandomFloat(2), RandomNumberGenerator::GetRandomFloat(2)));
+				this->objectPhysics->Acceleration(VECTOR2D(RandomNumberGenerator::GetRandomFloat(2), RandomNumberGenerator::GetRandomFloat(2)));
 			}
 			
 			if (!this->MoveAutomatically)
@@ -121,18 +121,8 @@ namespace Aurora {
 			// TO BE REMOVED TEST PURPOSES: Adds wind simulation
 			
 			//std::shared_ptr<CommonCalculations> cc = CommonCalculations::GetInstance();
-			PhysicsCalculatorAlias physicsCalculator = PhysicsCalculator::GetInstance(PhysicsCalculationMode::Normal);
-			VECTOR2D gravityForce = CommonCalculations::NormalEarthGravityCalculations(PhysicsConstants::EarthGravity, this->moverPhysic->Mass());
-			VECTOR2D frictionForce = FrictionCalculations::NormalFrictionCalculations(this->moverPhysic->Velocity(), PhysicsConstants::NormalSurfaceFrictionCoefficient, this->moverPhysic->Normal());
-			/*VECTOR2D gravityForce = cc->Calculations->call(PhysicsConstants::Callbacks_NormalEarthGravityCalculations_FunctionName, VECTOR2D::GetZeroVector(), PhysicsConstants::EarthGravity, this->moverPhysic->Mass());
-			VECTOR2D friction = VECTOR2D::GetZeroVector();
-			VECTOR2D gravityForce2 = cc->Calculations->call(PhysicsConstants::Callbacks_NormalEarthGravityCalculations_FunctionName, VECTOR2D::GetZeroVector(), friction, this->moverPhysic->Mass());*/
-			//VECTOR2D gravityForce2 = cc->Calculations->call(PhysicsConstants::Callbacks_NormalEarthGravityCalculations_FunctionName, PhysicsConstants::EarthGravity, this->moverPhysic->Mass());
-
-			// TO BE REMOVED TEST PURPOSES: Adds gravity simulation, NOTICE the mass multiplication to simulate gravity
-			this->moverPhysic->ApplyForce(frictionForce);
-			this->moverPhysic->ApplyForce(VECTOR2D(0.01f, 0));
-			this->moverPhysic->ApplyForce(gravityForce);
+			PhysicsCalculatorAlias physicsCalculator = PhysicsCalculator::GetInstance()->GetPhysicsCalculatorOption(PhysicsCalculationMode::Normal);
+			physicsCalculator->PerformCalculationsOnForce(this->objectPhysics);
 		}
 
 		void Mover::UniformCalculations()
@@ -165,12 +155,12 @@ namespace Aurora {
 			this->perlinNoiseTime_PositionY += 0.1f;
 
 
-			this->moverPhysic->Acceleration(VECTOR2D(tempX, tempY));
+			this->objectPhysics->Acceleration(VECTOR2D(tempX, tempY));
 			//this->moverPhysic->Acceleration(this->moverPhysic->Acceleration().Normalize());
 			
-			this->moverPhysic->Acceleration().Normalize();
+			this->objectPhysics->Acceleration().Normalize();
 			auto accelerationMultiple = RandomNumberGenerator::GetRandomPositiveFloat(3);
-			this->moverPhysic->Acceleration(this->moverPhysic->Acceleration() * accelerationMultiple);
+			this->objectPhysics->Acceleration(this->objectPhysics->Acceleration() * accelerationMultiple);
 		}
 
 		void Mover::NormalCalculations()
@@ -182,7 +172,7 @@ namespace Aurora {
 		{
 			this->SetConstrainsRange(areaSize);
 			this->init();
-			this->moverPhysic->AreaSize(areaSize);
+			this->objectPhysics->AreaSize(areaSize);
 		}
 
 		Mover::Mover(const VECTOR2D &position, const VECTOR2D &velocity, const mRECT &areaSize) : RandomBaseComplete()
@@ -251,15 +241,15 @@ namespace Aurora {
 			this->probalitityFactor = 0.9f;
 			this->perlinNoiseTime_PositionX = VECTOR3D(0, 0, 0);
 			this->perlinNoiseTime_PositionY = VECTOR3D(10000, 10000, 10000);
-			this->moverPhysic = std::make_shared<Physics::Force>();
+			this->objectPhysics = std::make_shared<Physics::Force>();
 		}
 
 		void Mover::init(const Mover &value)
 		{
 			this->SetConstrainsRange(value.GetConstrainsRange());
-			this->moverPhysic->AreaSize(value.GetConstrainsRange());
+			this->objectPhysics->AreaSize(value.GetConstrainsRange());
 			//this->PerlinNoiseCalculator = value.PerlinNoiseCalculator;
-			this->moverPhysic = value.moverPhysic;
+			this->objectPhysics = value.objectPhysics;
 			this->probalitityFactor = value.probalitityFactor;
 			this->SetRandomNumberMode(value.GetRandomNumberMode());
 			this->target = value.target;
@@ -272,7 +262,7 @@ namespace Aurora {
 		{
 			this->SetConstrainsRange(value.GetConstrainsRange());
 			//this->PerlinNoiseCalculator = value.PerlinNoiseCalculator;
-			this->moverPhysic = std::move(value.moverPhysic);
+			this->objectPhysics = std::move(value.objectPhysics);
 			this->probalitityFactor = std::move(value.probalitityFactor);
 			this->target = std::move(value.target);
 			this->perlinNoiseTime_PositionX = std::move(value.perlinNoiseTime_PositionX);
@@ -286,34 +276,34 @@ namespace Aurora {
 			if (!areaSize.IsZero())
 			{
 				this->SetConstrainsRange(areaSize);
-				this->moverPhysic->AreaSize(areaSize);
+				this->objectPhysics->AreaSize(areaSize);
 			}
 
 			if(!position.IsZero())
-				this->moverPhysic->Position(position);
+				this->objectPhysics->Position(position);
 
 			if(!velocity.IsZero())
-				this->moverPhysic->Velocity(velocity);
+				this->objectPhysics->Velocity(velocity);
 
 			if(!acceleration.IsZero())
-				this->moverPhysic->Acceleration(acceleration);
+				this->objectPhysics->Acceleration(acceleration);
 
-			this->moverPhysic->Mass(mass);
+			this->objectPhysics->Mass(mass);
 		}
 
 		void Mover::SetVelocityRange(const Float moverMaximumVelocity, const Float moverMinimumVelocity)
 		{
-			this->moverPhysic->MaximiunVelocity(moverMaximumVelocity);
+			this->objectPhysics->MaximiunVelocity(moverMaximumVelocity);
 		}
 
 		void Mover::SetPosition(const VECTOR2D &position)
 		{
-			this->moverPhysic->Position(position);
+			this->objectPhysics->Position(position);
 		}
 
 		const float Mover::GetMoverMass() const
 		{
-			return(this->moverPhysic->Mass());
+			return(this->objectPhysics->Mass());
 		}
 
 		void IMover::Render()

@@ -14,7 +14,7 @@ namespace Aurora
 
 		public:
 			const static std::function<VECTOR2D(const VECTOR2D&, float, float)> NormalFrictionCalculations;
-			
+			const static std::function < VECTOR2D(const VECTOR2D&, float)> SimplifiedDragForceCalculations;
 			
 		};
 

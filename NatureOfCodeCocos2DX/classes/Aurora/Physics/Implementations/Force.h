@@ -8,11 +8,12 @@ using namespace Aurora::Math;
 
 namespace Aurora {
 	namespace Physics {
+		
 
 		class Force : public IPhysicsBase
 		{
 		protected:
-			VECTOR2D position;
+			
 			
 
 			VECTOR2D velocity;
@@ -25,7 +26,7 @@ namespace Aurora {
 			
 			Float maximiunVelocity;
 
-			Float mass;
+			
 
 			Float normal;
 			
@@ -53,10 +54,6 @@ namespace Aurora {
 
 #pragma region Encapsulated Properties
 
-			Aurora::Math::VECTOR2D Position() const { return position; }
-			template<typename T>
-			void Position(T &&value) { position = std::forward<T>(value); }
-
 			Aurora::Math::VECTOR2D Velocity() const { return velocity; }
 			template<typename T>
 			void Velocity(T &&value) { velocity = std::forward<T>(value); }
@@ -79,10 +76,6 @@ namespace Aurora {
 			template<typename T>
 			void MaximiunVelocity(T &&value) { maximiunVelocity = std::forward<T>(value); }
 			
-			Aurora::DataTypes::Float Mass() const { return mass; }
-			template<typename T>
-			void Mass(T &&value) { mass = std::forward<T>(value); }
-			
 			Aurora::DataTypes::Float Normal() const { return normal; }
 			template<typename T>
 			void Normal(T &&value) { normal = std::forward<T>(value); }
@@ -97,7 +90,7 @@ namespace Aurora {
 			
 		};
 
-		
+		using ForceAlias = std::shared_ptr < Force >;
 
 	}; // END OF NAMESPACE Random
 }; // END OF NAMESPACE Aurora

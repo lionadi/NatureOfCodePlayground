@@ -16,7 +16,8 @@ namespace Aurora {
 		{
 		protected:
 			mRECT areaSize;
-			
+			VECTOR2D position;
+			Float mass;
 			
 		public:
 			IPhysicsBase() = default;
@@ -26,6 +27,14 @@ namespace Aurora {
 			Aurora::Math::mRECT AreaSize() const { return areaSize; }
 			template<typename T>
 			void AreaSize(T &&value) { areaSize = std::forward<T>(value); }
+
+			Aurora::Math::VECTOR2D Position() const { return position; }
+			template<typename T>
+			void Position(T &&value) { position = std::forward<T>(value); }
+
+			Aurora::DataTypes::Float Mass() const { return mass; }
+			template<typename T>
+			void Mass(T &&value) { mass = std::forward<T>(value); }
 		};
 
 	}; // END OF NAMESPACE Random

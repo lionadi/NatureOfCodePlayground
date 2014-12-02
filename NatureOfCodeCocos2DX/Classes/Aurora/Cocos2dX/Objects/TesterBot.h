@@ -19,12 +19,17 @@ namespace Aurora
 			int colorCountLimit;
 			cocos2d::DrawNode *dotMoverDrawNode;
 			Vec2 moverDrawNodeTarget;
+			void init() final;
+
+			void init(const Size &areaSize);
+
+			void init(const IMover &value);
 		public:
 			TestBot();
 			TestBot(const Size &viewSize);
 			TestBot(const Size &viewSize, const Vec2 &position, const Vec2 &velocity, const Vec2 &acceleration, const float &mass);
 			TestBot(const Size &viewSize, const Vec2 &position, const Vec2 &velocity, const Vec2 &acceleration, const cocos2d::Color4F &color);
-			~TestBot();
+			virtual ~TestBot();
 
 
 			DrawNode * GetMoverDrawNode();
@@ -33,11 +38,7 @@ namespace Aurora
 
 			void Render() final;
 
-			void init() final;
-
-			void init(const Size &areaSize);
-
-			void init(const IWalker &value);
+			
 
 			void MoveMover() final;
 
