@@ -6,6 +6,7 @@
 
 using namespace Aurora::Random;
 
+
 namespace Aurora
 {
 	namespace Cocos2DX
@@ -43,6 +44,8 @@ namespace Aurora
 			void MoveMover() final;
 
 			void SetMoverTarget(const Vec2 &target);
+
+			virtual std::shared_ptr<Aurora::Physics::Force> GetObjectPhysics() override;
 
 			//void SetColor(const cocos2d::Color4F &value);
 

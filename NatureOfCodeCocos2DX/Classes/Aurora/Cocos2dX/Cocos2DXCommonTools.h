@@ -13,6 +13,7 @@ namespace Aurora {
 			mRECT ConvertSizeTo_mRect(const Size &size);
 			VECTOR2D ConvertVec2Tp_VECTOR2D(const cocos2d::Vec2 &vec2);
 			cocos2d::Vec2 ConvertVECTOR2DTp_Vec2(const VECTOR2D &value);
+			std::vector<cocos2d::Vec2> ConvertVECTOR2DListTp_Vec2(const std::vector<VECTOR2D> &value);
 
 			
 	};

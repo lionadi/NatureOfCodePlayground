@@ -18,6 +18,7 @@ namespace Aurora {
 			mutable VECTOR2D acceleration;*/
 			std::shared_ptr<Physics::Force> objectPhysics;
 			
+
 			mutable VECTOR2D target;
 			mutable VECTOR3D perlinNoiseTime_PositionX;
 			mutable VECTOR3D perlinNoiseTime_PositionY;
@@ -68,13 +69,11 @@ namespace Aurora {
 			void Accelerate();
 			void Decellerate();
 			
+			std::shared_ptr<Physics::Force> ObjectPhysics() { return objectPhysics; }
 			template<typename T>
 			void ObjectPhysics(T &&value) { objectPhysics = std::forward<T>(value); }
 
 			bool MoveAutomatically = true;
-
-			
-
 		};
 
 		class IMover : public IObjectBaseBasic
@@ -87,6 +86,8 @@ namespace Aurora {
 			//virtual void SetMoverTarget(const VECTOR2D &target);
 
 			virtual void MoveMover();
+
+			virtual std::shared_ptr<Physics::Force> GetObjectPhysics() = 0;
 		};
 
 	}; // END OF NAMESPACE Random

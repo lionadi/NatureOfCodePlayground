@@ -57,7 +57,7 @@ void Aurora::Cocos2DX::TestBot::Render()
 	if (this->dotMoverDrawNode == nullptr)
 		return;
 	
-	this->mainColor = cocos2d::Color4F(RandomNumberGenerator::GetRandomPositiveFloat(255), RandomNumberGenerator::GetRandomPositiveFloat(255), RandomNumberGenerator::GetRandomPositiveFloat(255), 1);
+	this->mainColor = cocos2d::Color4F(RandomNumberGenerator::GetRandomPositiveFloat(1), RandomNumberGenerator::GetRandomPositiveFloat(1), RandomNumberGenerator::GetRandomPositiveFloat(1), 1);
 	this->SetVelocityRange(5, 0);
 
 	this->dotMoverDrawNode->drawDot(Vec2(0,0), this->GetMoverMass(), this->mainColor);
@@ -105,4 +105,9 @@ void Aurora::Cocos2DX::TestBot::init(const Size &areaSize)
 void Aurora::Cocos2DX::TestBot::init(const IMover &value)
 {
 
+}
+
+std::shared_ptr<Aurora::Physics::Force> Aurora::Cocos2DX::TestBot::GetObjectPhysics()
+{
+	return this->ObjectPhysics();
 }

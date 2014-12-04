@@ -26,7 +26,7 @@ namespace Aurora {
 
 		void IObjectBaseBasic::init()
 		{
-			this->objectPhysics = std::make_shared<Physics::Force>();
+			
 		}
 
 		//IObjectBaseBasic& IObjectBaseBasic::operator=(const IObjectBaseBasic& value)

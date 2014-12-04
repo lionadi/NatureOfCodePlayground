@@ -18,11 +18,12 @@ public:
     virtual bool init();
 	std::shared_ptr<DotWalker> walker;
 	std::shared_ptr<TestBot> testBot;
+	std::shared_ptr<LiquidContainer> water;
     
     // implement the "static create()" method manually
     CREATE_FUNC(MainMenu);
 	AliasDeclarations::VectorTestBots testBots;
-	void update(float dt);
+	void update(float dt) override;
 
 	bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event * event);
 	void onTouchMoved(cocos2d::Touch *touch, cocos2d::Event * event);

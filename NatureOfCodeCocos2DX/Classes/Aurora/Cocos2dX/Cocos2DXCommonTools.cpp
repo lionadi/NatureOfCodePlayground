@@ -19,5 +19,15 @@ namespace Aurora {
 			return(cocos2d::Vec2(value.X, value.Y));
 		}
 
+		std::vector<cocos2d::Vec2> ConvertVECTOR2DListTp_Vec2(const std::vector<VECTOR2D> &value)
+		{
+			std::vector<cocos2d::Vec2> vecList;
+			for (auto vector : value) {
+				vecList.push_back(ConvertVECTOR2DTp_Vec2(vector));
+			}
+
+			return vecList;
+		}
+
 	};
 };

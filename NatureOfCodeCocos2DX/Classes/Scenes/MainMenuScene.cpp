@@ -58,7 +58,7 @@ bool MainMenu::init()
 		//this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(visibleSize.width / 2, visibleSize.height / 2), Vec2::ZERO, Vec2::ZERO));
 	}
 
-
+	this->water = std::make_shared<LiquidContainer>(visibleSize, 0.3f);
 	this->walker = std::make_shared<DotWalker>(visibleSize, Vec2((visibleSize.width / 2), (visibleSize.height / 2)));
 	//this->testBot = std::make_shared<TestBot>(visibleSize, Vec2((visibleSize.width / 2), (visibleSize.height / 2)), Vec2::ZERO, Vec2(1,1));
 	this->walker->SetRandomNumberMode(RandomNumberMode::Perlin);
@@ -69,19 +69,30 @@ bool MainMenu::init()
 	//this->addChild(this->testBot->GetMoverDrawNode());
 	for (auto testBotTemp : this->testBots)
 	{
+		
 		this->addChild(testBotTemp->GetMoverDrawNode());
 		//testBotTemp->SetRandomNumberMode(RandomNumberMode::Perlin);
 	}
+
+	this->addChild(this->water->GetDrawNode());
 	/*Size cS = this->getContentSize();
 	Vec2 cp = this->getPosition();*/
-	
+	this->scheduleUpdate();
     
     return true;
 }
 
 void MainMenu::update(float dt)
 {
-	
+	for (auto testBotTemp : this->testBots)
+	{
+		if (this->water->IsInside(testBotTemp->GetCurentPosition()))
+		{
+			std::shared_ptr<Aurora::Physics::Force> ff = testBotTemp->ObjectPhysics();
+			VECTOR2D dragForce = FrictionCalculations::SimplifiedDragForceCalculations(testBotTemp->ObjectPhysics()->Velocity(), this->water->CoefficientDrag());
+			testBotTemp->ObjectPhysics()->ApplyForce(dragForce);
+		}
+	}
 }
 
 void MainMenu::GoToGameScene(cocos2d::Ref *pSender)
