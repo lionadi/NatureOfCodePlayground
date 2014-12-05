@@ -49,10 +49,10 @@ bool MainMenu::init()
 	this->setColor(cocos2d::Color3B::WHITE);
 	//this->testBots = std::make_unique<AliasDeclarations::VectorTestBots>();
 
-	for (int x = 0; x < 100; ++x)
+	for (int x = 0; x < 15; ++x)
 	{
 		// For random generated objects
-		this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.width), RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.height)), Vec2::ZERO, Vec2(RandomNumberGenerator::GetRandomFloat(2), RandomNumberGenerator::GetRandomFloat(2)), RandomNumberGenerator::GetRandomPositiveFloat(30)));
+		this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.width), RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.height)), Vec2::ZERO, Vec2(RandomNumberGenerator::GetRandomFloat(2), RandomNumberGenerator::GetRandomFloat(2)), RandomNumberGenerator::GetRandomPositiveFloat(15)));
 
 		// Single object
 		//this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(visibleSize.width / 2, visibleSize.height / 2), Vec2::ZERO, Vec2::ZERO));
@@ -60,7 +60,7 @@ bool MainMenu::init()
 
 	this->water = std::make_shared<LiquidContainer>(visibleSize, 0.3f);
 	this->walker = std::make_shared<DotWalker>(visibleSize, Vec2((visibleSize.width / 2), (visibleSize.height / 2)));
-	//this->testBot = std::make_shared<TestBot>(visibleSize, Vec2((visibleSize.width / 2), (visibleSize.height / 2)), Vec2::ZERO, Vec2(1,1));
+	this->testBot = std::make_shared<TestBot>(visibleSize, Vec2(visibleSize.width / 2, visibleSize.height / 2), Vec2::ZERO, Vec2::ZERO, 40);
 	this->walker->SetRandomNumberMode(RandomNumberMode::Perlin);
 	//this->testBot->SetRandomNumberMode(RandomNumberMode::Perlin);
 	this->walker->SetWalkerDrawNodeStartPosition(Vec2(origin.x, origin.y));
@@ -74,7 +74,7 @@ bool MainMenu::init()
 		//testBotTemp->SetRandomNumberMode(RandomNumberMode::Perlin);
 	}
 
-	this->addChild(this->water->GetDrawNode());
+	//this->addChild(this->water->GetDrawNode());
 	/*Size cS = this->getContentSize();
 	Vec2 cp = this->getPosition();*/
 	this->scheduleUpdate();
@@ -84,13 +84,29 @@ bool MainMenu::init()
 
 void MainMenu::update(float dt)
 {
-	for (auto testBotTemp : this->testBots)
+	/*for (auto testBotTemp : this->testBots)
 	{
 		if (this->water->IsInside(testBotTemp->GetCurentPosition()))
 		{
 			std::shared_ptr<Aurora::Physics::Force> ff = testBotTemp->ObjectPhysics();
 			VECTOR2D dragForce = FrictionCalculations::SimplifiedDragForceCalculations(testBotTemp->ObjectPhysics()->Velocity(), this->water->CoefficientDrag());
 			testBotTemp->ObjectPhysics()->ApplyForce(dragForce);
+		}
+	}*/
+	/*for (auto testBotTemp : this->testBots)
+	{
+		VECTOR2D gravAttraction = CommonCalculations::GravitationalAttractionCalculations(1, this->testBot->ObjectPhysics()->Position(), this->testBot->ObjectPhysics()->Mass(), testBotTemp->ObjectPhysics()->Position(), testBotTemp->ObjectPhysics()->Mass(), 5, 25);
+		testBotTemp->ObjectPhysics()->ApplyForce(gravAttraction);
+	}*/
+	for (auto i = 0; i < this->testBots.size(); i++) {
+		for (auto j = 0; j < this->testBots.size(); j++) {
+			//Don’t attract yourself!
+				if (i != j) {
+					VECTOR2D gravAttraction = CommonCalculations::GravitationalAttractionCalculations(0.4f, this->testBots[j]->ObjectPhysics()->Position(), this->testBots[j]->ObjectPhysics()->Mass(), this->testBots[i]->ObjectPhysics()->Position(), this->testBots[i]->ObjectPhysics()->Mass(), 5, 25);
+						//movers[j].attract(movers[i]);
+					this->testBots[i]->ObjectPhysics()->ApplyForce(gravAttraction);
+
+				}
 		}
 	}
 }

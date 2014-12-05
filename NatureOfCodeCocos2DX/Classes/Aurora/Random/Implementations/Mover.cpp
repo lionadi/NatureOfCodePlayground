@@ -121,8 +121,8 @@ namespace Aurora {
 			// TO BE REMOVED TEST PURPOSES: Adds wind simulation
 			
 			//std::shared_ptr<CommonCalculations> cc = CommonCalculations::GetInstance();
-			PhysicsCalculatorAlias physicsCalculator = PhysicsCalculator::GetInstance()->GetPhysicsCalculatorOption(PhysicsCalculationMode::Normal);
-			physicsCalculator->PerformCalculationsOnForce(this->objectPhysics);
+			/*PhysicsCalculatorAlias physicsCalculator = PhysicsCalculator::GetInstance()->GetPhysicsCalculatorOption(PhysicsCalculationMode::Normal);
+			physicsCalculator->PerformCalculationsOnForce(this->objectPhysics);*/
 		}
 
 		void Mover::UniformCalculations()
@@ -155,12 +155,12 @@ namespace Aurora {
 			this->perlinNoiseTime_PositionY += 0.1f;
 
 
-			this->objectPhysics->Acceleration(VECTOR2D(tempX, tempY));
-			//this->moverPhysic->Acceleration(this->moverPhysic->Acceleration().Normalize());
-			
-			this->objectPhysics->Acceleration().Normalize();
-			auto accelerationMultiple = RandomNumberGenerator::GetRandomPositiveFloat(3);
-			this->objectPhysics->Acceleration(this->objectPhysics->Acceleration() * accelerationMultiple);
+			//this->objectPhysics->Acceleration(VECTOR2D(tempX, tempY));
+			////this->moverPhysic->Acceleration(this->moverPhysic->Acceleration().Normalize());
+			//
+			//this->objectPhysics->Acceleration().Normalize();
+			//auto accelerationMultiple = RandomNumberGenerator::GetRandomPositiveFloat(3);
+			//this->objectPhysics->Acceleration(this->objectPhysics->Acceleration() * accelerationMultiple);
 		}
 
 		void Mover::NormalCalculations()

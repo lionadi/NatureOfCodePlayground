@@ -15,7 +15,7 @@ namespace Aurora {
 		{
 		public:
 			const static std::function<Aurora::Math::VECTOR2D(const Aurora::Math::VECTOR2D&, float)> NormalEarthGravityCalculations;
-
+			const static std::function < Aurora::Math::VECTOR2D(float, const Aurora::Math::VECTOR2D&, float, const Aurora::Math::VECTOR2D&, float, float, float)> GravitationalAttractionCalculations;
 		};
 	}; // END OF NAMESPACE Random
 }; // END OF NAMESPACE Aurora

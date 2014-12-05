@@ -57,7 +57,7 @@ void Aurora::Cocos2DX::TestBot::Render()
 	if (this->dotMoverDrawNode == nullptr)
 		return;
 	
-	this->mainColor = cocos2d::Color4F(RandomNumberGenerator::GetRandomPositiveFloat(1), RandomNumberGenerator::GetRandomPositiveFloat(1), RandomNumberGenerator::GetRandomPositiveFloat(1), 1);
+	this->mainColor = cocos2d::Color4F(RandomNumberGenerator::GetRandomPositiveFloat(1), RandomNumberGenerator::GetRandomPositiveFloat(1), RandomNumberGenerator::GetRandomPositiveFloat(1), 0.5f);
 	this->SetVelocityRange(5, 0);
 
 	this->dotMoverDrawNode->drawDot(Vec2(0,0), this->GetMoverMass(), this->mainColor);
