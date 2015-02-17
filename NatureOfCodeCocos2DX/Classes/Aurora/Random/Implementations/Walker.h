@@ -3,13 +3,15 @@
 
 #include "..\BaseClasses\ObjectBase.h"
 #include "..\..\Math\MathOperations.h"
+#include "..\..\Physics\PhysicsOperations.h"
 
 using namespace Aurora::Math;
+using namespace Aurora::Physics;
 
 namespace Aurora {
 	namespace Random {
 
-		class Walker : public RandomBaseComplete
+		class Walker : public RandomBaseComplete, public IPhysicsImplementor
 		{
 
 		private:
@@ -43,17 +45,18 @@ namespace Aurora {
 			~Walker();
 			Walker(Walker &&value);
 			Walker & operator=(Walker && value);
+			Walker& operator=(const Walker& value);
 
 			void SetTarget(const VECTOR2D &target);
 			const VECTOR2D GetCurentPosition() const;
 			void SetPosition(const VECTOR2D &position);
 			void SetProbalitiyFactor(Float probalitityFactor);
 
-			Walker& operator=(const Walker& value);
+			
 
 		};
 
-		class IWalker : public IObjectBaseBasic
+		class IWalkerImplementor : public IObjectBaseBasic, public IPhysicsAccessPoint
 		{
 		private:
 			/*virtual void init() override;
@@ -61,10 +64,10 @@ namespace Aurora {
 			virtual void init(const IWalker &value) = 0;*/
 		public:
 			//std::shared_ptr<Walker> WalkerObject = 0;
-			IWalker() = default;
+			IWalkerImplementor() = default;
 			/*IWalker(const IWalker &value);
 			IWalker(const mRECT &areaSize);*/
-			virtual ~IWalker() = default;
+			virtual ~IWalkerImplementor() = default;
 			/*IWalker(IWalker &&value);
 			IWalker & operator=(IWalker && value);
 			IWalker& operator=(const IWalker& value);*/
@@ -72,10 +75,12 @@ namespace Aurora {
 
 			
 
-			//virtual void SetRandomNumberMode(RandomNumberMode randomNumberMode);
-			virtual void RenderWalkerByPosition(const VECTOR2D &position) ;
+			virtual void SetWalkerRandomNumberMode(RandomNumberMode randomNumberMode);
+			virtual void RenderWalkerByPosition(const VECTOR2D &position);
 			virtual void SetWalkerTarget(const VECTOR2D &target);
 			virtual void StepWalker();
+
+			virtual std::shared_ptr<Physics::Force> AccessObjectPhysics() const override;
 
 			
 

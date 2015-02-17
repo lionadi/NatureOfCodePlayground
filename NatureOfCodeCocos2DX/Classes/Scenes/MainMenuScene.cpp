@@ -61,7 +61,7 @@ bool MainMenu::init()
 	this->water = std::make_shared<LiquidContainer>(visibleSize, 0.3f);
 	this->walker = std::make_shared<DotWalker>(visibleSize, Vec2((visibleSize.width / 2), (visibleSize.height / 2)));
 	this->testBot = std::make_shared<TestBot>(visibleSize, Vec2(visibleSize.width / 2, visibleSize.height / 2), Vec2::ZERO, Vec2::ZERO, 40);
-	this->walker->SetRandomNumberMode(RandomNumberMode::Perlin);
+	this->walker->SetWalkerRandomNumberMode(RandomNumberMode::Perlin);
 	//this->testBot->SetRandomNumberMode(RandomNumberMode::Perlin);
 	this->walker->SetWalkerDrawNodeStartPosition(Vec2(origin.x, origin.y));
 	//this->testBot->SetMoverDrawNodeStartPosition(Vec2(origin.x, origin.y));
@@ -102,9 +102,9 @@ void MainMenu::update(float dt)
 		for (auto j = 0; j < this->testBots.size(); j++) {
 			//Don’t attract yourself!
 				if (i != j) {
-					VECTOR2D gravAttraction = CommonCalculations::GravitationalAttractionCalculations(0.4f, this->testBots[j]->ObjectPhysics()->Position(), this->testBots[j]->ObjectPhysics()->Mass(), this->testBots[i]->ObjectPhysics()->Position(), this->testBots[i]->ObjectPhysics()->Mass(), 5, 25);
+					VECTOR2D gravAttraction = CommonCalculations::GravitationalAttractionCalculations(0.4f, this->testBots[j]->AccessObjectPhysics()->Position(), this->testBots[j]->AccessObjectPhysics()->Mass(), this->testBots[i]->AccessObjectPhysics()->Position(), this->testBots[i]->AccessObjectPhysics()->Mass(), 5, 25);
 						//movers[j].attract(movers[i]);
-					this->testBots[i]->ObjectPhysics()->ApplyForce(gravAttraction);
+					this->testBots[i]->AccessObjectPhysics()->ApplyForce(gravAttraction);
 
 				}
 		}

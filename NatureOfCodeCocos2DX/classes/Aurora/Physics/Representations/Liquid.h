@@ -4,6 +4,7 @@
 
 
 #include "IPhysicsRepresentationBase.h"
+#include "IPhysicsForceRepresentationBase.h"
 
 using namespace Aurora::Math;
 

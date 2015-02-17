@@ -3,15 +3,17 @@
 
 #include "../../Random/RandomOperations.h"
 #include "../Cocos2DXCommonTools.h"
+#include "../../Physics/PhysicsOperations.h"
 
 using namespace Aurora::Random;
+using namespace Aurora::Physics;
 
 
 namespace Aurora
 {
 	namespace Cocos2DX
 	{
-		class TestBot : public IMover, public Mover
+		class TestBot : public IMoverImplementor, private Mover, private IPhysicsForceRepresentationBase
 		{
 		private:
 			Size viewSize;
@@ -22,9 +24,9 @@ namespace Aurora
 			Vec2 moverDrawNodeTarget;
 			void init() final;
 
-			void init(const Size &areaSize);
+			void init(const Size &viewSize, const Vec2 &position, const Vec2 &velocity, const Vec2 &acceleration, const float &mass);
 
-			void init(const IMover &value);
+			void init(const IMoverImplementor &value);
 		public:
 			TestBot();
 			TestBot(const Size &viewSize);
@@ -45,7 +47,9 @@ namespace Aurora
 
 			void SetMoverTarget(const Vec2 &target);
 
-			virtual std::shared_ptr<Aurora::Physics::Force> GetObjectPhysics() override;
+			std::shared_ptr<Aurora::Physics::Force> AccessObjectPhysics() const final;
+
+			
 
 			//void SetColor(const cocos2d::Color4F &value);
 

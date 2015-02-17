@@ -25,7 +25,7 @@ namespace Aurora {
 			template<typename ConstantForce>
 			void AddConstantForceToCalculator(ConstantForce &&constantForce);
 			
-			virtual void PerformCalculationsOnForce(ForceAlias &value);
+			virtual void PerformCalculationsOnForce(ForceAlias value);
 
 			
 
@@ -46,7 +46,7 @@ namespace Aurora {
 			NormalPhysicsCalculator() = default;
 			virtual ~NormalPhysicsCalculator() = default;
 
-			virtual void PerformCalculationsOnForce(ForceAlias &value) override;
+			virtual void PerformCalculationsOnForce(ForceAlias value) override;
 
 			
 

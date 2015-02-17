@@ -10,35 +10,27 @@ Aurora::Cocos2DX::TestBot::TestBot() : Mover()
 
 Aurora::Cocos2DX::TestBot::TestBot(const Size &viewSize) : Mover(ConvertSizeTo_mRect(viewSize))
 {
-	this->init(viewSize);
+	this->init(viewSize, Vec2::ZERO, Vec2::ZERO, Vec2::ZERO, 1);
 }
-
-//Aurora::Cocos2DX::TestBot::TestBot(const Size &viewSize, const Vec2 &position, const Vec2 &velocity, const Vec2 &acceleration) : Mover(ConvertVec2Tp_VECTOR2D(position), ConvertVec2Tp_VECTOR2D(velocity), ConvertVec2Tp_VECTOR2D(acceleration), ConvertSizeTo_mRect(viewSize))
-//{
-//
-//	this->init(viewSize);
-//	this->dotMoverDrawNode->setAnchorPoint(Vec2(0,0));
-//	this->Render();
-//}
 
 Aurora::Cocos2DX::TestBot::TestBot(const Size &viewSize, const Vec2 &position, const Vec2 &velocity, const Vec2 &acceleration, const cocos2d::Color4F &color)
 {
-	this->init(viewSize);
+	this->init(viewSize, position, velocity, acceleration, 1);
 	this->mainColor = color;
 	this->dotMoverDrawNode->setAnchorPoint(Vec2(0, 0));
 	this->Render();
 }
 
-Aurora::Cocos2DX::TestBot::TestBot(const Size &viewSize, const Vec2 &position, const Vec2 &velocity, const Vec2 &acceleration, const float &mass) : Mover(ConvertVec2Tp_VECTOR2D(position), ConvertVec2Tp_VECTOR2D(velocity), ConvertVec2Tp_VECTOR2D(acceleration), ConvertSizeTo_mRect(viewSize), mass)
+Aurora::Cocos2DX::TestBot::TestBot(const Size &viewSize, const Vec2 &position, const Vec2 &velocity, const Vec2 &acceleration, const float &mass) 
 {
-	this->init(viewSize);
+	this->init(viewSize, position, velocity, acceleration, mass);
 	this->dotMoverDrawNode->setAnchorPoint(Vec2(0, 0));
 	this->Render();
 }
 
 Aurora::Cocos2DX::TestBot::~TestBot()
 {
-	IMover::~IMover();
+	IMoverImplementor::~IMoverImplementor();
 	Mover::~Mover();
 }
 
@@ -62,7 +54,7 @@ void Aurora::Cocos2DX::TestBot::Render()
 
 	this->dotMoverDrawNode->drawDot(Vec2(0,0), this->GetMoverMass(), this->mainColor);
 
-	IMover::Render();
+	IMoverImplementor::Render();
 	DelayTime *delayAction = DelayTime::create(0.0001f);
 	//std::function<void(DotWalker&)> makeWalkerStep = &DotWalker::StepWalker;
 	// perform the selector call
@@ -93,21 +85,29 @@ void Aurora::Cocos2DX::TestBot::MoveMover()
 void Aurora::Cocos2DX::TestBot::init()
 {
 	this->dotMoverDrawNode = DrawNode::create();
-	
+	this->ImplementorObjectPhysics(this->ObjectPhysics());
 }
 
-void Aurora::Cocos2DX::TestBot::init(const Size &areaSize)
+void Aurora::Cocos2DX::TestBot::init(const Size &viewSize, const Vec2 &position, const Vec2 &velocity, const Vec2 &acceleration, const float &mass)
 {
-	this->viewSize = areaSize;
+	//Mover::Mover(ConvertVec2Tp_VECTOR2D(position), ConvertVec2Tp_VECTOR2D(velocity), ConvertVec2Tp_VECTOR2D(acceleration), ConvertSizeTo_mRect(viewSize), mass);
+	this->ObjectPhysics()->Position(ConvertVec2Tp_VECTOR2D(position));
+	this->ObjectPhysics()->Acceleration(ConvertVec2Tp_VECTOR2D(acceleration));
+	this->ObjectPhysics()->Velocity(ConvertVec2Tp_VECTOR2D(velocity));
+	this->ObjectPhysics()->Mass(mass);
+	this->ObjectPhysics()->AreaSize(ConvertSizeTo_mRect(viewSize));
+	this->SetConstrainsRange(ConvertSizeTo_mRect(viewSize));
+	this->viewSize = viewSize;
 	this->dotMoverDrawNode = DrawNode::create();
+	this->ImplementorObjectPhysics(this->ObjectPhysics());
 }
 
-void Aurora::Cocos2DX::TestBot::init(const IMover &value)
+void Aurora::Cocos2DX::TestBot::init(const IMoverImplementor &value)
 {
 
 }
 
-std::shared_ptr<Aurora::Physics::Force> Aurora::Cocos2DX::TestBot::GetObjectPhysics()
+std::shared_ptr<Aurora::Physics::Force> Aurora::Cocos2DX::TestBot::AccessObjectPhysics() const
 {
 	return this->ObjectPhysics();
 }

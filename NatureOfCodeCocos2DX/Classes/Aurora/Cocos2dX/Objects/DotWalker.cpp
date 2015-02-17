@@ -40,7 +40,7 @@ namespace Aurora
 
 		DotWalker::~DotWalker()
 		{
-			IWalker::~IWalker();
+			IWalkerImplementor::~IWalkerImplementor();
 			Walker::~Walker();
 		}
 
@@ -74,7 +74,7 @@ namespace Aurora
 			if (this->dotWalkerDrawNode == nullptr)
 				return;
 
-			IWalker::Render();
+			IWalkerImplementor::Render();
 			DelayTime *delayAction = DelayTime::create(0.0001f);
 			//std::function<void(DotWalker&)> makeWalkerStep = &DotWalker::StepWalker;
 			// perform the selector call
@@ -128,6 +128,7 @@ namespace Aurora
 		{
 			this->dotWalkerDrawNode = DrawNode::create();
 			this->Render();
+			this->ImplementorObjectPhysics(this->ObjectPhysics());
 		}
 
 		void DotWalker::init(const Size &areaSize)
@@ -135,9 +136,10 @@ namespace Aurora
 			this->viewSize = areaSize;
 			this->dotWalkerDrawNode = DrawNode::create();
 			this->Render();
+			this->ImplementorObjectPhysics(this->ObjectPhysics());
 		}
 
-		void DotWalker::init(const IWalker &value)
+		void DotWalker::init(const IWalkerImplementor &value)
 		{
 			throw std::logic_error("The method or operation is not implemented.");
 		}
@@ -145,6 +147,16 @@ namespace Aurora
 		void DotWalker::SetWalkerDrawNodeStartPosition(const Vec2& startPosition)
 		{
 			this->dotWalkerDrawNode->setPosition(startPosition);
+		}
+
+		void DotWalker::SetWalkerRandomNumberMode(RandomNumberMode randomNumberMode)
+		{
+			this->SetRandomNumberMode(randomNumberMode);
+		}
+
+		std::shared_ptr<Physics::Force> DotWalker::AccessObjectPhysics() const
+		{
+			return this->ObjectPhysics();
 		}
 
 	};

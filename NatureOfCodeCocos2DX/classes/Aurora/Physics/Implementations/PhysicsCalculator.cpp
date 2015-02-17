@@ -5,7 +5,7 @@ namespace Aurora {
 
 		std::shared_ptr<PhysicsCalculator> PhysicsCalculator::instance = nullptr;
 
-		void PhysicsCalculator::PerformCalculationsOnForce(ForceAlias &value)
+		void PhysicsCalculator::PerformCalculationsOnForce(ForceAlias value)
 		{
 
 		}
@@ -72,7 +72,7 @@ namespace Aurora {
 			return this->physicsCalculatorInstances.at(calculationMode);
 		}
 
-		void NormalPhysicsCalculator::PerformCalculationsOnForce(ForceAlias &value)
+		void NormalPhysicsCalculator::PerformCalculationsOnForce(ForceAlias value)
 		{
 			PhysicsCalculator::PerformCalculationsOnForce(value);
 			VECTOR2D gravityForce = CommonCalculations::NormalEarthGravityCalculations(PhysicsConstants::EarthGravity, value->Mass());

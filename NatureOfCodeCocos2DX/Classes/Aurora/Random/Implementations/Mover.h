@@ -9,14 +9,14 @@ using namespace Aurora::Physics;
 namespace Aurora {
 	namespace Random {
 
-		class Mover : public RandomBaseComplete
+		class Mover : public RandomBaseComplete, public IPhysicsImplementor
 		{
 
 		private:
 			/*mutable VECTOR2D position;
 			mutable VECTOR2D velocity;
 			mutable VECTOR2D acceleration;*/
-			std::shared_ptr<Physics::Force> objectPhysics;
+			//std::shared_ptr<Physics::Force> objectPhysics;
 			
 
 			mutable VECTOR2D target;
@@ -43,22 +43,22 @@ namespace Aurora {
 			virtual void init() override;
 			virtual void init(const Mover &value);
 			virtual void init(const Mover &&value);
-			virtual void init(const VECTOR2D &position, const VECTOR2D &velocity, const VECTOR2D &acceleration, const mRECT &areaSize, const float &mass);
+			//virtual void init(const VECTOR2D &position, const VECTOR2D &velocity, const VECTOR2D &acceleration, const mRECT &areaSize, const float &mass);
 
 		public:
 			Mover();
 			Mover(const mRECT &areaSize);
 			Mover(const Mover &value);
 			Mover& operator=(const Mover& value);
-			Mover(const VECTOR2D &position, const VECTOR2D &velocity, const mRECT &areaSize);
-			Mover(const VECTOR2D &position, const VECTOR2D &velocity, const VECTOR2D &acceleration, const mRECT &areaSize, const float &mass);
+			//Mover(const VECTOR2D &position, const VECTOR2D &velocity, const mRECT &areaSize);
+			//Mover(const VECTOR2D &position, const VECTOR2D &velocity, const VECTOR2D &acceleration, const mRECT &areaSize, const float &mass);
 			~Mover();
 			Mover(Mover &&value);
 			Mover & operator=(Mover && value);
 			void DoCalculations() override;
 
 			void SetTarget(const VECTOR2D &target);
-			void SetPosition(const VECTOR2D &position);
+			//void SetPosition(const VECTOR2D &position);
 			void SetVelocityRange(const Float moverMaximumVelocity, const Float moverMinimumVelocity);
 			const VECTOR2D GetCurentPosition() const;
 			const VECTOR2D GetCurentTarget() const;
@@ -68,26 +68,25 @@ namespace Aurora {
 			
 			void Accelerate();
 			void Decellerate();
-			
-			std::shared_ptr<Physics::Force> ObjectPhysics() { return objectPhysics; }
-			template<typename T>
-			void ObjectPhysics(T &&value) { objectPhysics = std::forward<T>(value); }
 
 			bool MoveAutomatically = true;
 		};
 
-		class IMover : public IObjectBaseBasic
+		class IMoverImplementor : public IObjectBaseBasic, public IPhysicsAccessPoint
 		{
 		public:
-			IMover() = default;
-			virtual ~IMover() = default;
+			IMoverImplementor() = default;
+			virtual ~IMoverImplementor() = default;
 			virtual void Render() override;
 
 			//virtual void SetMoverTarget(const VECTOR2D &target);
 
 			virtual void MoveMover();
 
-			virtual std::shared_ptr<Physics::Force> GetObjectPhysics() = 0;
+			virtual void SetMoverRandomNumberMode(RandomNumberMode randomNumberMode);
+
+			virtual std::shared_ptr<Physics::Force> AccessObjectPhysics() const override;
+
 		};
 
 	}; // END OF NAMESPACE Random

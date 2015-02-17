@@ -13,8 +13,6 @@ namespace Aurora {
 		class Force : public IPhysicsBase
 		{
 		protected:
-			
-			
 
 			VECTOR2D velocity;
 			

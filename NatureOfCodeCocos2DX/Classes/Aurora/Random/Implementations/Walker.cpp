@@ -346,25 +346,36 @@ namespace Aurora {
 		}
 
 
-		void IWalker::Render()
+		void IWalkerImplementor::Render()
 		{
 
 		}
 
-		void IWalker::RenderWalkerByPosition(const VECTOR2D &position)
+		void IWalkerImplementor::SetWalkerRandomNumberMode(RandomNumberMode randomNumberMode)
 		{
 
 		}
 
-		void IWalker::SetWalkerTarget(const VECTOR2D &target)
+		void IWalkerImplementor::RenderWalkerByPosition(const VECTOR2D &position)
 		{
 
 		}
 
-		void IWalker::StepWalker()
+		void IWalkerImplementor::SetWalkerTarget(const VECTOR2D &target)
 		{
 
 		}
+
+		void IWalkerImplementor::StepWalker()
+		{
+
+		}
+
+		std::shared_ptr<Physics::Force> IWalkerImplementor::AccessObjectPhysics() const
+		{
+			return nullptr;
+		}
+
 
 	}; // END OF NAMESPACE Random
 }; // END OF NAMESPACE Aurora

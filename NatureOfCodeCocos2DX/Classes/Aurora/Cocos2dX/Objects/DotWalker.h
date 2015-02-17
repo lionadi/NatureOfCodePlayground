@@ -3,14 +3,16 @@
 
 #include "../../Random/RandomOperations.h"
 #include "../Cocos2DXCommonTools.h"
+#include "../../Physics/PhysicsOperations.h"
 
 using namespace Aurora::Random;
+using namespace Aurora::Physics;
 
 namespace Aurora
 {
 	namespace Cocos2DX
 	{
-		class DotWalker : public IWalker, public Walker
+		class DotWalker : public IWalkerImplementor, private Walker, private IPhysicsForceRepresentationBase
 		{
 		private:
 			Size viewSize;
@@ -25,7 +27,7 @@ namespace Aurora
 
 			void init(const Size &areaSize);
 
-			void init(const IWalker &value);
+			void init(const IWalkerImplementor &value);
 		public:
 			DotWalker();
 			DotWalker(const Size &viewSize);
@@ -43,7 +45,10 @@ namespace Aurora
 
 			void Render() final;
 
-			
+			void SetWalkerRandomNumberMode(RandomNumberMode randomNumberMode) final;
+
+			std::shared_ptr<Physics::Force> AccessObjectPhysics() const final;
+
 
 		};
 
