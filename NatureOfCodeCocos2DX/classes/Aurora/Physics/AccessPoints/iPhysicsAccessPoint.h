@@ -10,6 +10,15 @@
 namespace Aurora {
 	namespace Physics {
 
+		/*!
+		 * \class IPhysicsAccessPoint
+		 *
+		 * \brief Use this to set a guideline to access encapsulated physics data for an object.
+		 *
+		 * \author Adrian Simionescu
+		 * \date February 2015
+		 */
+		
 		class IPhysicsAccessPoint
 		{
 		private:

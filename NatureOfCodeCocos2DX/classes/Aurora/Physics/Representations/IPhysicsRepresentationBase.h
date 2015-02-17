@@ -10,7 +10,14 @@
 namespace Aurora {
 	namespace Physics {
 
-
+		/*!
+		 * \class IPhysicsRepresentationBase
+		 *
+		 * \brief Use this to add physics data to an object and add support for physics calculations to perform calculations on the data. A more detailed physics data implementation than the IPhysicsForceRepresentationBase.
+		 *
+		 * \author Adrian Simionescu
+		 * \date February 2015
+		 */
 		class IPhysicsRepresentationBase : public IPhysicsBase
 		{
 		protected:
@@ -22,6 +29,11 @@ namespace Aurora {
 		public:
 			IPhysicsRepresentationBase();
 			virtual ~IPhysicsRepresentationBase();
+
+			IPhysicsRepresentationBase(const IPhysicsRepresentationBase &value);
+			IPhysicsRepresentationBase(IPhysicsRepresentationBase &&value);
+			IPhysicsRepresentationBase &operator=(IPhysicsRepresentationBase && value);
+			IPhysicsRepresentationBase& operator=(const IPhysicsRepresentationBase& value);
 
 			std::shared_ptr<Physics::Force> ObjectPhysics() const { 
 				if (this->objectPhysics == nullptr)

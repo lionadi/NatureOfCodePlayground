@@ -20,7 +20,7 @@ namespace Aurora {
 
 			// Below Algorithm: Copyright (c) 1970-2003, Wm. Randolph Franklin
 			// http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
-			for (int i = 0, j = this->liquidArea.size() - 1; i < this->liquidArea.size(); j = i++) {
+			for (unsigned int i = 0, j = this->liquidArea.size() - 1; i < this->liquidArea.size(); j = i++) {
 				if (((this->liquidArea[i].Y > value.Y) != (this->liquidArea[j].Y > value.Y)) &&
 					(value.X < (this->liquidArea[j].X - this->liquidArea[i].X) * (value.Y - this->liquidArea[i].Y) / (this->liquidArea[j].Y - this->liquidArea[i].Y) + this->liquidArea[i].X))
 					isInside = !isInside;

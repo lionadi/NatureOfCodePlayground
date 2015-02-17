@@ -94,7 +94,7 @@ namespace Aurora {
         {
             //var PerlinNoiseCalculator : PerlinNoise { get set };
 			protected:
-				std::shared_ptr<module::Perlin> PerlinNoiseCalculator = 0;
+				std::shared_ptr<module::Perlin> perlinNoiseCalculator = 0;
             public:
 				
 				IRandomBasePerlinNoise() = default;
@@ -136,10 +136,10 @@ namespace Aurora {
 
 		class RandomBaseComplete : public IRandomBaseComplete, public RandomBase
 		{
-			private:
 				
 		protected:
-				std::shared_ptr<module::Perlin> PerlinNoiseCalculator;
+				std::shared_ptr<module::Perlin> perlinNoiseCalculator;
+				
 				virtual void init() override;
 				virtual void init(const mRECT &areaSize, RandomNumberMode randomNumberMode);
 		public:
@@ -149,6 +149,14 @@ namespace Aurora {
 			RandomBaseComplete(RandomBaseComplete &&value);
 			RandomBaseComplete & operator=(RandomBaseComplete && value);
 			
+			std::shared_ptr<module::Perlin> PerlinNoiseCalculator() const {
+				if (perlinNoiseCalculator == nullptr)
+					throw std::bad_function_call("The object you are trying to use is empty. This functionality is not available. Please pass an object before usage.");
+
+				return perlinNoiseCalculator;
+			}
+			template<typename T>
+			void PerlinNoiseCalculator(T &&value) { perlinNoiseCalculator = std::forward<T>(value); }
 
 			void DoCalculations() override;
 			void Constrain() override;
@@ -165,14 +173,20 @@ namespace Aurora {
 		class RandomBasePerlinNoise : public IRandomBasePerlinNoise, public RandomBase
 		{
 
-		private:
-			
 		protected:
-			std::shared_ptr<module::Perlin> PerlinNoiseCalculator;
+			std::shared_ptr<module::Perlin> perlinNoiseCalculator;
 			virtual void init() override;
 			virtual void init(const mRECT &areaSize, RandomNumberMode randomNumberMode);
 		public:
 			
+			std::shared_ptr<module::Perlin> PerlinNoiseCalculator() const {
+				if (perlinNoiseCalculator == nullptr)
+					throw std::bad_function_call("The object you are trying to use is empty. This functionality is not available. Please pass an object before usage.");
+
+				return perlinNoiseCalculator;
+			}
+			template<typename T>
+			void PerlinNoiseCalculator(T &&value) { perlinNoiseCalculator = std::forward<T>(value); }
 			
 			RandomBasePerlinNoise();
 			RandomBasePerlinNoise(const RandomBasePerlinNoise &value);

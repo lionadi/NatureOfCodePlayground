@@ -7,7 +7,7 @@
 namespace Aurora {
     namespace Random {
 
-		class IObjectBaseBasic //: public IRandomBase
+		class IObjectBaseBasic
         {
             protected:
 				virtual void init();

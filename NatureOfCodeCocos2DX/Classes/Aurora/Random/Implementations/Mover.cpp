@@ -138,8 +138,8 @@ namespace Aurora {
 		void Mover::PerlinNoiseCalculations()
 		{
 			RandomBaseComplete::PerlinNoiseCalculations();
-			auto tempX = this->PerlinNoiseCalculator->GetValue(this->perlinNoiseTime_PositionX.X, this->perlinNoiseTime_PositionX.Y, this->perlinNoiseTime_PositionX.Z);
-			auto tempY = this->PerlinNoiseCalculator->GetValue(this->perlinNoiseTime_PositionY.X, this->perlinNoiseTime_PositionY.Y, this->perlinNoiseTime_PositionY.Z);
+			auto tempX = this->perlinNoiseCalculator->GetValue(this->perlinNoiseTime_PositionX.X, this->perlinNoiseTime_PositionX.Y, this->perlinNoiseTime_PositionX.Z);
+			auto tempY = this->perlinNoiseCalculator->GetValue(this->perlinNoiseTime_PositionY.X, this->perlinNoiseTime_PositionY.Y, this->perlinNoiseTime_PositionY.Z);
 
 			/*if (tempX < 0)
 			{
@@ -221,7 +221,8 @@ namespace Aurora {
 
 		Mover & Mover::operator=(Mover && value)
 		{
-			RandomBaseComplete::operator=(std::move(value));
+			if (this == &value)
+				return *this;
 
 			/*this->position = std::move(value.position);
 			this->probalitityFactor = std::move(value.probalitityFactor);
@@ -232,6 +233,7 @@ namespace Aurora {
 			this->maximiunVelocity = std::move(value.maximiunVelocity);
 			this->minimumVelocity = std::move(value.minimumVelocity);*/
 			this->init(std::move(value));
+			RandomBaseComplete::operator=(std::move(value));
 
 			return(*this);
 		}

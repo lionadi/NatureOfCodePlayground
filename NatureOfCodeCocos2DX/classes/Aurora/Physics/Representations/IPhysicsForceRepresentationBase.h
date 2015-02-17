@@ -9,7 +9,14 @@
 namespace Aurora {
 	namespace Physics {
 
-
+		/*!
+		 * \class IPhysicsForceRepresentationBase
+		 *
+		 * \brief Use this to add physics data to an object and add support for physics calculations to perform calculations on the data.
+		 *
+		 * \author Adrian Simionescu
+		 * \date February 2015
+		 */
 		class IPhysicsForceRepresentationBase
 		{
 			private:

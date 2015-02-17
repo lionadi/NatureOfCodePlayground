@@ -10,6 +10,14 @@
 namespace Aurora {
 	namespace Physics {
 
+		/*!
+		 * \class IPhysicsImplementor
+		 *
+		 * \brief Use this to set a connection to a objects physics data. With this connection you can communicate with the physics data.
+		 *
+		 * \author Adrian Simionescu
+		 * \date February 2015
+		 */
 		class IPhysicsImplementor
 		{
 			private:

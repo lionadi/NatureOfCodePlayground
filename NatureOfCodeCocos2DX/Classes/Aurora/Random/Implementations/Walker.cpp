@@ -168,8 +168,8 @@ namespace Aurora {
 		void Walker::PerlinNoiseCalculations()
 		{
 			RandomBaseComplete::PerlinNoiseCalculations();
-			auto tempX = this->PerlinNoiseCalculator->GetValue(this->perlinNoiseTime_PositionX.X, this->perlinNoiseTime_PositionX.Y, this->perlinNoiseTime_PositionX.Z);
-			auto tempY = this->PerlinNoiseCalculator->GetValue(this->perlinNoiseTime_PositionY.X, this->perlinNoiseTime_PositionY.Y, this->perlinNoiseTime_PositionY.Z);
+			auto tempX = this->perlinNoiseCalculator->GetValue(this->perlinNoiseTime_PositionX.X, this->perlinNoiseTime_PositionX.Y, this->perlinNoiseTime_PositionX.Z);
+			auto tempY = this->perlinNoiseCalculator->GetValue(this->perlinNoiseTime_PositionY.X, this->perlinNoiseTime_PositionY.Y, this->perlinNoiseTime_PositionY.Z);
 
 			if(tempX < 0)
 			{
@@ -296,13 +296,17 @@ namespace Aurora {
 
 		Walker & Walker::operator=(Walker && value)
 		{
-			RandomBaseComplete::operator=(std::move(value));
+			if (this == &value)
+				return *this;
+
+			
 			this->position = std::move(value.position);
 			this->probalitityFactor = value.probalitityFactor;
 			this->perlinNoiseTime_PositionX = std::move(value.perlinNoiseTime_PositionX);
 			this->perlinNoiseTime_PositionY = std::move(value.perlinNoiseTime_PositionY);
 			this->target = std::move(value.target);
 			
+			RandomBaseComplete::operator=(std::move(value));
 			return(*this);
 		}
 
