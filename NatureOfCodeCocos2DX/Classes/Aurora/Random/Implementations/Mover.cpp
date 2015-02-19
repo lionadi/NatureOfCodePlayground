@@ -6,6 +6,7 @@ namespace Aurora {
 		void Mover::Accelerate()
 		{
 			this->ImplementorObjectPhysics()->Update();
+			this->ImplementorObjectPhysics()->UpdateAngular();
 			//VECTOR2D emptyVector;
 			/*if (this->target != emptyVector)
 			{
@@ -19,6 +20,7 @@ namespace Aurora {
 		void Mover::Decellerate()
 		{
 			this->ImplementorObjectPhysics()->Update();
+			this->ImplementorObjectPhysics()->UpdateAngular();
 			/*VECTOR2D emptyVector;
 			if (this->target != emptyVector)
 			{

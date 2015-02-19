@@ -22,129 +22,131 @@ namespace Aurora
 	*/
 	namespace Math
 	{
-		#define DEG_TO_RAD(ang) ((ang)*PI/180.0)
-		#define RAD_TO_DEG(rads) ((rads)*180.0/PI)
-
-		extern "C"
+		class MathOperations
 		{
-		/*!
-			\brief Calculates in a fast way the distance from the origin(0,0) to the given point.
-			\param x 
-			\param y 
-			\return 
-		*/
-		Float Fast2DDistance(Float x, Float y);
-		/*!
-			\brief Calculates in a fast way the distance from the origin(0,0,0) to the given point.
-			\param fx 
-			\param fy 
-			\param fz 
-			\return 
-		*/
-		Float Fast3DDistance(Float fx, Float fy, Float fz);
-		
-		
-		/*!
-			\brief 
-			\param theta 
-			\param &table 
-			\return 
-		*/
-		Float FastCos(Float theta, lSINCOSTABLES &table);
-		/*!
-			\brief 
-			\param theta 
-			\param &table 
-			\return 
-		*/
-		Float FastSin(Float theta, lSINCOSTABLES &table);
+			public:
+				static inline Float Degrees_To_Radians(const float &angle);
+				static inline Float Radians_To_Degrees(const float &radians);
 
-		/*!
-			\brief 
-			\param *polar 
-			\param &point 
-		*/
-		void VERTEX2DToPOLAR2D(mPOLAR2D *polar, VERTEX2D &point);
-		/*!
-			\brief 
-			\param *point 
-			\param &polar 
-		*/
-		void POLAR2DToVERTEX2D(VERTEX2D *point, mPOLAR2D &polar);
-		/*!
-			\brief 
-			\param *x 
-			\param *y 
-			\param &polar 
-		*/
-		void POLAR2DToFloatXY(Float *x, Float *y, mPOLAR2D &polar);
-		/*!
-			\brief 
-			\param *r 
-			\param *theta 
-			\param &point 
-		*/
-		void VERTEX2DToPolarRTh(Float *r, Float *theta, VERTEX2D &point);
+				/*!
+				\brief Calculates in a fast way the distance from the origin(0,0) to the given point.
+				\param x
+				\param y
+				\return
+				*/
+				static Float Fast2DDistance(Float x, Float y);
+				/*!
+				\brief Calculates in a fast way the distance from the origin(0,0,0) to the given point.
+				\param fx
+				\param fy
+				\param fz
+				\return
+				*/
+				static Float Fast3DDistance(Float fx, Float fy, Float fz);
 
-		/*!
-			\brief 
-			\param *point 
-			\param &cyl 
-		*/
-		void CYLINDRICAL3DToVERTEX3D(VERTEX3D *point, mCYLINDRICAL3D &cyl);
-		/*!
-			\brief 
-			\param *X 
-			\param *Y 
-			\param *Z 
-			\param &cyl 
-		*/
-		void CYLINDRICAL3DToFloatXYZ(Float *X, Float *Y, Float *Z, mCYLINDRICAL3D &cyl);
-		/*!
-			\brief 
-			\param *cyl 
-			\param &point 
-		*/
-		void VERTEX3DToCYLINDRICAL3D(mCYLINDRICAL3D *cyl, VERTEX3D &point);
-		/*!
-			\brief 
-			\param *r 
-			\param *theta 
-			\param *z 
-			\param &point 
-		*/
-		void VERTEX3DToCylindricalRThZ(float *r, float *theta, float *z, VERTEX3D &point);
 
-		/*!
-			\brief 
-			\param *point 
-			\param &sph 
-		*/
-		void SPHERICAL3DToVERTEX3D(VERTEX3D *point, mSPHERICAL3D &sph);
-		/*!
-			\brief 
-			\param *x 
-			\param *y 
-			\param *z 
-			\param &sph 
-		*/
-		void SPHERICAL3DToFloatXYZ(float *x, float *y, float *z, mSPHERICAL3D &sph);
-		/*!
-			\brief 
-			\param *sph 
-			\param &point 
-		*/
-		void VERTEX3DToSPHERICAL3D(mSPHERICAL3D *sph, VERTEX3D &point);
-		/*!
-			\brief 
-			\param *p 
-			\param *theta 
-			\param *phi 
-			\param &point 
-		*/
-		void VERTEX3DToSphericalPThPh(float *p, float *theta, float *phi, VERTEX3D &point);
-		
-		}; // END OF "C" extern
+				/*!
+				\brief
+				\param theta
+				\param &table
+				\return
+				*/
+				static Float FastCos(Float theta, lSINCOSTABLES &table);
+				/*!
+				\brief
+				\param theta
+				\param &table
+				\return
+				*/
+				static Float FastSin(Float theta, lSINCOSTABLES &table);
+
+				/*!
+				\brief
+				\param *polar
+				\param &point
+				*/
+				static void VERTEX2DToPOLAR2D(mPOLAR2D *polar, VERTEX2D &point);
+				/*!
+				\brief
+				\param *point
+				\param &polar
+				*/
+				static void POLAR2DToVERTEX2D(VERTEX2D *point, mPOLAR2D &polar);
+				/*!
+				\brief
+				\param *x
+				\param *y
+				\param &polar
+				*/
+				static void POLAR2DToFloatXY(Float *x, Float *y, mPOLAR2D &polar);
+				
+				/*!
+				\brief
+				\param *r
+				\param *theta
+				\param &point
+				*/
+				static void VERTEX2DToPolarRTh(Float *r, Float *theta, VERTEX2D &point);
+
+				/*!
+				\brief
+				\param *point
+				\param &cyl
+				*/
+				static void CYLINDRICAL3DToVERTEX3D(VERTEX3D *point, mCYLINDRICAL3D &cyl);
+				/*!
+				\brief
+				\param *X
+				\param *Y
+				\param *Z
+				\param &cyl
+				*/
+				static void CYLINDRICAL3DToFloatXYZ(Float *X, Float *Y, Float *Z, mCYLINDRICAL3D &cyl);
+				/*!
+				\brief
+				\param *cyl
+				\param &point
+				*/
+				static void VERTEX3DToCYLINDRICAL3D(mCYLINDRICAL3D *cyl, VERTEX3D &point);
+				/*!
+				\brief
+				\param *r
+				\param *theta
+				\param *z
+				\param &point
+				*/
+				static void VERTEX3DToCylindricalRThZ(float *r, float *theta, float *z, VERTEX3D &point);
+
+				/*!
+				\brief
+				\param *point
+				\param &sph
+				*/
+				static void SPHERICAL3DToVERTEX3D(VERTEX3D *point, mSPHERICAL3D &sph);
+				/*!
+				\brief
+				\param *x
+				\param *y
+				\param *z
+				\param &sph
+				*/
+				static void SPHERICAL3DToFloatXYZ(float *x, float *y, float *z, mSPHERICAL3D &sph);
+				/*!
+				\brief
+				\param *sph
+				\param &point
+				*/
+				static void VERTEX3DToSPHERICAL3D(mSPHERICAL3D *sph, VERTEX3D &point);
+				/*!
+				\brief
+				\param *p
+				\param *theta
+				\param *phi
+				\param &point
+				*/
+				static void VERTEX3DToSphericalPThPh(float *p, float *theta, float *phi, VERTEX3D &point);
+		};
+
 
 		/*!
 			\brief 

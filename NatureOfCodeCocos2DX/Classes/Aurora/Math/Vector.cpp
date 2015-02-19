@@ -246,6 +246,11 @@ namespace Aurora
 			return(VECTOR2D(this->X, this->Y));
 		}
 
+		float VECTOR2D::Heading()
+		{
+			return(atan2f(Y,X));
+		}
+
 // VECTOR3D -----------------------------------------------------------
 		VECTOR3D::VECTOR3D()  : X(0), Y(0), Z(0)
 		{

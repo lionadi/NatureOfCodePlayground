@@ -3,6 +3,7 @@
 
 #include "Implementations/Mover.h"
 #include "Implementations/Walker.h"
+#include "Implementations/Oscillator.h"
 
 
 

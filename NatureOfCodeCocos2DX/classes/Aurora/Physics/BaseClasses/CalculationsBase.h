@@ -4,6 +4,7 @@
 
 
 #include "..\..\Math\MathOperations.h"
+#include "../../Errors/ErrorOperations.h"
 
 using namespace Aurora::Math;
 

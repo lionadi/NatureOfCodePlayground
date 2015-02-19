@@ -49,10 +49,10 @@ bool MainMenu::init()
 	this->setColor(cocos2d::Color3B::WHITE);
 	//this->testBots = std::make_unique<AliasDeclarations::VectorTestBots>();
 
-	for (int x = 0; x < 15; ++x)
+	for (int x = 0; x < 2; ++x)
 	{
 		// For random generated objects
-		this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.width), RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.height)), Vec2::ZERO, Vec2(RandomNumberGenerator::GetRandomFloat(2), RandomNumberGenerator::GetRandomFloat(2)), RandomNumberGenerator::GetRandomPositiveFloat(15)));
+		//this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.width / 3), RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.height /3)), Vec2::ZERO, Vec2(RandomNumberGenerator::GetRandomFloat(2), RandomNumberGenerator::GetRandomFloat(2)), RandomNumberGenerator::GetRandomPositiveFloat(15)));
 
 		// Single object
 		//this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(visibleSize.width / 2, visibleSize.height / 2), Vec2::ZERO, Vec2::ZERO));
@@ -66,7 +66,7 @@ bool MainMenu::init()
 	this->walker->SetWalkerDrawNodeStartPosition(Vec2(origin.x, origin.y));
 	//this->testBot->SetMoverDrawNodeStartPosition(Vec2(origin.x, origin.y));
 	//this->addChild(this->walker->GetWalkerDrawNode());
-	//this->addChild(this->testBot->GetMoverDrawNode());
+	this->addChild(this->testBot->GetMoverDrawNode());
 	for (auto testBotTemp : this->testBots)
 	{
 		
@@ -98,17 +98,56 @@ void MainMenu::update(float dt)
 		VECTOR2D gravAttraction = CommonCalculations::GravitationalAttractionCalculations(1, this->testBot->ObjectPhysics()->Position(), this->testBot->ObjectPhysics()->Mass(), testBotTemp->ObjectPhysics()->Position(), testBotTemp->ObjectPhysics()->Mass(), 5, 25);
 		testBotTemp->ObjectPhysics()->ApplyForce(gravAttraction);
 	}*/
-	for (auto i = 0; i < this->testBots.size(); i++) {
-		for (auto j = 0; j < this->testBots.size(); j++) {
-			//Don’t attract yourself!
-				if (i != j) {
-					VECTOR2D gravAttraction = CommonCalculations::GravitationalAttractionCalculations(0.4f, this->testBots[j]->AccessObjectPhysics()->Position(), this->testBots[j]->AccessObjectPhysics()->Mass(), this->testBots[i]->AccessObjectPhysics()->Position(), this->testBots[i]->AccessObjectPhysics()->Mass(), 5, 25);
-						//movers[j].attract(movers[i]);
-					this->testBots[i]->AccessObjectPhysics()->ApplyForce(gravAttraction);
+	//for (auto i = 0; i < this->testBots.size(); i++) {
+	//	for (auto j = 0; j < this->testBots.size(); j++) {
+	//		//Don’t attract yourself!
+	//			if (i != j) {
+	//				VECTOR2D gravAttraction = CommonCalculations::GravitationalAttractionCalculations(0.4f, this->testBots[j]->AccessObjectPhysics()->Position(), this->testBots[j]->AccessObjectPhysics()->Mass(), this->testBots[i]->AccessObjectPhysics()->Position(), this->testBots[i]->AccessObjectPhysics()->Mass(), 5, 25);
+	//					//movers[j].attract(movers[i]);
+	//				this->testBots[i]->AccessObjectPhysics()->ApplyForce(gravAttraction);
 
-				}
-		}
-	}
+	//			}
+	//	}
+	//}
+
+	//for (auto i = 0; i < this->testBots.size(); i++) {
+	//	
+	//		//Don’t attract yourself!
+	//			
+	//				//VECTOR2D gravAttraction = CommonCalculations::GravitationalAttractionCalculations(0.4f, this->testBots[j]->AccessObjectPhysics()->Position(), this->testBots[j]->AccessObjectPhysics()->Mass(), this->testBots[i]->AccessObjectPhysics()->Position(), this->testBots[i]->AccessObjectPhysics()->Mass(), 5, 25);
+	//					//movers[j].attract(movers[i]);
+	//				auto distance = this->testBot->AccessObjectPhysics()->Position() - this->testBots[i]->AccessObjectPhysics()->Position();
+	//				auto distanceMagnitude = distance.Magnitude();
+
+	//				auto x = 10 * cos(this->testBots[i]->AccessObjectPhysics()->Angle());
+	//				auto y = 10 * sin(this->testBots[i]->AccessObjectPhysics()->Angle());
+	//				this->testBots[i]->AccessObjectPhysics()->Angle(this->testBots[i]->AccessObjectPhysics()->Angle() + 0.01f);
+	//				CCLOG("TestBot anguler Pos X: %f", x);
+	//				CCLOG("TestBot anguler Pos Y: %f", y);
+	//				this->testBots[i]->AccessObjectPhysics()->Position(VECTOR2D(x, y));
+	//					
+	//			}
+	
+	auto distance = this->testBot->AccessObjectPhysics()->Position() - this->testBot->AccessObjectPhysics()->Position();
+	auto distanceMagnitude = distance.Magnitude();
+
+	auto frames = Director::getInstance()->getFrameRate();
+	if (frameCount < frames)
+		frameCount++;
+	else
+		frameCount = 0;
+	mPOLAR2D polar;
+	polar.r = 100;
+	polar.theta = PI2 * Aurora::Engine::EngineCommonCalculations::CalculateDeltaTime(frameCount,frames);
+
+		float x = 0;
+		float y = 0;
+		MathOperations::POLAR2DToFloatXY(&x, &y, polar);
+	this->testBot->AccessObjectPhysics()->Angle(this->testBot->AccessObjectPhysics()->Angle() + 0.01f);
+	CCLOG("TestBot anguler Pos X: %f", x);
+	CCLOG("TestBot anguler Pos Y: %f", y);
+	auto origin = Director::getInstance()->getVisibleOrigin();
+	this->testBot->AccessObjectPhysics()->Position(VECTOR2D(x, (Director::getInstance()->getVisibleSize().height / 2)) + ConvertVec2Tp_VECTOR2D(origin));
 }
 
 void MainMenu::GoToGameScene(cocos2d::Ref *pSender)

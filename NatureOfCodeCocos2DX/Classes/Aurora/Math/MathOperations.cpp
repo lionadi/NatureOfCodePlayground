@@ -15,66 +15,187 @@ namespace Aurora
 	*/
 	namespace Math
 	{
+		Float MathOperations::Fast2DDistance(Float x, Float y)
+				{
+					// first compute the absolute value of x,y
+					x = abs(x);
+					y = abs(y);
 
-		Float Fast2DDistance(Float x, Float y)
+					// compute the minimum of x,y
+					Int32 mn = (Int32)MIN(x, y);
+
+					// return the distance
+					return(x + y - (mn >> 1) - (mn >> 2) + (mn >> 4));
+				} // END OF FUNCTION
+
+		Float MathOperations::Fast3DDistance(Float fx, Float fy, Float fz)
+				{
+					// this function computes the distance from the origin to x,y,z
+
+					//int temp;  // used for swaping
+					int x, y, z; // used for algorithm
+
+					// make sure values are all positive
+					x = static_cast<Int32>(fabs(fx) * 1024);
+					y = static_cast<Int32>(fabs(fy) * 1024);
+					z = static_cast<Int32>(fabs(fz) * 1024);
+
+					// sort values
+					if (y < x) std::swap(x, y);
+
+					if (z < y) std::swap(y, z);
+
+					if (y < x) std::swap(x, y);
+
+					int dist = (z + 11 * (y >> 5) + (x >> 2));
+
+					// compute distance with 8% error
+					return((float)(dist >> 10));
+				} // END OF FUNCTION
+
+		Float MathOperations::FastCos(Float theta, lSINCOSTABLES &table)
+				{
+					theta = fmodf(theta, 360);
+					if (theta < 0) theta += 360.0;
+
+					int theta_int = (int)theta;
+					float theta_frac = theta - theta_int;
+
+					return(table.CosTable[theta_int] + theta_frac*(table.CosTable[theta_int + 1] - table.CosTable[theta_int]));
+				} // END OF FUNCTION
+
+		Float MathOperations::FastSin(Float theta, lSINCOSTABLES &table)
+				{
+					theta = fmodf(theta, 360);
+					if (theta < 0) theta += 360.0;
+
+					int theta_int = (int)theta;
+					float theta_frac = theta - theta_int;
+
+					return(table.SinTable[theta_int] + theta_frac*(table.SinTable[theta_int + 1] - table.SinTable[theta_int]));
+				} // END OF FUNCTION
+
+		Aurora::DataTypes::Float MathOperations::Degrees_To_Radians(const float &angle)
 		{
-			// first compute the absolute value of x,y
-			x = abs(x);
-			y = abs(y);
+			return((angle)*PI / 180.0);
+		}
 
-			// compute the minimum of x,y
-			Int32 mn = (Int32)MIN(x,y);
-
-			// return the distance
-			return(x+y-(mn>>1)-(mn>>2)+(mn>>4));
-		} // END OF FUNCTION
-
-		Float Fast3DDistance(Float fx, Float fy, Float fz)
+		Aurora::DataTypes::Float MathOperations::Radians_To_Degrees(const float &radians)
 		{
-			// this function computes the distance from the origin to x,y,z
+			return((radians)*180.0 / PI);
+		}
 
-			//int temp;  // used for swaping
-			int x,y,z; // used for algorithm
-
-			// make sure values are all positive
-			x = static_cast<Int32>(fabs(fx) * 1024);
-			y = static_cast<Int32>(fabs(fy) * 1024);
-			z = static_cast<Int32>(fabs(fz) * 1024);
-
-			// sort values
-			if (y < x) std::swap(x,y);
-
-				if (z < y) std::swap(y,z);
-
-					if (y < x) std::swap(x,y);
-
-						int dist = (z + 11 * (y >> 5) + (x >> 2) );
-
-			// compute distance with 8% error
-			return((float)(dist >> 10));
-		} // END OF FUNCTION
-
-		Float FastCos(Float theta, lSINCOSTABLES &table)
+		void  MathOperations::VERTEX2DToPOLAR2D(mPOLAR2D *polar, VERTEX2D &point)
 		{
-			theta = fmodf(theta,360);
-			if (theta < 0) theta+=360.0;
+			// convert rectangular to polar
+			polar->r     = sqrtf((point.X * point.X) + (point.Y * point.Y));
+			polar->theta = atanf(point.Y/point.X);
+		}
 
-			int theta_int    = (int)theta;
-			float theta_frac = theta - theta_int;
-
-			return(table.CosTable[theta_int] + theta_frac*(table.CosTable[theta_int+1] - table.CosTable[theta_int]));
-		} // END OF FUNCTION
-
-		Float FastSin(Float theta, lSINCOSTABLES &table)
+		void  MathOperations::POLAR2DToVERTEX2D(VERTEX2D *point, mPOLAR2D &polar)
 		{
-			theta = fmodf(theta,360);
-			if (theta < 0) theta+=360.0;
+			// convert polar to rectangular
+			point->X = polar.r*cosf(polar.theta);
+			point->Y = polar.r*sinf(polar.theta);
+		}
 
-			int theta_int    = (int)theta;
-			float theta_frac = theta - theta_int;
+		
 
-			return(table.SinTable[theta_int] + theta_frac*(table.SinTable[theta_int+1] - table.SinTable[theta_int]));
-		} // END OF FUNCTION
+		void  MathOperations::VERTEX2DToPolarRTh(Float *r, Float *theta, VERTEX2D &point)
+		{
+			// convert rectangular to polar
+			*r     = sqrtf((point.X * point.X) + (point.Y * point.Y));
+			*theta = atanf(point.Y/point.X);
+		}
+
+		void  MathOperations::CYLINDRICAL3DToVERTEX3D(VERTEX3D *point, mCYLINDRICAL3D &cyl)
+		{
+			// convert cylindrical to rectangular
+			point->X = cyl.r*cosf(cyl.theta);
+			point->Y = cyl.r*sinf(cyl.theta);
+			point->Z = cyl.z;
+		}
+
+		void  MathOperations::CYLINDRICAL3DToFloatXYZ(Float *X, Float *Y, Float *Z, mCYLINDRICAL3D &cyl)
+		{
+			// convert cylindrical to rectangular
+			*X = cyl.r*cosf(cyl.theta);
+			*Y = cyl.r*sinf(cyl.theta);
+			*Z = cyl.z;
+		}
+
+		void  MathOperations::VERTEX3DToCYLINDRICAL3D(mCYLINDRICAL3D *cyl, VERTEX3D &point)
+		{
+			// convert rectangular to cylindrical
+			cyl->r     = sqrtf((point.X * point.X) + (point.Y * point.Y));
+			cyl->theta = atanf(point.Y/point.Y);
+			cyl->z     = point.Z;
+		}
+		
+		void  MathOperations::VERTEX3DToCylindricalRThZ(float *r, float *theta, float *z, VERTEX3D &point)
+		{
+			*r     = sqrtf((point.X * point.X) + (point.Y * point.Y));
+			*theta = atanf(point.Y/point.Y);
+			*z     = point.Z;
+		}
+
+		void  MathOperations::SPHERICAL3DToVERTEX3D(VERTEX3D *point, mSPHERICAL3D &sph)
+		{
+			// convert spherical to rectangular
+			float r;
+
+			// pre-compute r, and z
+			r			= sph.p*sinf(sph.phi);
+			point->Z	= sph.p*cosf(sph.phi);
+
+			// use r to simplify computation of x,y
+			point->X	= r*cosf(sph.theta);
+			point->Y	= r*sinf(sph.theta);
+		}
+		
+		void  MathOperations::SPHERICAL3DToFloatXYZ(float *x, float *y, float *z, mSPHERICAL3D &sph)
+		{
+			// convert spherical to rectangular
+			float r;
+
+			// pre-compute r, and z
+			r			= sph.p*sinf(sph.phi);
+			*z	= sph.p*cosf(sph.phi);
+
+			// use r to simplify computation of x,y
+			*x	= r*cosf(sph.theta);
+			*y	= r*sinf(sph.theta);
+		}
+
+		void  MathOperations::VERTEX3DToSPHERICAL3D(mSPHERICAL3D *sph, VERTEX3D &point)
+		{
+			// convert rectangular to spherical
+			sph->p = sqrtf((point.X*point.X)+(point.Y*point.Y)+(point.Z*point.Z));
+
+			sph->theta = atanf(point.Y/point.X);
+
+			// we need r to compute phi
+			float r = sph->p*sinf(sph->phi);
+
+			sph->phi   = asinf(r/sph->p);
+		}
+
+		void  MathOperations::VERTEX3DToSphericalPThPh(float *p, float *theta, float *phi, VERTEX3D &point)
+		{
+			// convert rectangular to spherical
+			*p     = sqrtf((point.X*point.X)+(point.Y*point.Y)+(point.Z*point.Z));
+			*theta = atanf(point.Y/point.X);
+
+			// we need r to compute phi
+			float r = sqrtf((point.X*point.X) + (point.Y*point.Y));
+			*phi    = asinf(r / (*p));
+		}
+
+		void MathOperations::POLAR2DToFloatXY(Float *x, Float *y, mPOLAR2D &polar)
+		{
+			*x = polar.r*cosf(polar.theta);
+			*y = polar.r*sinf(polar.theta);
+		}
 
 		void ZeroMatrix(MATRIX2X2 *mat)
 		{
@@ -178,116 +299,6 @@ namespace Aurora
 			destination->M21 = source.M12;		destination->M22 = source.M22;		destination->M23 = source.M32;	destination->M24 = source.M42;
 			destination->M31 = source.M13;		destination->M32 = source.M23;		destination->M33 = source.M33;	destination->M34 = source.M43;
 			destination->M41 = source.M14;		destination->M42 = source.M24;		destination->M43 = source.M34;	destination->M44 = source.M44;
-		}
-
-		void VERTEX2DToPOLAR2D(mPOLAR2D *polar, VERTEX2D &point)
-		{
-			// convert rectangular to polar
-			polar->r     = sqrtf((point.X * point.X) + (point.Y * point.Y));
-			polar->theta = atanf(point.Y/point.X);
-		}
-
-		void POLAR2DToVERTEX2D(VERTEX2D *point, mPOLAR2D &polar)
-		{
-			// convert polar to rectangular
-			point->X = polar.r*cosf(polar.theta);
-			point->Y = polar.r*sinf(polar.theta);
-		}
-
-		void POLAR2DToFloatXY(Float *x, Float *y, mPOLAR2D &polar)
-		{
-			*x = polar.r*cosf(polar.theta);
-			*y = polar.r*sinf(polar.theta);
-		}
-
-		void VERTEX2DToPolarRTh(Float *r, Float *theta, VERTEX2D &point)
-		{
-			// convert rectangular to polar
-			*r     = sqrtf((point.X * point.X) + (point.Y * point.Y));
-			*theta = atanf(point.Y/point.X);
-		}
-
-		void CYLINDRICAL3DToVERTEX3D(VERTEX3D *point, mCYLINDRICAL3D &cyl)
-		{
-			// convert cylindrical to rectangular
-			point->X = cyl.r*cosf(cyl.theta);
-			point->Y = cyl.r*sinf(cyl.theta);
-			point->Z = cyl.z;
-		}
-
-		void CYLINDRICAL3DToFloatXYZ(Float *X, Float *Y, Float *Z, mCYLINDRICAL3D &cyl)
-		{
-			// convert cylindrical to rectangular
-			*X = cyl.r*cosf(cyl.theta);
-			*Y = cyl.r*sinf(cyl.theta);
-			*Z = cyl.z;
-		}
-
-		void VERTEX3DToCYLINDRICAL3D(mCYLINDRICAL3D *cyl, VERTEX3D &point)
-		{
-			// convert rectangular to cylindrical
-			cyl->r     = sqrtf((point.X * point.X) + (point.Y * point.Y));
-			cyl->theta = atanf(point.Y/point.Y);
-			cyl->z     = point.Z;
-		}
-		
-		void VERTEX3DToCylindricalRThZ(float *r, float *theta, float *z, VERTEX3D &point)
-		{
-			*r     = sqrtf((point.X * point.X) + (point.Y * point.Y));
-			*theta = atanf(point.Y/point.Y);
-			*z     = point.Z;
-		}
-
-		void SPHERICAL3DToVERTEX3D(VERTEX3D *point, mSPHERICAL3D &sph)
-		{
-			// convert spherical to rectangular
-			float r;
-
-			// pre-compute r, and z
-			r			= sph.p*sinf(sph.phi);
-			point->Z	= sph.p*cosf(sph.phi);
-
-			// use r to simplify computation of x,y
-			point->X	= r*cosf(sph.theta);
-			point->Y	= r*sinf(sph.theta);
-		}
-		
-		void SPHERICAL3DToFloatXYZ(float *x, float *y, float *z, mSPHERICAL3D &sph)
-		{
-			// convert spherical to rectangular
-			float r;
-
-			// pre-compute r, and z
-			r			= sph.p*sinf(sph.phi);
-			*z	= sph.p*cosf(sph.phi);
-
-			// use r to simplify computation of x,y
-			*x	= r*cosf(sph.theta);
-			*y	= r*sinf(sph.theta);
-		}
-
-		void VERTEX3DToSPHERICAL3D(mSPHERICAL3D *sph, VERTEX3D &point)
-		{
-			// convert rectangular to spherical
-			sph->p = sqrtf((point.X*point.X)+(point.Y*point.Y)+(point.Z*point.Z));
-
-			sph->theta = atanf(point.Y/point.X);
-
-			// we need r to compute phi
-			float r = sph->p*sinf(sph->phi);
-
-			sph->phi   = asinf(r/sph->p);
-		}
-
-		void VERTEX3DToSphericalPThPh(float *p, float *theta, float *phi, VERTEX3D &point)
-		{
-			// convert rectangular to spherical
-			*p     = sqrtf((point.X*point.X)+(point.Y*point.Y)+(point.Z*point.Z));
-			*theta = atanf(point.Y/point.X);
-
-			// we need r to compute phi
-			float r = sqrtf((point.X*point.X) + (point.Y*point.Y));
-			*phi    = asinf(r / (*p));
 		}
 
 		void DivVECTOR4DByW(VECTOR4D *source)
@@ -411,17 +422,17 @@ namespace Aurora
 
 		float VectorLengthOptim_1(const VECTOR2D &vect)
 		{
-			return(Fast2DDistance(vect.X, vect.Y));
+			return(MathOperations::Fast2DDistance(vect.X, vect.Y));
 		}
 
 		float VectorLengthOptim_1(const VECTOR3D &vect)
 		{
-			return(Fast3DDistance(vect.X, vect.Y, vect.Z));
+			return(MathOperations::Fast3DDistance(vect.X, vect.Y, vect.Z));
 		}
 
 		float VectorLengthOptim_1(const VECTOR4D &vect)
 		{
-			return(Fast3DDistance(vect.X, vect.Y, vect.Z));
+			return(MathOperations::Fast3DDistance(vect.X, vect.Y, vect.Z));
 		}
 
 		void BuildVectorByVectors(VECTOR2D *destination, const VECTOR2D &init, const VECTOR2D &term)

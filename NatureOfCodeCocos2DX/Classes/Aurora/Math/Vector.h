@@ -184,6 +184,7 @@ namespace Aurora
 				bool IsZero() const;
 				float Magnitude() const;
 				void Normalize();
+				float Heading();
 
 				VECTOR2D Clone() const;
 

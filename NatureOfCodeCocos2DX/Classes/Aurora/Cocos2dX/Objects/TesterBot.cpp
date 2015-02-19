@@ -50,9 +50,33 @@ void Aurora::Cocos2DX::TestBot::Render()
 		return;
 	
 	this->mainColor = cocos2d::Color4F(RandomNumberGenerator::GetRandomPositiveFloat(1), RandomNumberGenerator::GetRandomPositiveFloat(1), RandomNumberGenerator::GetRandomPositiveFloat(1), 0.5f);
+	this->mainColor = cocos2d::Color4F::BLUE;
 	this->SetVelocityRange(5, 0);
 
-	this->dotMoverDrawNode->drawDot(Vec2(0,0), this->GetMoverMass(), this->mainColor);
+	//this->dotMoverDrawNode->drawDot(Vec2(0,0), this->GetMoverMass(), this->mainColor);
+
+	Vec2 *vecs = new Vec2[4];
+	Point origin = Director::getInstance()->getVisibleOrigin();
+	vecs[0].x = 0;
+	vecs[0].y = 0;
+	vecs[1].x = 0;
+	vecs[1].y = 10;
+	vecs[2].x = 10;
+	vecs[2].y = 10;
+	vecs[3].x = 10;
+	vecs[3].y = 0;
+	//vecs[0] += 0;
+	//vecs[1] += 0;
+	//vecs[2] += 0;
+	//vecs[3] += 0;
+	/*auto polygonData = ConvertVECTOR2DListTp_Vec2(this->LiquidArea());
+	for (auto &singlePoly : polygonData)
+	{
+		singlePoly += origin;
+	}*/
+
+	this->dotMoverDrawNode->drawPolygon(&vecs[0], 4, this->mainColor, 1, this->mainColor);
+
 
 	IMoverImplementor::Render();
 	DelayTime *delayAction = DelayTime::create(0.0001f);
@@ -61,6 +85,11 @@ void Aurora::Cocos2DX::TestBot::Render()
 	CallFunc *callSelectorAction = CallFunc::create(
 		std::bind(&TestBot::MoveMover, this));
 
+	/*auto updateAngularMomentum = CallFunc::create(
+		[&]() { this->ObjectPhysics()->UpdateAngular(); } );*/
+
+	//auto rotateBy = RotateBy::create(0.01f, this->ObjectPhysics()->AngularAcceleration());
+	//Sequence *actionSequence = Sequence::create(callSelectorAction, updateAngularMomentum, rotateBy, delayAction, NULL);
 	Sequence *actionSequence = Sequence::create(callSelectorAction, delayAction, NULL);
 
 	this->dotMoverDrawNode->runAction(RepeatForever::create(actionSequence));
@@ -80,6 +109,9 @@ void Aurora::Cocos2DX::TestBot::MoveMover()
 	this->Accelerate();
 	Point origin = Director::getInstance()->getVisibleOrigin();
 	this->dotMoverDrawNode->setPosition(ConvertVECTOR2DTp_Vec2(this->GetCurentPosition()) + origin);
+	//auto angle = this->ObjectPhysics()->Angle();
+	//this->dotMoverDrawNode->setRotation(angle);
+	
 }
 
 void Aurora::Cocos2DX::TestBot::init()
@@ -92,10 +124,11 @@ void Aurora::Cocos2DX::TestBot::init(const Size &viewSize, const Vec2 &position,
 {
 	//Mover::Mover(ConvertVec2Tp_VECTOR2D(position), ConvertVec2Tp_VECTOR2D(velocity), ConvertVec2Tp_VECTOR2D(acceleration), ConvertSizeTo_mRect(viewSize), mass);
 	this->ObjectPhysics()->Position(ConvertVec2Tp_VECTOR2D(position));
-	this->ObjectPhysics()->Acceleration(ConvertVec2Tp_VECTOR2D(acceleration));
-	this->ObjectPhysics()->Velocity(ConvertVec2Tp_VECTOR2D(velocity));
+	//this->ObjectPhysics()->Acceleration(ConvertVec2Tp_VECTOR2D(acceleration));
+	//this->ObjectPhysics()->Velocity(ConvertVec2Tp_VECTOR2D(velocity));
 	this->ObjectPhysics()->Mass(mass);
 	this->ObjectPhysics()->AreaSize(ConvertSizeTo_mRect(viewSize));
+	//this->ObjectPhysics()->AngularAcceleration(0.1f);
 	this->SetConstrainsRange(ConvertSizeTo_mRect(viewSize));
 	this->viewSize = viewSize;
 	this->dotMoverDrawNode = DrawNode::create();

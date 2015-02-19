@@ -24,10 +24,18 @@ namespace Aurora {
 			
 			Float maximiunVelocity;
 
+			Float normal;
+
+			Float angularVelocity;
 			
 
-			Float normal;
+			Float angularAcceleration;
 			
+			Float angle;
+
+			Float minimumAngularVelocity;
+			
+			Float maximumAngularVelocity;
 
 			void ConstrainToAreaSize();
 
@@ -77,12 +85,40 @@ namespace Aurora {
 			Aurora::DataTypes::Float Normal() const { return normal; }
 			template<typename T>
 			void Normal(T &&value) { normal = std::forward<T>(value); }
+
+			Aurora::DataTypes::Float AngularVelocity() const { return angularVelocity; }
+			template<typename T>
+			void AngularVelocity(T &&value) { angularVelocity = std::forward<T>(value); }
+
+			Aurora::DataTypes::Float AngularAcceleration() const { return angularAcceleration; }
+			template<typename T>
+			void AngularAcceleration(T &&value) { angularAcceleration = std::forward<T>(value); }
+
+			Aurora::DataTypes::Float Angle() const { return angle; }
+			template<typename T>
+			void Angle(T &&value) { angle = std::forward<T>(value); }
+
+			cocos2d::Float MinimumAngularVelocity() const {
+				return minimumAngularVelocity;
+			}
+			template<typename T>
+			void MinimumAngularVelocity(T &&value) { minimumAngularVelocity = std::forward<T>(value); }
+
+			cocos2d::Float MaximumAngularVelocity() const {
+				return maximumAngularVelocity;
+			}
+			template<typename T>
+			void MaximumAngularVelocity(T &&value) { maximumAngularVelocity = std::forward<T>(value); }
+
+
 			
 #pragma endregion Encapsulated Properties
 
 			void ApplyForce(const VECTOR2D &value);
 			
 			void Update();
+
+			void UpdateAngular();
 			
 			
 			

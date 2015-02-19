@@ -11,6 +11,11 @@ void Force::init()
 	this->velocity = VECTOR2D::GetZeroVector();
 	this->normal = 1;
 	this->frictionCoefficient = 0.01f;
+	this->angle = 0;
+	this->angularVelocity = 0;
+	this->angularAcceleration = 0;
+	this->minimumAngularVelocity = -0.5f;
+	this->maximumAngularVelocity = 0.5f;
 }
 
 void Force::init(const Force &value)
@@ -23,6 +28,11 @@ void Force::init(const Force &value)
 	this->normal = value.normal;
 	this->friction = value.friction;
 	this->frictionCoefficient = value.frictionCoefficient;
+	this->angle = value.angle;
+	this->angularAcceleration = value.angularAcceleration;
+	this->angularVelocity = value.angularVelocity;
+	this->minimumAngularVelocity = value.minimumAngularVelocity;
+	this->maximumAngularVelocity = value.maximumAngularVelocity;
 }
 
 void Force::init(Force &&value)
@@ -35,6 +45,11 @@ void Force::init(Force &&value)
 	this->normal = std::move(value.normal);
 	this->friction = std::move(value.friction);
 	this->frictionCoefficient = std::move(value.frictionCoefficient);
+	this->angle = std::move(value.angle);
+	this->angularAcceleration = std::move(value.angularAcceleration);
+	this->angularVelocity = std::move(value.angularVelocity);
+	this->minimumAngularVelocity = std::move(value.minimumAngularVelocity);
+	this->maximumAngularVelocity = std::move(value.maximumAngularVelocity);
 }
 
 Force::Force()
@@ -82,6 +97,7 @@ void Force::Update()
 	this->velocity.Limit(maximiunVelocity);
 	this->position += velocity;
 	this->acceleration = VECTOR2D::GetZeroVector();
+
 	this->ConstrainToAreaSize();
 }
 
@@ -104,6 +120,28 @@ void Force::ConstrainToAreaSize()
 		velocity.Y *= -1;
 		position.Y = 0;
 	}
+}
+
+void Force::UpdateAngular()
+{
+	this->angularVelocity += angularAcceleration;
+	this->angularVelocity += velocity.Heading();
+
+	if (this->angularVelocity < this->minimumAngularVelocity)
+		this->angularVelocity = this->minimumAngularVelocity;
+
+	if (this->angularVelocity > this->maximumAngularVelocity)
+		this->angularVelocity = this->maximumAngularVelocity;
+
+	if (this->angularVelocity > 360)
+		this->angularVelocity = 360;
+
+	if (this->angularVelocity < -360)
+		this->angularVelocity = -360;
+
+	
+
+	this->angle += angularVelocity;
 }
 
 

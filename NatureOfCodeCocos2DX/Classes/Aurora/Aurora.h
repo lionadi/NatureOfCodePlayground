@@ -13,5 +13,7 @@
 #include "Random\RandomOperations.h"
 #include "Physics\PhysicsOperations.h"
 #include "Cocos2dX\Cocos2DXOperations.h"
+#include "Engine\EngineOperations.h"
+#include "Errors\ErrorOperations.h"
 
 #endif

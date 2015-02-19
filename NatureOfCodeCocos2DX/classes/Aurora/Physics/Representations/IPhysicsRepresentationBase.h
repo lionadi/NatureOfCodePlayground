@@ -37,7 +37,7 @@ namespace Aurora {
 
 			std::shared_ptr<Physics::Force> ObjectPhysics() const { 
 				if (this->objectPhysics == nullptr)
-					throw std::bad_function_call("The physics force object is empty you can not use this functionality. Please pass a force object before usage.");
+					throw std::bad_function_call(Aurora::Errors::ErrorMessages::PhysicsForceEmptyObject.c_str());
 
 				return objectPhysics;
 			}
