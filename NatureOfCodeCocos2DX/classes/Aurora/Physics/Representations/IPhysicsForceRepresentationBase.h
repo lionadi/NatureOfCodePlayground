@@ -21,6 +21,8 @@ namespace Aurora {
 		{
 			private:
 			std::shared_ptr<Physics::Force> objectPhysics;
+			
+
 			void init();
 			void init(const IPhysicsForceRepresentationBase &value);
 		public:
@@ -36,14 +38,17 @@ namespace Aurora {
 			
 
 			std::shared_ptr<Physics::Force> ObjectPhysics() const { 
-				if (this->objectPhysics == nullptr)
-					throw std::bad_function_call(Aurora::Errors::ErrorMessages::PhysicsForceEmptyObject.c_str());
+				assert(this->objectPhysics == nullptr && Aurora::Errors::ErrorMessages::PhysicsForceEmptyObject.c_str());
 
 				return objectPhysics; 
 			}
 
 			template<typename T>
-			void ObjectPhysics(T &&value) { objectPhysics = std::forward<T>(value); }
+			void ObjectPhysics(T &&value) {
+				static_assert(!is_same<objectPhysics, T>::value, Aurora::Errors::ErrorMessages::TypeMismatch.c_str());
+
+				objectPhysics = std::forward<T>(value);
+			}
 
 
 

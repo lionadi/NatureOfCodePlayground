@@ -11,6 +11,8 @@ namespace Aurora {
 		public:
 			static std::string PhysicsForceEmptyObject;
 			static std::string DivisionByZero;
+			static std::string TypeMismatch;
+			static std::string EmptyObjectFound;
 		};
 
 	};

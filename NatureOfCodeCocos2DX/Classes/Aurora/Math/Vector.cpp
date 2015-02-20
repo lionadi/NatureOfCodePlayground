@@ -36,7 +36,7 @@ namespace Aurora
 			this->Y = value.Y;
 		}
 
-		VECTOR2D::VECTOR2D(VECTOR2D &&value) : X(value.X), Y(value.Y)
+		VECTOR2D::VECTOR2D(VECTOR2D &&value) : X(std::move(value.X)), Y(std::move(value.Y))
 		{
 
 		}
@@ -91,8 +91,11 @@ namespace Aurora
 
 		VECTOR2D & VECTOR2D::operator=(VECTOR2D && value)
 		{
-			this->X = value.X;
-			this->Y = value.Y;
+			if (this == &value)
+				return *this;
+
+			this->X = std::move(value.X);
+			this->Y = std::move(value.Y);
 			return(*this);
 		}
 

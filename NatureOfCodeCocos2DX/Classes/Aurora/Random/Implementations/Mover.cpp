@@ -205,6 +205,7 @@ namespace Aurora {
 		Mover::~Mover()
 		{
 			IRandomBaseComplete::~IRandomBaseComplete();
+			IPhysicsImplementor::~IPhysicsImplementor();
 		}
 
 		
@@ -265,7 +266,7 @@ namespace Aurora {
 		{
 			this->SetConstrainsRange(value.GetConstrainsRange());
 			//this->PerlinNoiseCalculator = value.PerlinNoiseCalculator;
-			this->ImplementorObjectPhysics(value.ImplementorObjectPhysics());
+			this->ImplementorObjectPhysics(std::move(value.ImplementorObjectPhysics()));
 			this->probalitityFactor = std::move(value.probalitityFactor);
 			this->target = std::move(value.target);
 			this->perlinNoiseTime_PositionX = std::move(value.perlinNoiseTime_PositionX);

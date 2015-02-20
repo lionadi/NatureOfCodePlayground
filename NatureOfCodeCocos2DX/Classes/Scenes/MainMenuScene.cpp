@@ -138,7 +138,7 @@ void MainMenu::update(float dt)
 		frameCount = 0;
 	mPOLAR2D polar;
 	polar.r = 100;
-	polar.theta = PI2 * Aurora::Engine::EngineCommonCalculations::CalculateDeltaTime(frameCount,frames);
+	polar.theta = PI2 * Aurora::Engine::EngineCommonCalculations::CalculateDeltaTime(frameCount,frames != 0 ? frames : 60);
 
 		float x = 0;
 		float y = 0;
