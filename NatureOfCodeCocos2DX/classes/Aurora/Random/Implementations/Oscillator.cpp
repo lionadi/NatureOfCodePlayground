@@ -4,7 +4,8 @@ namespace Aurora {
 	namespace Random {
 		void Aurora::Random::Oscillator::DoCalculations()
 		{
-			throw std::logic_error("The method or operation is not implemented.");
+			this->Oscillate();
+			this->ImplementorObjectPhysics()->Position(VECTOR2D(this->StartPosition().X + (sin(this->angle.X) * this->amplitude.X), this->StartPosition().Y + cos(this->angle.Y) * this->amplitude.Y));
 		}
 
 		Aurora::Random::Oscillator::Oscillator() : RandomBaseComplete()
@@ -33,6 +34,7 @@ namespace Aurora {
 			if (this == &value)
 				return *this;
 
+			this->init(std::move(value));
 
 			return *this;
 		}
@@ -42,6 +44,7 @@ namespace Aurora {
 			if (this == &value)
 				return *this;
 
+			this->init(value);
 
 			return *this;
 		}
@@ -60,10 +63,10 @@ namespace Aurora {
 		{
 			this->angle = VECTOR2D::GetZeroVector();
 			this->velocity = VECTOR2D(RandomNumberGenerator::GetRandomFloat(-0.05, 0.05), RandomNumberGenerator::GetRandomFloat(-0.05, 0.05));
-			this->amplitude = VECTOR2D(this->GetConstrainsRange().Width / 2, this->GetConstrainsRange().Height / 2);
+			this->amplitude = VECTOR2D(RandomNumberGenerator::GetRandomFloat(this->GetConstrainsRange().Width / 2), RandomNumberGenerator::GetRandomFloat(this->GetConstrainsRange().Height / 2));
 		}
 
-		void Oscillator::init(const Oscillator &&value)
+		void Oscillator::init(const Oscillator & value)
 		{
 			this->angle = value.angle;
 			this->amplitude = value.amplitude;
@@ -71,10 +74,26 @@ namespace Aurora {
 			this->ImplementorObjectPhysics(value.ImplementorObjectPhysics());
 		}
 
+		void Oscillator::init(Oscillator && value)
+		{
+			this->angle = std::move(value.angle);
+			this->amplitude = std::move(value.amplitude);
+			this->velocity = std::move(value.velocity);
+			this->ImplementorObjectPhysics(std::move(value.ImplementorObjectPhysics()));
+		}
+
 		void Oscillator::Oscillate()
 		{
 			this->angle += velocity;
 		}
+
+		Oscillator::Oscillator(const mRECT &areaSize) : RandomBaseComplete()
+		{
+			this->SetConstrainsRange(areaSize);
+			this->init();
+		}
+
+		
 
 	}
 }

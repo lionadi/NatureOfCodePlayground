@@ -5,6 +5,7 @@
 
 #include "../Implementations/Force.h"
 #include <functional>
+#include <type_traits>
 
 
 namespace Aurora {
@@ -29,13 +30,16 @@ namespace Aurora {
 
 			std::shared_ptr<Physics::Force> ImplementorObjectPhysics() const {
 				if (this->objectPhysics == nullptr)
-					throw std::bad_function_call("The physics force object is empty you can not use this functionality. Please pass a force object before usage.");
+					throw std::bad_function_call(Aurora::Errors::ErrorMessages::PhysicsForceEmptyObject.c_str());
 
 				return objectPhysics;
 			}
 
 			template<typename T>
-			void ImplementorObjectPhysics(T &&value) { objectPhysics = std::forward<T>(value); }
+			void ImplementorObjectPhysics(T &&value) { 
+				//static_assert(!is_same<objectPhysics, T>::value, Aurora::Errors::ErrorMessages::TypeMismatch.c_str());
+				objectPhysics = std::forward<T>(value); 
+			}
 			
 		};
 

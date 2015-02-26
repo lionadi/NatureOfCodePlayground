@@ -4,6 +4,7 @@
 #include "..\BaseClasses\ObjectBase.h"
 #include "..\..\Math\MathOperations.h"
 #include "..\..\Physics\PhysicsOperations.h"
+#include <type_traits>
 
 
 using namespace Aurora::Math;
@@ -17,6 +18,12 @@ namespace Aurora {
 				VECTOR2D angle;
 				VECTOR2D velocity;
 				VECTOR2D amplitude;
+				VECTOR2D startPosition;
+				
+				void init(const Oscillator & value);
+				void init(Oscillator && value);
+
+				virtual void init() override;
 				
 			public:
 				Oscillator();
@@ -25,6 +32,7 @@ namespace Aurora {
 				Oscillator(Oscillator &&value);
 				Oscillator &operator=(Oscillator && value);
 				Oscillator& operator=(const Oscillator& value);
+				Oscillator(const mRECT &areaSize);
 
 
 				Aurora::Math::VECTOR2D Angle() const {
@@ -36,24 +44,36 @@ namespace Aurora {
 				Aurora::Math::VECTOR2D Velocity() const {
 					return velocity;
 				}
+
 				template<typename T>
 				void Velocity(T &&value) { velocity = std::forward<T>(value); }
 
 				Aurora::Math::VECTOR2D Amplitude() const {
 					return amplitude;
 				}
+
 				template<typename T>
 				void Amplitude(T &&value) { amplitude = std::forward<T>(value); }
 
 				virtual void DoCalculations() override;
 
-				virtual void init() override;
-				void init(const Oscillator &&value);
-				void init(const Oscillator &value);
-
 				void Oscillate();
 
+				Aurora::Math::VECTOR2D StartPosition() const {
+					return startPosition;
+				}
+				template<typename T>
+				void StartPosition(T &&value) {
+					//static_assert(!is_same<objectPhysics, T>::value, Aurora::Errors::ErrorMessages::TypeMismatch.c_str());
+
+					startPosition = std::forward<T>(value);
+				}
+
+				
+
 		};
+		
+		
 
 		class IOscillatorImplementor : public IObjectBaseBasic, public IPhysicsAccessPoint
 		{

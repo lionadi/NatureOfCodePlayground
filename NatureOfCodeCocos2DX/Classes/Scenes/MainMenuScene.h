@@ -24,6 +24,7 @@ public:
     // implement the "static create()" method manually
     CREATE_FUNC(MainMenu);
 	AliasDeclarations::VectorTestBots testBots;
+	AliasDeclarations::OscillatorBots oscillatorBots;
 	void update(float dt) override;
 
 	bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event * event);

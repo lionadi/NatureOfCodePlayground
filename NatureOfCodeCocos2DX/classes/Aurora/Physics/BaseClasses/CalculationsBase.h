@@ -5,6 +5,7 @@
 
 #include "..\..\Math\MathOperations.h"
 #include "../../Errors/ErrorOperations.h"
+#include <type_traits>
 
 using namespace Aurora::Math;
 

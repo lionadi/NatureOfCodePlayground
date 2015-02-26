@@ -38,7 +38,8 @@ namespace Aurora {
 			
 
 			std::shared_ptr<Physics::Force> ObjectPhysics() const { 
-				assert(this->objectPhysics == nullptr && Aurora::Errors::ErrorMessages::PhysicsForceEmptyObject.c_str());
+				if (this->objectPhysics == nullptr)
+					throw std::bad_function_call(Aurora::Errors::ErrorMessages::PhysicsForceEmptyObject.c_str());
 
 				return objectPhysics; 
 			}

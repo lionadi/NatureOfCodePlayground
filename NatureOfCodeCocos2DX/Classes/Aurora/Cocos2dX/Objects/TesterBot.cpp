@@ -3,17 +3,17 @@ using namespace cocos2d;
 
 
 
-Aurora::Cocos2DX::TestBot::TestBot() : Mover()
+Aurora::Cocos2DX::TestBot::TestBot() : Mover(), IMoverImplementor(), IPhysicsForceRepresentationBase()
 {
 	this->init();
 }
 
-Aurora::Cocos2DX::TestBot::TestBot(const Size &viewSize) : Mover(ConvertSizeTo_mRect(viewSize))
+Aurora::Cocos2DX::TestBot::TestBot(const Size &viewSize) : Mover(ConvertSizeTo_mRect(viewSize)), IMoverImplementor(), IPhysicsForceRepresentationBase()
 {
 	this->init(viewSize, Vec2::ZERO, Vec2::ZERO, Vec2::ZERO, 1);
 }
 
-Aurora::Cocos2DX::TestBot::TestBot(const Size &viewSize, const Vec2 &position, const Vec2 &velocity, const Vec2 &acceleration, const cocos2d::Color4F &color)
+Aurora::Cocos2DX::TestBot::TestBot(const Size &viewSize, const Vec2 &position, const Vec2 &velocity, const Vec2 &acceleration, const cocos2d::Color4F &color) : Mover(), IMoverImplementor(), IPhysicsForceRepresentationBase()
 {
 	this->init(viewSize, position, velocity, acceleration, 1);
 	this->mainColor = color;
@@ -21,7 +21,7 @@ Aurora::Cocos2DX::TestBot::TestBot(const Size &viewSize, const Vec2 &position, c
 	this->Render();
 }
 
-Aurora::Cocos2DX::TestBot::TestBot(const Size &viewSize, const Vec2 &position, const Vec2 &velocity, const Vec2 &acceleration, const float &mass) 
+Aurora::Cocos2DX::TestBot::TestBot(const Size &viewSize, const Vec2 &position, const Vec2 &velocity, const Vec2 &acceleration, const float &mass) : Mover(), IMoverImplementor(), IPhysicsForceRepresentationBase()
 {
 	this->init(viewSize, position, velocity, acceleration, mass);
 	this->dotMoverDrawNode->setAnchorPoint(Vec2(0, 0));
@@ -31,6 +31,7 @@ Aurora::Cocos2DX::TestBot::TestBot(const Size &viewSize, const Vec2 &position, c
 Aurora::Cocos2DX::TestBot::~TestBot()
 {
 	IMoverImplementor::~IMoverImplementor();
+	IPhysicsForceRepresentationBase::~IPhysicsForceRepresentationBase();
 	Mover::~Mover();
 }
 

@@ -49,8 +49,9 @@ bool MainMenu::init()
 	this->setColor(cocos2d::Color3B::WHITE);
 	//this->testBots = std::make_unique<AliasDeclarations::VectorTestBots>();
 
-	for (int x = 0; x < 2; ++x)
+	for (int x = 0; x < 7; ++x)
 	{
+		this->oscillatorBots.push_back(std::make_shared<OscillatorBot>(visibleSize));
 		// For random generated objects
 		//this->testBots.push_back(std::make_shared<TestBot>(visibleSize, Vec2(RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.width / 3), RandomNumberGenerator::GetRandomPositiveFloat(visibleSize.height /3)), Vec2::ZERO, Vec2(RandomNumberGenerator::GetRandomFloat(2), RandomNumberGenerator::GetRandomFloat(2)), RandomNumberGenerator::GetRandomPositiveFloat(15)));
 
@@ -71,6 +72,13 @@ bool MainMenu::init()
 	{
 		
 		this->addChild(testBotTemp->GetMoverDrawNode());
+		//testBotTemp->SetRandomNumberMode(RandomNumberMode::Perlin);
+	}
+
+	for (auto oscillatorBotTemp : this->oscillatorBots)
+	{
+
+		this->addChild(oscillatorBotTemp->GetMoverDrawNode());
 		//testBotTemp->SetRandomNumberMode(RandomNumberMode::Perlin);
 	}
 
@@ -110,6 +118,7 @@ void MainMenu::update(float dt)
 	//	}
 	//}
 
+	// Graviational Pull exmaple
 	//for (auto i = 0; i < this->testBots.size(); i++) {
 	//	
 	//		//Don’t attract yourself!
@@ -128,6 +137,8 @@ void MainMenu::update(float dt)
 	//					
 	//			}
 	
+	// Single X axis oscillation
+	/*
 	auto distance = this->testBot->AccessObjectPhysics()->Position() - this->testBot->AccessObjectPhysics()->Position();
 	auto distanceMagnitude = distance.Magnitude();
 
@@ -148,6 +159,7 @@ void MainMenu::update(float dt)
 	CCLOG("TestBot anguler Pos Y: %f", y);
 	auto origin = Director::getInstance()->getVisibleOrigin();
 	this->testBot->AccessObjectPhysics()->Position(VECTOR2D(x, (Director::getInstance()->getVisibleSize().height / 2)) + ConvertVec2Tp_VECTOR2D(origin));
+	*/
 }
 
 void MainMenu::GoToGameScene(cocos2d::Ref *pSender)
