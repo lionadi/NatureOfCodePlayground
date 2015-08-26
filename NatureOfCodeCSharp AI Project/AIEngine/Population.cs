@@ -24,6 +24,12 @@ namespace AIEngine
         /// </summary>
         private float mutationRate = 0.01F; // This value of 0.01 with a population count of 1000 seems to be generating the fastest result with monte carlo mating
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="mutationRate"></param>
+        /// <param name="populationCount"></param>
         public Population(String target, float mutationRate, int populationCount)
         {
             this.target = target;
@@ -44,6 +50,9 @@ namespace AIEngine
             this.perfectScore = 1;
         }
 
+        /// <summary>
+        /// In each iteration we calculate the fitness of each DNA sequence to be used later in the algorithm logic
+        /// </summary>
         public void CalculateFitness()
         {
             for (int x = 0; x < population.Count; x++)
@@ -52,6 +61,9 @@ namespace AIEngine
             }
         }
 
+        /// <summary>
+        /// Here the algorithm implements a selection method for chosing the best DNA sequences from the population.
+        /// </summary>
         public void NaturalSelection()
         {
             bool duplicateFound = true;
@@ -94,6 +106,9 @@ namespace AIEngine
             }
         }
 
+        /// <summary>
+        /// Next we will generate a new population based on algorithmic logic of crossover between two random DNA sequences and adding some mutation into it.
+        /// </summary>
         public void Generate()
         {
             for (int i = 0; i < population.Count; i++)

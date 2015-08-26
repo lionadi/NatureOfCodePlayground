@@ -2,3 +2,4 @@ C:\Users\extsimionescu\Google Drive\My Personal Software Projects\Git\NatureOfCo
 C:\Users\extsimionescu\Google Drive\My Personal Software Projects\Git\NatureOfCodePlayground\NatureOfCodeCSharp AI Project\AIEngine\bin\Debug\AIEngine.pdb
 C:\Users\extsimionescu\Google Drive\My Personal Software Projects\Git\NatureOfCodePlayground\NatureOfCodeCSharp AI Project\AIEngine\obj\Debug\AIEngine.dll
 C:\Users\extsimionescu\Google Drive\My Personal Software Projects\Git\NatureOfCodePlayground\NatureOfCodeCSharp AI Project\AIEngine\obj\Debug\AIEngine.pdb
+C:\Users\extsimionescu\Google Drive\My Personal Software Projects\Git\NatureOfCodePlayground\NatureOfCodeCSharp AI Project\AIEngine\obj\Debug\AIEngine.csprojResolveAssemblyReference.cache

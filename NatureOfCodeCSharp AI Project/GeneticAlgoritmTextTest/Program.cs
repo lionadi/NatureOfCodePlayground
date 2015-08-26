@@ -24,12 +24,15 @@ namespace GeneticAlgoritmTextTest
         {
             bool exit = false;
 
+            // Create the population which is responsible for solving the problem.
             Population population = new Population(target, mutationRate, PopulationCount);
             while (!exit)
             {
+                // In each iteration we calculate the fitness of each DNA sequence to be used later in the algorithm logic
                 population.CalculateFitness();
+                // Here the algorithm implements a selection method for chosing the best DNA sequences from the population.
                 population.NaturalSelection();
-                
+                // Next we will generate a new population based on algorithmic logic of crossover between two random DNA sequences and adding some mutation into it.
                 population.Generate();
                 
 
@@ -39,6 +42,7 @@ namespace GeneticAlgoritmTextTest
                 Console.WriteLine("Total generations: " + population.GetGenerations());
                 Console.WriteLine("Best fitness in cycle: " + population.GetBest());
 
+                // And before we go to the next iteration we check to see if the text puzzle has been solved.
                 exit = population.Finished();
             }
             Console.ReadLine();
