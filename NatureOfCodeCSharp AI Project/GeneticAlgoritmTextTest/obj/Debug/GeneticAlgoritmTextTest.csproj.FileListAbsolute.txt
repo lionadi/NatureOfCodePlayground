@@ -1,0 +1,14 @@
+C:\Users\extsimionescu\Google Drive\My Personal Software Projects\GeneticAlgoritmTextTest\obj\Debug\GeneticAlgoritmTextTest.csprojResolveAssemblyReference.cache
+C:\Users\extsimionescu\Google Drive\My Personal Software Projects\GeneticAlgoritmTextTest\bin\Debug\GeneticAlgoritmTextTest.exe.config
+C:\Users\extsimionescu\Google Drive\My Personal Software Projects\GeneticAlgoritmTextTest\bin\Debug\GeneticAlgoritmTextTest.exe
+C:\Users\extsimionescu\Google Drive\My Personal Software Projects\GeneticAlgoritmTextTest\bin\Debug\GeneticAlgoritmTextTest.pdb
+C:\Users\extsimionescu\Google Drive\My Personal Software Projects\GeneticAlgoritmTextTest\obj\Debug\GeneticAlgoritmTextTest.exe
+C:\Users\extsimionescu\Google Drive\My Personal Software Projects\GeneticAlgoritmTextTest\obj\Debug\GeneticAlgoritmTextTest.pdb
+C:\Users\extsimionescu\Google Drive\My Personal Software Projects\Git\NatureOfCodePlayground\NatureOfCodeCSharp AI Project\GeneticAlgoritmTextTest\bin\Debug\GeneticAlgoritmTextTest.exe.config
+C:\Users\extsimionescu\Google Drive\My Personal Software Projects\Git\NatureOfCodePlayground\NatureOfCodeCSharp AI Project\GeneticAlgoritmTextTest\obj\Debug\GeneticAlgoritmTextTest.exe
+C:\Users\extsimionescu\Google Drive\My Personal Software Projects\Git\NatureOfCodePlayground\NatureOfCodeCSharp AI Project\GeneticAlgoritmTextTest\obj\Debug\GeneticAlgoritmTextTest.pdb
+C:\Users\extsimionescu\Google Drive\My Personal Software Projects\Git\NatureOfCodePlayground\NatureOfCodeCSharp AI Project\GeneticAlgoritmTextTest\bin\Debug\GeneticAlgoritmTextTest.exe
+C:\Users\extsimionescu\Google Drive\My Personal Software Projects\Git\NatureOfCodePlayground\NatureOfCodeCSharp AI Project\GeneticAlgoritmTextTest\bin\Debug\GeneticAlgoritmTextTest.pdb
+C:\Users\extsimionescu\Google Drive\My Personal Software Projects\Git\NatureOfCodePlayground\NatureOfCodeCSharp AI Project\GeneticAlgoritmTextTest\obj\Debug\GeneticAlgoritmTextTest.csprojResolveAssemblyReference.cache
+C:\Users\extsimionescu\Google Drive\My Personal Software Projects\Git\NatureOfCodePlayground\NatureOfCodeCSharp AI Project\GeneticAlgoritmTextTest\bin\Debug\AIEngine.dll
+C:\Users\extsimionescu\Google Drive\My Personal Software Projects\Git\NatureOfCodePlayground\NatureOfCodeCSharp AI Project\GeneticAlgoritmTextTest\bin\Debug\AIEngine.pdb
