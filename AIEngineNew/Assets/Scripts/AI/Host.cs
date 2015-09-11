@@ -60,7 +60,7 @@ namespace Assets.Scripts.AI
 
                     // Check to see if the host has hit something
                     RaycastHit2D hitInfo = Physics2D.Raycast(previousPosition, movementThisStep, movementMagnitude, layerMask.value);
-                    //Debug.DrawRay(previousPosition, movementThisStep, rayColor, rayLenght);
+                    Debug.DrawRay(previousPosition, movementThisStep, rayColor, rayLenght);
                     var distanceToTarget = Vector2.Distance(targetLocation, this.EndLocation);
 
                     this.DistanceTraveled += distanceToTarget;

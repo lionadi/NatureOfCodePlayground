@@ -53,7 +53,7 @@ namespace Assets.Scripts.AI
 
         public int finnishTime = 0;
         public int obstaclesHit = 0;
-        private bool automaticLoop = false;
+        private bool automaticLoop = true;
 
         float width = 1.0F;
         Color color = Color.red;
@@ -192,15 +192,17 @@ namespace Assets.Scripts.AI
 
         void Update()
         {
-            if (Input.GetKeyDown("space") && !this.automaticLoop)
-            {
-                this.TesgroundUpdate();
-            }
-            else if (this.automaticLoop || Input.GetKeyDown("up"))
-            {
-                this.automaticLoop = true;
-                this.TesgroundUpdate();
-            }
+            //if (Input.GetKeyDown("space") && !this.automaticLoop)
+            //{
+            //    this.TesgroundUpdate();
+            //}
+            //else if (this.automaticLoop || Input.GetKeyDown("up"))
+            //{
+            //    this.automaticLoop = true;
+            //    this.TesgroundUpdate();
+            //}
+
+            this.TesgroundUpdate();
         }
 
         /// <summary>
@@ -1111,6 +1113,8 @@ namespace Assets.Scripts.AI
                 // Go to the next ranking value for the next host
                 populationSize--;
             }
+
+            this.CalculateBestWorstAverageTotalFitnessScore(ref pop);
         }
 
         public void FitnessScaleRankingToFloatRangeZeroToOne(ref List<Host> pop)
@@ -1127,6 +1131,8 @@ namespace Assets.Scripts.AI
                 // Go to the next ranking value for the next host
                 populationSize--;
             }
+
+            this.CalculateBestWorstAverageTotalFitnessScore(ref pop);
         }
 
         #endregion
