@@ -88,6 +88,8 @@ namespace Assets.Scripts.AI
 
             this.CreateStartPopulation();
             this.UpdateFitnessScores();
+            var hosts = this.Hosts;
+            this.FitnessScaleRankingToFloatRangeZeroToOne(ref hosts);
             //hostRB = this.GetComponent<Rigidbody2D>();
 
 
@@ -266,7 +268,7 @@ namespace Assets.Scripts.AI
             else
             {
                 List<Host> matingPool = new List<Host>();
-
+                
                 int NewBabies = 0;
 
                 var host = this.Hosts;
@@ -290,8 +292,8 @@ namespace Assets.Scripts.AI
                 }
                 this.Hosts = matingPool;
                 this.UpdateFitnessScores();
-
-
+                var hosts = this.Hosts;
+                this.FitnessScaleRankingToFloatRangeZeroToOne(ref hosts);
                 ++this.Generation;
 
                 this.DrawFailedPaths();
@@ -1106,6 +1108,22 @@ namespace Assets.Scripts.AI
             {
                 // Apply a new fittness score based on the raking value which is determined by the population size.
                 host.DNA.Fitness = populationSize;
+                // Go to the next ranking value for the next host
+                populationSize--;
+            }
+        }
+
+        public void FitnessScaleRankingToFloatRangeZeroToOne(ref List<Host> pop)
+        {
+            // Arrange the population according to the highest fitness score currently
+            var population = pop.OrderByDescending(o => o.DNA.Fitness);
+
+            // The highest ranking value will be the max count of hosts in the population, while the minimum is for the least fittest memeber will have the fit score of one.
+            int populationSize = pop.Count;
+            foreach (Host host in population)
+            {
+                // Apply a new fittness score based on the raking value which is determined by the population size.
+                host.DNA.Fitness = Mathf.Abs((1 / (float)populationSize) - 1);
                 // Go to the next ranking value for the next host
                 populationSize--;
             }
