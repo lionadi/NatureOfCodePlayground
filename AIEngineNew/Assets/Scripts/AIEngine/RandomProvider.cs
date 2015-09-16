@@ -25,4 +25,44 @@ public static class RandomProvider
     {
         return targetMinValue + (targetMaxValue - targetMinValue) * ((value - sourceMinValue) / (sourceMaxValue - sourceMinValue));
     }
+
+
+    /// <summary>
+    /// returns a random number with a normal distribution. See method at
+    /// http://www.taygeta.com/random/gaussian.html
+    /// </summary>
+    /// <param name="mean"></param>
+    /// <param name="standard_deviation"></param>
+    /// <returns></returns>
+    public static float RandGaussian(float mean = 0.0F, float standard_deviation = 1.0F)
+    {
+        float x1, x2, w, y1;
+        float y2 = 0;
+        int use_last = 0;
+
+        if (use_last > 0)               /* use value from previous call */
+        {
+            y1 = y2;
+            use_last = 0;
+        }
+        else
+        {
+            do
+            {
+                x1 = 2.0F * ((float)RandomProvider.GetRandomNumber(RandomProvider.RND, 0, 1)) - 1.0F;
+                x2 = 2.0F * ((float)RandomProvider.GetRandomNumber(RandomProvider.RND, 0, 1)) - 1.0F;
+                w = x1 * x1 + x2 * x2;
+            }
+            while (w >= 1.0);
+
+            w = UnityEngine.Mathf.Sqrt((-2.0F * UnityEngine.Mathf.Log(w)) / w);
+            y1 = x1 * w;
+            y2 = x2 * w;
+            use_last = 1;
+        }
+
+        return (mean + y1 * standard_deviation);
+    }
+
+    public static double RandomClamped() { return RandomProvider.GetRandomNumber(RandomProvider.RND, 0, 1) - RandomProvider.GetRandomNumber(RandomProvider.RND, 0, 1); }
 }

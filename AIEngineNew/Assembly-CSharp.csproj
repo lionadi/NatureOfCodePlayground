@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\AI\GA.cs" />
      <Compile Include="Assets\Scripts\AI\Genome.cs" />
      <Compile Include="Assets\Scripts\AI\Host.cs" />
+     <Compile Include="Assets\Scripts\AI\Species.cs" />
      <Compile Include="Assets\Scripts\AIEngine\AIConstants.cs" />
      <Compile Include="Assets\Scripts\AIEngine\DataStructures\Base\IDNA.cs" />
      <Compile Include="Assets\Scripts\AIEngine\DataStructures\Base\IMovingHost.cs" />

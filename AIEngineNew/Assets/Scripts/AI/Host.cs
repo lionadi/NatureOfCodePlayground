@@ -25,6 +25,16 @@ namespace Assets.Scripts.AI
         public int finnishTime = 0;
         public int obstaclesHit = 0;
 
+        public float Fitness()
+        {
+            return this.DNA.Fitness;
+        }
+
+        public void SetFitness(float fitness)
+        {
+            this.DNA.Fitness = fitness;
+        }
+
 
         public Host(int geneLength, Vector2 location, float sqrMinimumExtent, LayerMask layerMask)
         {

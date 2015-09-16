@@ -14,6 +14,9 @@ namespace Assets.Scripts.AI
         public float CrossoverRate;
         public float MutationRate;
 
+        //this is the max amount a gene can be mutated by using UniformMutation
+        public float MutationDelta = 0.3F;
+
         public float time = 1;
 
         //public int ChromoLengt;
@@ -28,6 +31,18 @@ namespace Assets.Scripts.AI
         private int pathPosition = 0;
         public float targetAccuracyPercentage = 0.95F;
         public float BoltzmannTemperature = 550;
+        public Vector2 mutationBoundryValueMin;
+        public Vector2 mutationBoundryValueMax;
+        /// <summary>
+        /// the lower this value, the more species you will get.
+        /// </summary>
+        public float CompatibilityTolerance = 0.32F;
+
+        /// <summary>
+        /// this is the number of generations a species is allowed to live 
+        ///without showing any fitness improvement.
+        /// </summary>
+        public int GenerationsAllowedWithoutImprovement = 20;
 
         private float BOLTZMANN_DT = 0.05F;
         private float BOLTZMANN_MIN_TEMP = 1;
@@ -59,6 +74,10 @@ namespace Assets.Scripts.AI
         Color color = Color.red;
         List<GameObject> waypoints;
         List<Target> targets;
+        List<Species> Species;
+
+        public int NextGenomeID = 0;
+        public int NextSpeciesID = 0;
         private int targetCounter = 0;
 
         private DontGoThroughThings dgtt = null;
@@ -82,6 +101,7 @@ namespace Assets.Scripts.AI
             this.waypoints = new List<GameObject>();
 
             this.targets = new List<Target>();
+            this.Species = new List<Species>();
             // Get all the targets in the scene and order them so that the closest ones are first to tbe processed(notice that after the fist target has been reached this is not true anymore)
             this.targets.AddRange(GameObject.FindObjectsOfType<Target>().OrderBy(o => Vector2.Distance(transform.position, o.transform.position)));
             this.target = this.targets[targetCounter];
@@ -202,7 +222,9 @@ namespace Assets.Scripts.AI
             //    this.TesgroundUpdate();
             //}
 
-            this.TesgroundUpdate();
+            //this.TesgroundUpdate();
+            this.MichalewiczUpdate();
+            //this.SpeciationUpdate();
         }
 
         /// <summary>
@@ -218,6 +240,111 @@ namespace Assets.Scripts.AI
             //    //this.UpdateFitnessScores();
             //    this.MonteCarloUpdate();
             //}
+        }
+
+
+        /// <summary>
+        /// This is not ready!!!
+        /// </summary>
+        public void SpeciationUpdate()
+        {
+            acceleration *= 0;
+            float step = 0;
+
+
+            // Check to see if the target has been reached
+            if (FittestGenome != null && this.HitTarget && !this.HitObstacle)
+            {
+                if (pathPosition < (this.FittestGenome.DNALocations.Genes.Count))
+                {
+                    {
+                        Debug.Log("target reached and no more calculations will be done. this path is to be drawn");
+                        // Move the object to the next position
+                        pathPosition++;
+
+                        if (pathPosition >= this.FittestGenome.DNALocations.Genes.Count - 1)
+                            return;
+
+                        step = speed * Time.deltaTime;
+
+                        // Some simple waypoints drawing on the screen for the fittest genome
+                        if (pathPosition > 0 && (pathPosition - 1) < this.FittestGenome.DNA.Genes.Count - 1)
+                        {
+                            this.previousPosition = this.FittestGenome.DNALocations.Genes[pathPosition - 1];
+                            Debug.DrawLine(previousPosition, this.FittestGenome.DNALocations.Genes[pathPosition], Color.red, 60);
+                            waypoints.Add(GameObject.CreatePrimitive(PrimitiveType.Cube));
+                            waypoints[waypoints.Count - 1].transform.position = this.FittestGenome.DNALocations.Genes[pathPosition];
+                            waypoints[waypoints.Count - 1].transform.localScale *= 0.05F;
+                        }
+
+
+                        StartCoroutine(MoveObject(transform, transform.position, this.FittestGenome.DNALocations.Genes[pathPosition], time, pathPosition, this.FittestGenome.DNALocations.Genes.Count - 1));
+                    }
+                    return;
+                }
+                // If the target has reached it's position then do not do anything else or reset the data
+                else if (pathPosition >= this.FittestGenome.DNALocations.Genes.Count)
+                {
+                    var d = Vector2.Distance(transform.position, this.FittestGenome.DNALocations.Genes[pathPosition - 1]);
+                    if (this.myRigidbody.IsSleeping() && Vector2.Distance(transform.position, this.FittestGenome.DNALocations.Genes[pathPosition - 1]) < 1)
+                        this.ResetGAData();
+
+                    return;
+                }
+            }
+            else
+            {
+                List<Host> matingPool = new List<Host>();
+                int SpawnAmountRqd = PopSize;
+                var hosts = this.Hosts;
+                //assign each individual to a species
+                this.Speciate(ref hosts);
+
+                //calculate the number of offspring each species
+                //should produce
+                CalculateExpectedOffspring(SpawnAmountRqd);
+
+                //assign a different color to each of the top few species
+                this.SortAndAssignVisualAid();
+
+                foreach (Species curSpc in this.Species)
+                {
+                    int NumToSpawnFromThisSpecies = Mathf.RoundToInt(curSpc.ExpectedOffspring());
+                    int NewBabies = 0;
+
+                    var host = this.Hosts;
+
+                    while ((NumToSpawnFromThisSpecies-- > 0) && (NewBabies < PopSize) )
+                    {
+                        Host mum = curSpc.SpawnGenome();
+                        Host dad = curSpc.SpawnGenome();
+
+                        Host baby1 = new Host(0, this.transform.position, sqrMinimumExtent, layerMask);
+                        Host baby2 = new Host(0, this.transform.position, sqrMinimumExtent, layerMask);
+                        this.CrossoverMichalewicz(ref mum.DNA.Genes, ref dad.DNA.Genes, ref baby1.DNA.Genes, ref baby2.DNA.Genes);
+
+                        this.MutateMichalewicz(ref baby1.DNA.Genes);
+                        this.MutateMichalewicz(ref baby2.DNA.Genes);
+
+                        matingPool.Add(baby1);
+                        matingPool.Add(baby2);
+
+                        NewBabies += 2;
+                    }
+                    
+                }
+
+                this.Hosts = matingPool;
+                this.UpdateFitnessScores();
+                
+                this.FitnessScaleRankingToFloatRangeZeroToOne(ref hosts);
+                ++this.Generation;
+
+                this.DrawFailedPaths();
+
+                step = speed * Time.deltaTime;
+
+            }
         }
 
         // Work in progress
@@ -270,7 +397,7 @@ namespace Assets.Scripts.AI
             else
             {
                 List<Host> matingPool = new List<Host>();
-                
+
                 int NewBabies = 0;
 
                 var host = this.Hosts;
@@ -282,10 +409,97 @@ namespace Assets.Scripts.AI
 
                     Host baby1 = new Host(0, this.transform.position, sqrMinimumExtent, layerMask);
                     Host baby2 = new Host(0, this.transform.position, sqrMinimumExtent, layerMask);
-                    this.Crossover(ref mum.DNA.Genes, ref dad.DNA.Genes, ref baby1.DNA.Genes, ref baby2.DNA.Genes);
+                    this.CrossoverSinglePoint(ref mum.DNA.Genes, ref dad.DNA.Genes, ref baby1.DNA.Genes, ref baby2.DNA.Genes);
 
-                    Mutate(ref baby1.DNA.Genes);
-                    Mutate(ref baby2.DNA.Genes);
+                    MutateReplace(ref baby1.DNA.Genes);
+                    MutateReplace(ref baby2.DNA.Genes);
+
+                    matingPool.Add(baby1);
+                    matingPool.Add(baby2);
+
+                    NewBabies += 2;
+                }
+                this.Hosts = matingPool;
+                this.UpdateFitnessScores();
+                var hosts = this.Hosts;
+                this.FitnessScaleRankingToFloatRangeZeroToOne(ref hosts);
+                ++this.Generation;
+
+                this.DrawFailedPaths();
+
+                step = speed * Time.deltaTime;
+
+            }
+        }
+
+        /// <summary>
+        /// This is not ready!!!
+        /// </summary>
+        public void MichalewiczUpdate()
+        {
+            acceleration *= 0;
+            float step = 0;
+
+
+            // Check to see if the target has been reached
+            if (FittestGenome != null && this.HitTarget && !this.HitObstacle)
+            {
+                if (pathPosition < (this.FittestGenome.DNALocations.Genes.Count))
+                {
+                    {
+                        Debug.Log("target reached and no more calculations will be done. this path is to be drawn");
+                        // Move the object to the next position
+                        pathPosition++;
+
+                        if (pathPosition >= this.FittestGenome.DNALocations.Genes.Count - 1)
+                            return;
+
+                        step = speed * Time.deltaTime;
+
+                        // Some simple waypoints drawing on the screen for the fittest genome
+                        if (pathPosition > 0 && (pathPosition - 1) < this.FittestGenome.DNA.Genes.Count - 1)
+                        {
+                            this.previousPosition = this.FittestGenome.DNALocations.Genes[pathPosition - 1];
+                            Debug.DrawLine(previousPosition, this.FittestGenome.DNALocations.Genes[pathPosition], Color.red, 60);
+                            waypoints.Add(GameObject.CreatePrimitive(PrimitiveType.Cube));
+                            waypoints[waypoints.Count - 1].transform.position = this.FittestGenome.DNALocations.Genes[pathPosition];
+                            waypoints[waypoints.Count - 1].transform.localScale *= 0.05F;
+                        }
+
+
+                        StartCoroutine(MoveObject(transform, transform.position, this.FittestGenome.DNALocations.Genes[pathPosition], time, pathPosition, this.FittestGenome.DNALocations.Genes.Count - 1));
+                    }
+                    return;
+                }
+                // If the target has reached it's position then do not do anything else or reset the data
+                else if (pathPosition >= this.FittestGenome.DNALocations.Genes.Count)
+                {
+                    var d = Vector2.Distance(transform.position, this.FittestGenome.DNALocations.Genes[pathPosition - 1]);
+                    if (this.myRigidbody.IsSleeping() && Vector2.Distance(transform.position, this.FittestGenome.DNALocations.Genes[pathPosition - 1]) < 1)
+                        this.ResetGAData();
+
+                    return;
+                }
+            }
+            else
+            {
+                List<Host> matingPool = new List<Host>();
+
+                int NewBabies = 0;
+
+                var host = this.Hosts;
+
+                while (NewBabies < PopSize)
+                {
+                    Host mum = MonteCarloSelection();
+                    Host dad = MonteCarloSelection();
+
+                    Host baby1 = new Host(0, this.transform.position, sqrMinimumExtent, layerMask);
+                    Host baby2 = new Host(0, this.transform.position, sqrMinimumExtent, layerMask);
+                    this.CrossoverMichalewicz(ref mum.DNA.Genes, ref dad.DNA.Genes, ref baby1.DNA.Genes, ref baby2.DNA.Genes);
+
+                    MutateMichalewicz(ref baby1.DNA.Genes);
+                    MutateMichalewicz(ref baby2.DNA.Genes);
 
                     matingPool.Add(baby1);
                     matingPool.Add(baby2);
@@ -370,10 +584,10 @@ namespace Assets.Scripts.AI
 
                     Host baby1 = new Host(0, this.transform.position, sqrMinimumExtent, layerMask);
                     Host baby2 = new Host(0, this.transform.position, sqrMinimumExtent, layerMask);
-                    Crossover(ref mum.DNA.Genes, ref dad.DNA.Genes, ref baby1.DNA.Genes, ref baby2.DNA.Genes);
+                    CrossoverSinglePoint(ref mum.DNA.Genes, ref dad.DNA.Genes, ref baby1.DNA.Genes, ref baby2.DNA.Genes);
 
-                    Mutate(ref baby1.DNA.Genes);
-                    Mutate(ref baby2.DNA.Genes);
+                    MutateReplace(ref baby1.DNA.Genes);
+                    MutateReplace(ref baby2.DNA.Genes);
 
                     matingPool.Add(baby1);
                     matingPool.Add(baby2);
@@ -407,6 +621,129 @@ namespace Assets.Scripts.AI
                     pastPathPosition = position;
                 }
         }
+
+        #region Speciation
+
+        /// <summary>
+        /// Separate the population into species. This separates the individuals into species of similar genomes.
+        /// </summary>
+        public void Speciate(ref List<Host> population)
+        {
+            //first clear the existing members and kill off any non developing
+            //species
+            this.Species.Clear();
+
+            //now separate the population into species
+            for (int gen = 0; gen < population.Count; ++gen)
+            {
+                bool bAdded = false;
+
+                foreach(Species curSpecies in this.Species)
+                {
+                    //calculate the compatibility score
+                    double cs = Compatibility(population[gen], curSpecies.Sample());
+
+                    //if the compatibility score is less than our tolerance then
+                    //this genome is added to the species
+                    if (cs < CompatibilityTolerance)
+                    {
+                        curSpecies.AddGenome(population[gen]);
+
+                        bAdded = true;
+
+                        break;
+                    }
+
+                }//next species
+
+                if (!bAdded)
+                {
+                    //not compatible with any current species so create a new 
+                    //species
+                    Species.Add(new Species(population[gen], NextSpeciesID++));
+                }
+
+            }//next genome
+
+
+
+            //update all the species to make sure their sample member is set
+            //to the best genome found so far. Kill off any empty species
+            //foreach (Species curSpecies in this.Species)
+            for(int x = this.Species.Count -1; x >= 0; --x)
+            {
+                var curSpecies = this.Species[x];
+                curSpecies.UpdateSampleGenome();
+
+                if ((curSpecies.Empty() ||
+                     (curSpecies.GenerationsNoImprovement() > GenerationsAllowedWithoutImprovement)) &&
+                     (Species.Count > 1))
+                {
+                    Species.RemoveAt(x);
+                }
+            }
+        }
+
+        /// <summary>
+        /// this allocates a compatibility score between two genomes. If the
+        /// score is below a certain threshold then the two genomes are </summary>
+        /// considered to be of the same species<param name="g1"></param>
+        /// <param name="g2"></param>
+        /// <returns></returns>
+        public float Compatibility(Host g1, Host g2)
+        {
+            if (g1.DNA.Genes.Count != g2.DNA.Genes.Count) return 0;
+
+            float RunningTotal = 0.0F;
+
+            for (int gene = 0; gene < g1.DNA.Genes.Count; ++gene)
+            {
+                //RunningTotal += Mathf.Abs(g1.Genes[gene] - g2.Genes[gene]);
+                RunningTotal += Vector2.Distance(g1.DNA.Genes[gene], g2.DNA.Genes[gene]);
+            }
+
+            return RunningTotal / g1.DNA.Genes.Count;
+        }
+
+        /// <summary>
+        /// this method calculates the amount of offspring each species
+        /// should produce.</summary>
+        /// <param name="AmountNeeded"></param>
+        public void CalculateExpectedOffspring(int AmountNeeded)
+        {
+            //first calculate the total fitness of all active genomes
+            float TotalFitness = 0.0F;
+
+            foreach (Species curSpecies in this.Species)
+            {
+                //apply fitness sharing first
+                curSpecies.FitnessShare();
+
+                TotalFitness += curSpecies.TotalFitness();
+            }
+
+            //now it is necessary to calculate the expected amount of offspring
+            //from each species
+            double expec = 0.0;
+
+            foreach (Species curSpecies in this.Species)
+            {
+                curSpecies.SetExpectedOffspring(TotalFitness, AmountNeeded);
+
+                expec += curSpecies.ExpectedOffspring();
+            }
+        }
+
+        /// <summary>
+        /// this sorts the species and assigns a color to each one.
+        /// The color is just cosmetic to be used as a visual aid.</summary>
+        public void SortAndAssignVisualAid()
+        {
+            if (this.Species.Count < 0) return;
+            this.Species.OrderByDescending(o => o.BestEverFitness());
+        }
+
+        #endregion
 
         #region MutatioOperators
 
@@ -577,7 +914,11 @@ namespace Assets.Scripts.AI
             }//repeat
         }
 
-        public void Mutate(ref List<Vector2> genes)
+        /// <summary>
+        /// replaces the gene with a completely new value
+        /// </summary>
+        /// <param name="genes"></param>
+        public void MutateReplace(ref List<Vector2> genes)
         {
             for (int i = 0; i < genes.Count; i++)
             {
@@ -590,10 +931,111 @@ namespace Assets.Scripts.AI
             }
         }
 
+        /// <summary>
+        /// displaces a gene's value by a small random amount (limited by
+        ///  MutationDelta)
+        /// </summary>
+        /// <param name="genes"></param>
+        public void MutateUniform(ref List<Vector2> genes)
+        {
+            for (int i = 0; i < genes.Count; i++)
+            {
+                //flip this bit?
+                if ((float)RandomProvider.GetRandomNumber(RandomProvider.RND, 0, 1) < MutationRate)
+                {
+                    float angle = UnityEngine.Random.Range(0, AIConstants.TWO_PI);
+                    genes[i] = ((new Vector2(UnityEngine.Mathf.Cos(angle), UnityEngine.Mathf.Sin(angle))) * UnityEngine.Random.Range(0, (float)RandomProvider.RandomClamped() * this.MutationDelta));
+                }
+            }
+        }
+
+        /// <summary>
+        /// displaces the genes value by an amount described by a normal  distribution
+        /// </summary>
+        /// <param name="genes"></param>
+        public void MutateGaussian(ref List<Vector2> genes)
+        {
+            for (int i = 0; i < genes.Count; i++)
+            {
+                //flip this bit?
+                if ((float)RandomProvider.GetRandomNumber(RandomProvider.RND, 0, 1) < MutationRate)
+                {
+                    //genes[i] =
+                         
+                    /*
+                //do we mutate this gene?
+	  if (RandFloat() < m_dMutationRate)
+	  {
+      gen.vecGenes[gene] += RandGaussian(0.0, 0.1);
+
+      //make sure the value stays within the desired lims
+      Clamp(gen.vecGenes[gene], 0.0, 1.0);    
+                */
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets a gene to either the min or max possible value (0 or 1 in this
+        ///  implementation)
+        /// </summary>
+        /// <param name="genes"></param>
+        public void MutateBoundary(ref List<Vector2> genes)
+        {
+            for (int i = 0; i < genes.Count; i++)
+            {
+                float angle = UnityEngine.Random.Range(0, AIConstants.TWO_PI);
+                //flip this bit?
+                Vector2 tempVector = new Vector2(UnityEngine.Mathf.Cos(angle), UnityEngine.Mathf.Sin(angle)) * UnityEngine.Random.Range(0, AIConstants.maxforce);
+                if (tempVector.x < mutationBoundryValueMin.x && tempVector.y < mutationBoundryValueMin.y)
+                {
+                    genes[i] = Vector2.zero;
+                }
+                else
+                {
+                    genes[i] = this.mutationBoundryValueMax;
+                }
+            }
+        } 
+                
+ 
+
+        public void MutateMichalewicz(ref List<Vector2> genes)
+        {
+            float chance = (float)RandomProvider.GetRandomNumber(RandomProvider.RND, 0, 1);
+
+            if (chance <= 0.333)
+            {
+                MutateBoundary(ref genes);
+            }
+
+            else if (chance >= 0.667)
+            {
+                MutateUniform(ref genes);
+            }
+
+            else
+            {
+                MutateReplace(ref genes);
+            }
+        }
+
+
         #endregion
 
         #region CrossoverOperators
 
+
+        /// <summary>
+        /// This function performs multipoint crossover on the genes. That is to
+        ///  say for each chromosome where crossover is to be performed we determine
+        ///  a swap rate and iterate through each chromosome swap over individual
+        ///  genes where appropriate. 
+        /// </summary>
+        /// <param name="mum"></param>
+        /// <param name="dad"></param>
+        /// <param name="baby1"></param>
+        /// <param name="baby2"></param>
         public void CrossoverMultiPoint(ref List<Vector2> mum, ref List<Vector2> dad, ref List<Vector2> baby1, ref List<Vector2> baby2)
         {
             if ((mum == dad) || mum.Count <= 0 || dad.Count <= 0)
@@ -619,6 +1061,46 @@ namespace Assets.Scripts.AI
                     baby1.Add(mum[gen]);
                     baby2.Add(dad[gen]);
                 }
+            }
+        }
+
+        /// <summary>
+        /// This crossover operator simply averages the genes at each locus
+        /// </summary>
+        /// <param name="mum"></param>
+        /// <param name="dad"></param>
+        /// <param name="baby1"></param>
+        /// <param name="baby2"></param>
+        public void CrossoverAverage(ref List<Vector2> mum, ref List<Vector2> dad, ref List<Vector2> baby1, ref List<Vector2> baby2)
+        {
+            for (int gen = 0; gen < mum.Count; ++gen)
+            {
+                baby1.Add((mum[gen] + dad[gen]) * 0.5F);
+                baby2.Add((mum[gen] + dad[gen]) * 0.5F);
+            }
+        }
+
+        /// <summary>
+        ///  this operator creates a child whos genes are biased towards the 
+        /// fitter parent.
+        ///
+        /// The heuristic used is r(V1-V2) + V1 where V1 is the fitter parent
+        /// </summary>
+        /// <param name="mum"></param>
+        /// <param name="dad"></param>
+        /// <param name="baby1"></param>
+        /// <param name="baby2"></param>
+        public void CrossoverHeuristic(ref List<Vector2> fittest, ref List<Vector2> not_so_fit, ref List<Vector2> baby1)
+        {
+
+            float rate = (float)RandomProvider.GetRandomNumber(RandomProvider.RND, 0, 1);
+
+            //iterate down the length of the genome using the heuristic
+            for (int gene = 0; gene < fittest.Count; ++gene)
+            {
+                Vector2 NewGeneValue = fittest[gene] + rate *
+      (fittest[gene] - not_so_fit[gene]);
+                baby1.Add(NewGeneValue);
             }
         }
 
@@ -780,6 +1262,42 @@ namespace Assets.Scripts.AI
         }
 
         /// <summary>
+        /// the Michalewicz crossover operator choses one of three different
+        ///  crossover operators based on an even probability
+        /// </summary>
+        /// <param name="mum"></param>
+        /// <param name="dad"></param>
+        /// <param name="baby1"></param>
+        /// <param name="baby2"></param>
+        public void CrossoverMichalewicz(ref List<Vector2> mum, ref List<Vector2> dad, ref List<Vector2> baby1, ref List<Vector2> baby2)
+        {
+            if (((float)RandomProvider.GetRandomNumber(RandomProvider.RND, 0, 1) > CrossoverRate) || (mum == dad) || mum.Count <= 0 || dad.Count <= 0)
+            {
+                baby1 = mum;
+                baby2 = dad;
+                return;
+            }
+
+            float chance = (float)RandomProvider.GetRandomNumber(RandomProvider.RND, 0, 1);
+
+            if (chance <= 0.333)
+            {
+                CrossoverTwoPoint(ref mum, ref dad, ref baby1, ref baby2);
+            }
+
+            else if (chance >= 0.667)
+            {
+                CrossoverAverage(ref mum, ref dad, ref baby1, ref baby2);
+            }
+
+            else
+            {
+                CrossoverHeuristic(ref mum, ref dad, ref baby1);
+                CrossoverHeuristic(ref mum, ref dad, ref baby2);
+            }
+        }
+
+        /// <summary>
         /// Partially-Mapped Crossover
         /// </summary>
         /// <param name="mum"></param>
@@ -848,7 +1366,15 @@ namespace Assets.Scripts.AI
             }//next pair
         }
 
-        public void Crossover(ref List<Vector2> mum, ref List<Vector2> dad, ref List<Vector2> baby1, ref List<Vector2> baby2)
+        /// <summary>
+        /// given parents and storage for the offspring this method performs
+        ///	crossover according to the GAs crossover rate
+        /// </summary>
+        /// <param name="mum"></param>
+        /// <param name="dad"></param>
+        /// <param name="baby1"></param>
+        /// <param name="baby2"></param>
+        public void CrossoverSinglePoint(ref List<Vector2> mum, ref List<Vector2> dad, ref List<Vector2> baby1, ref List<Vector2> baby2)
         {
             if (((float)RandomProvider.GetRandomNumber(RandomProvider.RND, 0, 1) > CrossoverRate) || (mum == dad) || mum.Count <= 0 || dad.Count <= 0)
             {
@@ -871,6 +1397,14 @@ namespace Assets.Scripts.AI
             }
         }
 
+        /// <summary>
+        /// given parents and storage for the offspring, this method performs
+        ///	crossover according to the GAs crossover rate
+        /// </summary>
+        /// <param name="mum"></param>
+        /// <param name="dad"></param>
+        /// <param name="baby1"></param>
+        /// <param name="baby2"></param>
         public void CrossoverTwoPoint(ref List<Vector2> mum, ref List<Vector2> dad, ref List<Vector2> baby1, ref List<Vector2> baby2)
         {
             if (((float)RandomProvider.GetRandomNumber(RandomProvider.RND, 0, 1) > CrossoverRate) || (mum == dad) || mum.Count <= 0 || dad.Count <= 0 || mum.Count != dad.Count)
@@ -926,14 +1460,36 @@ namespace Assets.Scripts.AI
             //return the champion
             return this.Hosts[ChosenOne];
         }
+        /// <summary>
+        /// this function calculates the variance of the population
+        /// </summary>
+        /// <param name="hosts"></param>
+        /// <returns></returns>
+        float CalculateVariance(ref List<Host> hosts)
+        {
+            float RunningTotal = 0.0F;
+
+            //first iterate through the population to calculate the standard
+            //deviation
+            for (int gen = 0; gen < hosts.Count; ++gen)
+            {
+                RunningTotal += (hosts[gen].DNA.Fitness - this.AverageFitnessScore) *
+                                (hosts[gen].DNA.Fitness - this.AverageFitnessScore);
+            }
+
+            return RunningTotal / hosts.Count;
+        }
 
         /// <summary>
-        /// NOT READY!!!
+        /// calculates the fittest and weakest genome and the average/total 
+        ///  fitness scores.
         /// </summary>
         /// <param name="source"></param>
         public void CalculateBestWorstAverageTotalFitnessScore(ref List<Host> source)
         {
             this.TotalFitnessScore = 0;
+            this.BestFitnessScore = 0;
+            this.WorstFitnessScore = float.MaxValue;
             foreach (Host host in source)
             {
                 float normalizedFitnessScore = host.DNA.Fitness;
@@ -1019,6 +1575,11 @@ namespace Assets.Scripts.AI
             return selectionHost;
         }
 
+        /// <summary>
+        /// selects a member of the population by using roulette wheel 
+        ///  selection as described in the text.
+        /// </summary>
+        /// <returns></returns>
         public Host RouletteWheelSelection()
         {
             double fSlice = (float)RandomProvider.GetRandomNumber(RandomProvider.RND,0 ,1) * TotalFitnessScore;
@@ -1050,20 +1611,16 @@ namespace Assets.Scripts.AI
 
         #region Scaling
 
+        /// <summary>
+        /// Scales the fitness using sigma scaling 
+        /// </summary>
+        /// <param name="pop"></param>
         public void FitnessScaleSigma(ref List<Host> pop)
         {
 
-            float RunningTotal = 0;
-            //first iterate through the population to calculate the standard
-            //deviation
-            for (int gen = 0; gen < pop.Count; ++gen)
-            {
-                RunningTotal += (pop[gen].DNA.Fitness - this.AverageFitnessScore) *
-                (pop[gen].DNA.Fitness - this.AverageFitnessScore);
-            }
-            float variance = RunningTotal / (float)this.PopSize;
+            
             //standard deviation is the square root of the variance
-            Sigma = Mathf.Sqrt(variance);
+            Sigma = Mathf.Sqrt(this.CalculateVariance(ref pop));
             //now iterate through the population to reassign the fitness scores
 
             for (int gen = 0; gen < pop.Count; ++gen)
@@ -1077,6 +1634,11 @@ namespace Assets.Scripts.AI
 
         }
 
+        /// <summary>
+        /// This function applies Boltzmann scaling to a population's fitness
+        ///  scores.
+        /// </summary>
+        /// <param name="pop"></param>
         public void FitnessScaleBoltzmann(ref List<Host> pop)
         {
             //reduce the temp a little each generation
@@ -1099,6 +1661,13 @@ namespace Assets.Scripts.AI
             this.CalculateBestWorstAverageTotalFitnessScore(ref pop);
         }
 
+        /// <summary>
+        /// This type of fitness scaling simply assigns a fitness score based 
+        ///	on its sorted position. (so if a genome ends up last it
+        ///	gets score of zero, if best then it gets a score equal to the size
+        ///	of the population.
+        /// </summary>
+        /// <param name="pop"></param>
         public void FitnessScaleRanking(ref List<Host> pop)
         {
             // Arrange the population according to the highest fitness score currently
