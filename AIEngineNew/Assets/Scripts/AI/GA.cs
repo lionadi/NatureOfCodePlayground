@@ -10,7 +10,7 @@ namespace Assets.Scripts.AI
     public class GA : MonoBehaviour
     {
         public List<Host> Hosts { get; set; }
-        public int PopSize;
+        public int PopulationSize;
         public float CrossoverRate;
         public float MutationRate;
 
@@ -81,6 +81,8 @@ namespace Assets.Scripts.AI
         private int targetCounter = 0;
 
         private DontGoThroughThings dgtt = null;
+
+        #region UnityRelatedAndInit
 
         void Start()
         {
@@ -209,7 +211,6 @@ namespace Assets.Scripts.AI
             this.pathPosition = 0;
         }
 
-
         void Update()
         {
             //if (Input.GetKeyDown("space") && !this.automaticLoop)
@@ -295,7 +296,7 @@ namespace Assets.Scripts.AI
             else
             {
                 List<Host> matingPool = new List<Host>();
-                int SpawnAmountRqd = PopSize;
+                int SpawnAmountRqd = PopulationSize;
                 var hosts = this.Hosts;
                 //assign each individual to a species
                 this.Speciate(ref hosts);
@@ -314,7 +315,7 @@ namespace Assets.Scripts.AI
 
                     var host = this.Hosts;
 
-                    while ((NumToSpawnFromThisSpecies-- > 0) && (NewBabies < PopSize) )
+                    while ((NumToSpawnFromThisSpecies-- > 0) && (NewBabies < PopulationSize))
                     {
                         Host mum = curSpc.SpawnGenome();
                         Host dad = curSpc.SpawnGenome();
@@ -331,12 +332,12 @@ namespace Assets.Scripts.AI
 
                         NewBabies += 2;
                     }
-                    
+
                 }
 
                 this.Hosts = matingPool;
                 this.UpdateFitnessScores();
-                
+
                 this.FitnessScaleRankingToFloatRangeZeroToOne(ref hosts);
                 ++this.Generation;
 
@@ -402,7 +403,7 @@ namespace Assets.Scripts.AI
 
                 var host = this.Hosts;
 
-                while (NewBabies < PopSize)
+                while (NewBabies < PopulationSize)
                 {
                     Host mum = MonteCarloSelection();
                     Host dad = MonteCarloSelection();
@@ -489,7 +490,7 @@ namespace Assets.Scripts.AI
 
                 var host = this.Hosts;
 
-                while (NewBabies < PopSize)
+                while (NewBabies < PopulationSize)
                 {
                     Host mum = MonteCarloSelection();
                     Host dad = MonteCarloSelection();
@@ -577,7 +578,7 @@ namespace Assets.Scripts.AI
                 //this.GrabNBest(3, 3, ref hosts, ref matingPool);
                 //NewBabies = 3 * 3;
 
-                while (NewBabies < PopSize)
+                while (NewBabies < PopulationSize)
                 {
                     Host mum = MonteCarloSelection();
                     Host dad = MonteCarloSelection();
@@ -621,6 +622,10 @@ namespace Assets.Scripts.AI
                     pastPathPosition = position;
                 }
         }
+
+        #endregion
+
+
 
         #region Speciation
 
@@ -1449,7 +1454,7 @@ namespace Assets.Scripts.AI
             //the best found so far
             for (int i = 0; i < N; ++i)
             {
-                int ThisTry = RandomProvider.RND.Next(0, this.PopSize - 2);
+                int ThisTry = RandomProvider.RND.Next(0, this.PopulationSize - 2);
                 if (this.Hosts[ThisTry].DNA.Fitness > BestFitnessSoFar)
                 {
                     ChosenOne = ThisTry;
@@ -1527,7 +1532,7 @@ namespace Assets.Scripts.AI
 
             //NumToAdd is the amount of individuals we need to select using SUS.
             //Remember, some may have already been selected through elitism
-            int NumToAdd = this.PopSize - target.Count;
+            int NumToAdd = this.PopulationSize - target.Count;
 
             //calculate the hand spacing
             float PointerGap = this.TotalFitnessScore / (float)NumToAdd;
@@ -1586,7 +1591,7 @@ namespace Assets.Scripts.AI
 
             double cfTotal = 0;
             int SelectedGenome = 0;
-            for (int i = 0; i < PopSize; ++i)
+            for (int i = 0; i < PopulationSize; ++i)
             {
                 cfTotal += this.Hosts[i].DNA.Fitness;
                 if (cfTotal > fSlice)
@@ -1598,6 +1603,14 @@ namespace Assets.Scripts.AI
             return this.Hosts[SelectedGenome];
         }
 
+        /// <summary>
+        /// This works like an advanced form of elitism by inserting NumCopies
+        ///  copies of the NBest most fittest genomes into a population vector
+        /// </summary>
+        /// <param name="NBest"></param>
+        /// <param name="numCopies"></param>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
         public void GrabNBest(int NBest, int numCopies, ref List<Host> source, ref List<Host> target)
         {
             var hostToGrab = source.OrderByDescending(o => o.DNA.Fitness).Take(NBest);
@@ -1746,7 +1759,7 @@ namespace Assets.Scripts.AI
             if (this.Hosts != null && this.Hosts.Count > 0)
                 this.Hosts.Clear();
 
-                for (int x = 0; x < this.PopSize; x++)
+                for (int x = 0; x < this.PopulationSize; x++)
             {
                 this.Hosts.Add(new Host(this.GeneLength, this.transform.position, sqrMinimumExtent, layerMask));
             }
@@ -1757,7 +1770,7 @@ namespace Assets.Scripts.AI
             this.CrossoverRate = crossoverRate;
             this.MutationRate = mutationRate;
             //this.ChromoLengt = chromoLengt;
-            this.PopSize = popSize;
+            this.PopulationSize = popSize;
             this.GeneLength = geneLength;
 
             this.Generation = 0;

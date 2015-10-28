@@ -6,7 +6,7 @@ using Assets.Scripts.AI;
 
     namespace Assets.Scripts.AI
 {
-    class Species
+    public class Species
     {
         //this is the genome all other genomes in the population are
         //compared to see if they should be included in this species or not
